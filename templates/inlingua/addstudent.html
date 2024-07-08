@@ -1,0 +1,291 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+Add student | Inlingua
+{% endblock %}
+
+{% block style %}
+<style>
+    .bxs-check-circle {
+        position: relative;
+    }
+
+    .bxs-check-circle-after::after {
+        content: "";
+        position: absolute;
+        bottom: 10px; 
+        left:56%; 
+        transform: translateX(-50%);
+        width: 97%; 
+        height: 3px; 
+        background: #6c757d; 
+    }
+    .section {
+        display: none;
+    }
+
+    .section.activate {
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block container %}
+{% include 'inc/sidebar.html' %}
+{% include 'inc/message.html' %}
+<div class="">
+    <div class="row pt-3">
+        <div class="col-1"></div>
+        <div class="col-4 after-effect">
+            <div class="d-flex align-items-center gap-3 details-container">
+                <div>
+                    <p class="p-0 m-0">Step 1</p>
+                    <p class="p-0 m-0 text-primary" id="step1-lable">Student Details</p>
+                </div>
+            </div>
+            <i id="step1-icon" class='bx bxs-check-circle bxs-check-circle-after text-muted fs-4 w-100'></i>
+        </div>
+        <div class="col-4 after-effect">
+            <div class="d-flex align-items-center gap-3 details-container">
+                <div>
+                    <p class="p-0 m-0">Step 2</p>
+                    <p class="p-0 m-0 text-primary">Language Details</p>
+                </div>
+            </div>
+            <i id="step2-icon" class='bx bxs-check-circle bxs-check-circle-after text-secondary fs-4 w-100'></i>
+        </div>
+        <div class="col-2 after-effect">
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <p class="p-0 m-0">Step 3</p>
+                    <p class="p-0 m-0 text-primary">Payment Details</p>
+                </div>
+            </div>
+            <i id="step3-icon" class='bx bxs-check-circle text-secondary fs-4 w-100'></i>
+        </div>
+    </div>
+</div>
+<form action="save" method="post" id="student-form">
+    {% csrf_token %}
+    <div id="student-details" class="section activate mt-5">
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="studentname">Student Name <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="text" id="studentname" name="studentname" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="studentname-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="studentmobilenumber">Student Phone No <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="number" id="studentmobilenumber" name="studentmobilenumber" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="studentmobilenumber-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="email">Student Mail Id <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="email" id="email" name="email" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="email-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="studentdob">Student Date of Birth <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="date" id="studentdob" name="studentdob" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="studentdob-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="studentaadharcard">Identity Card (Aadhar cord Copy) <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="file" id="studentaadharcard" name="studentaadharcard" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="studentaadharcard-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="studentphoto">Student Photo</label>
+            </div>
+            <div class="col-4">
+                <input type="file" id="studentphoto" name="studentphoto" class="form-control">
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <button type="button" onclick="showSection('language-details', 'step1-icon')" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Language Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Details -->
+    <div id="language-details" class="section mt-5">
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="language-select">Language Name <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <select name="language" id="language-select" class="form-select" onchange="updateLevels()">
+                    <option value="">Select Language</option>
+                    {% for Language in All_languages %}
+                    <option value="{{ Language.id }}">{{ Language.Language }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="language-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="level-select">Level and Hour <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <select name="level" id="level-select" class="form-select">
+                    <option value="">Select Language Level</option>
+                    <!-- Options will be dynamically populated -->
+                </select>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="level-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="Course-type">Course Type <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <select name="Course-type" id="Course-type" class="form-select">
+                    <option value="">Select Course Type </option>
+                    <option value="Week Days">Week Days</option>
+                    <option value="Week end">Week end</option>
+                </select>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="course-type-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="nameOfCounselor">Name Of The Student Counselor  <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <select name="nameOfCounselor" id="nameOfCounselor" class="form-select">
+                    <option value="">Select Counselor</option>
+                    {% for Counselor in nameOfCounselor %}
+                    <option value="{{Counselor.id}}">{{Counselor.Name}}</option>
+                    {% endfor%}
+                </select>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="counselor-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-end gap-1">
+                <button type="button" onclick="showSection('student-details', '')" class="btn btn-outline-secondary rounded-pill">Go Back</button>
+                <button type="button" onclick="showSection('payment-details', 'step2-icon')" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Payment Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Details -->
+    <div id="payment-details" class="section mt-5">
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="Payment-type">Payment Type <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <select name="Payment-type" id="Payment-type" class="form-select">
+                    <option value="">Select Payment Type </option>
+                    <option value="Part">Part</option>
+                    <option value="Full">Full</option>
+                </select>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="payment-type-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="transactionid">Mention the Transaction ID <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="number" id="transactionid" name="transactionid" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="transactionid-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="account-holder-name">Account Holder Name <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="text" id="account-holder-name" name="account-holder-name" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="account-holder-name-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="account-number">Account Paide <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="number" id="account-number" name="account-number" class="form-control" value="0">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="account-number-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="balanceamount">Balance Amount Paide <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="number" id="balanceamount" name="balanceamount" class="form-control" value="0">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="balanceamount-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-end gap-1">
+                <button type="button" onclick="showSection('language-details', '')" class="btn btn-outline-secondary rounded-pill">Go Back</button>
+                <button type="button" onclick="validateAndSubmitForm()" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Save Student</button>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/add_students.js' %}"></script>
+{% endblock %}

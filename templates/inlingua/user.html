@@ -1,0 +1,138 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+Student page | Inlingua
+{% endblock %}
+{% block style %}
+{% endblock %}
+
+{% block container %}
+    {% include 'inc/sidebar.html' %}
+    {% include 'inc/message.html' %}
+    <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
+        <h4>Students</h4>
+        <div class="d-flex align-items-center gap-1">
+            <a href="{% url 'addstudent' %}" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">New Student</a>
+            <a href="{% url 'addstudent' %}" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Import Students</a>
+            <a href="{% url 'addstudent' %}" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Export Students</a>
+        </div>
+    </div>
+    <div></div>
+    {% if False %}
+    <table class="table border-2 w-100 my-3 rounded">
+        <thead class="rounded">
+            <tr class="mb-3 rounded">
+                <td class="p-2 text-primary">S.No</td>
+                <td class="p-2 text-primary">Student Name</td>
+                <td class="p-2 text-primary">Student Email</td>
+                <td class="p-2 text-primary">Student Phone</td>
+                <td class="p-2 text-primary">Student Address</td>
+                <td class="p-2 text-primary">Student City</td>
+            </tr>
+        </thead>
+        <tbody class="gap-1">
+            <tr class="mb-3">
+                <td class="p-2 mb-3">1</td>
+                <td class="p-2 mb-3">Vignesh</td>
+                <td class="p-2 mb-3">vignesh@gmail.com</td>
+                <td class="p-2 mb-3">+91 6369706554</td>
+                <td class="p-2 mb-3">Thirumayam</td>
+                <td class="p-2 mb-3">Pudukkotai</td>
+            </tr>
+            <tr class="mb-3">
+                <td class="p-2">2</td>
+                <td class="p-2">Vignesh</td>
+                <td class="p-2">vignesh@gmail.com</td>
+                <td class="p-2">+91 6369706554</td>
+                <td class="p-2">Thirumayam</td>
+                <td class="p-2">Pudukkotai</td>
+            </tr>
+            <tr class="mb-3">
+                <td class="p-2 mb-3">3</td>
+                <td class="p-2 mb-3">Vignesh</td>
+                <td class="p-2 mb-3">vignesh@gmail.com</td>
+                <td class="p-2 mb-3">+91 6369706554</td>
+                <td class="p-2 mb-3">Thirumayam</td>
+                <td class="p-2 mb-3">Pudukkotai</td>
+            </tr>
+            <tr class="mb-3">
+                <td class="p-2">4</td>
+                <td class="p-2">Vignesh</td>
+                <td class="p-2">vignesh@gmail.com</td>
+                <td class="p-2">+91 6369706554</td>
+                <td class="p-2">Thirumayam</td>
+                <td class="p-2">Pudukkotai</td>
+            </tr>
+            <tr class="mb-3">
+                <td class="p-2 mb-3">5</td>
+                <td class="p-2 mb-3">Vignesh</td>
+                <td class="p-2 mb-3">vignesh@gmail.com</td>
+                <td class="p-2 mb-3">+91 6369706554</td>
+                <td class="p-2 mb-3">Thirumayam</td>
+                <td class="p-2 mb-3">Pudukkotai</td>
+            </tr>
+            <tr class="mb-3">
+                <td class="p-2">6</td>
+                <td class="p-2">Vignesh</td>
+                <td class="p-2">vignesh@gmail.com</td>
+                <td class="p-2">+91 6369706554</td>
+                <td class="p-2">Thirumayam</td>
+                <td class="p-2">Pudukkotai</td>
+            </tr>
+            <tr class="mb-3">
+                <td class="p-2 mb-3">7</td>
+                <td class="p-2 mb-3">Vignesh</td>
+                <td class="p-2 mb-3">vignesh@gmail.com</td>
+                <td class="p-2 mb-3">+91 6369706554</td>
+                <td class="p-2 mb-3">Thirumayam</td>
+                <td class="p-2 mb-3">Pudukkotai</td>
+            </tr>
+            <tr class="mb-3">
+                <td class="p-2">8</td>
+                <td class="p-2">Vignesh</td>
+                <td class="p-2">vignesh@gmail.com</td>
+                <td class="p-2">+91 6369706554</td>
+                <td class="p-2">Thirumayam</td>
+                <td class="p-2">Pudukkotai</td>
+            </tr>
+            <tr class="mb-3">
+                <td class="p-2 mb-3">9</td>
+                <td class="p-2 mb-3">Vignesh</td>
+                <td class="p-2 mb-3">vignesh@gmail.com</td>
+                <td class="p-2 mb-3">+91 6369706554</td>
+                <td class="p-2 mb-3">Thirumayam</td>
+                <td class="p-2 mb-3">Pudukkotai</td>
+            </tr>
+            <tr class="mb-3">
+                <td class="p-2">10</td>
+                <td class="p-2">Vignesh</td>
+                <td class="p-2">vignesh@gmail.com</td>
+                <td class="p-2">+91 6369706554</td>
+                <td class="p-2">Thirumayam</td>
+                <td class="p-2">Pudukkotai</td>
+            </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+      {% else %}
+      <div class="d-flex flex-column align-items-center justify-content-center w-100 h-100">
+        <img src="{% static 'img/imgs/Student_creation.svg' %}" alt="" class="w-25">
+        <a href="{% url 'addstudent' %}" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Add New Student</a>
+      </div>
+      <!-- <h1 class="text-center">No Data Found</h1> -->
+      
+      {% endif %}
+{% endblock %}
