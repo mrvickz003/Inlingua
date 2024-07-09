@@ -38,7 +38,8 @@ urlpatterns = [
     # path('home/students_online_status/', trainer_head.students, name="student_online"),
     # path('home/Batchlist/',  trainer_head.Batchlist, name="Batchlist"),
 
-    path('students/', user.user_page, name="students"),
+    path('students/', user.student_list, name='student_list'),
+    path('students/', user.user_page, name="students"), 
     path('students/add/', user.addstudent, name="addstudent"),
     path('get_levels/<int:language_id>/', user.get_levels, name='get_levels'),
     # path('student/<int:id>/', user.student_details, name="studentdetails"),

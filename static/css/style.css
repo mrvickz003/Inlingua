@@ -32,6 +32,16 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+::-moz-selection { /* Code for Firefox */
+    color: black !important;
+    background: #FF751A !important;
+  }
+  
+  ::selection {
+    color: black !important;
+    background: #FF751A !important;
+  }
+
 html{
     font-size: 14px;
 }

@@ -122,7 +122,7 @@ a {
     font-size: 1.25rem;
 }
 
-.show {
+.showing {
     left: 0;
     transition: .3s;
 }
@@ -176,7 +176,7 @@ a {
         padding: 1rem 1rem 0 0
     }
 
-    .show {
+    .showing {
         width: calc(var(--nav-width) + 156px)
     }
 
