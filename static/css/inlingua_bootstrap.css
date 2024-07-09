@@ -24,7 +24,7 @@
     --bs-gray-700: #495057;
     --bs-gray-800: #343a40;
     --bs-gray-900: #212529;
-    
+
     --bs-primary: #FF751A !important;
     --bs-secondary: #030303;
     --bs-success: #198754;
@@ -64,7 +64,7 @@
     --bs-border-radius-xl: 1rem;
     --bs-border-radius-2xl: 2rem;
     --bs-border-radius-pill: 50rem;
-    --bs-link-color: #FF751A !important;
+    --bs-link-color: #0d6efd !important;
     --bs-link-hover-color: #FF751A !important;
     --bs-code-color: #d63384;
     --bs-highlight-bg: #fff3cd
@@ -2306,6 +2306,7 @@ progress {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
+
 @media (prefers-reduced-motion:reduce) {
     .form-control {
         transition: none
@@ -3977,7 +3978,7 @@ fieldset:disabled .btn {
 .dropdown-item:active {
     color: var(--bs-dropdown-link-active-color);
     text-decoration: none;
-    background-color: var(--bs-dropdown-link-active-bg)
+    background-color: var(--bs-dropdown-link-active-bg) !important
 }
 
 .dropdown-item.disabled,
@@ -9120,11 +9121,13 @@ fieldset:disabled .btn {
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important
 }
-.bg-gray-500{
+
+.bg-gray-500 {
     --bs-bg-opacity: 1;
     background-color: var(--bs-gray-500) !important
 }
-.bg-gray-300{
+
+.bg-gray-300 {
     --bs-bg-opacity: 1;
     background-color: var(--bs-gray-300) !important
 }
@@ -12619,3 +12622,20 @@ fieldset:disabled .btn {
 }
 
 /*# sourceMappingURL=bootstrap.min.css.map */
+
+
+::-moz-selection {
+    /* Code for Firefox */
+    color: black !important;
+    background: #FF751A !important;
+}
+
+::selection {
+    color: black !important;
+    background: #FF751A !important;
+}
+
+.form-control:focus {
+    box-shadow: none !important;
+    border:1px solid var(--bs-primary) !important;
+}

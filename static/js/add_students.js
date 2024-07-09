@@ -1,3 +1,25 @@
+// Validate each field
+const studentname = document.getElementById('studentname').value.trim();
+const studentmobilenumber = document.getElementById('studentmobilenumber').value.trim();
+const email = document.getElementById('email').value.trim();
+const studentdob = document.getElementById('studentdob').value.trim();
+const studentaadharcard = document.getElementById('studentaadharcard').value.trim();
+const language = document.getElementById('language-select').value.trim();
+const level = document.getElementById('level-select').value.trim();
+const courseType = document.getElementById('Course-type').value.trim();
+const counselor = document.getElementById('nameOfCounselor').value.trim();
+const paymentType = document.getElementById('Payment-type').value.trim();
+const transactionId = document.getElementById('transactionid').value.trim();
+const accountHolderName = document.getElementById('account-holder-name').value.trim();
+const accountNumber = document.getElementById('account-number').value.trim();
+const balanceAmount = document.getElementById('balanceamount').value.trim();
+
+function student_details(language, step1) {
+    if(studentname == '' || studentname == null || studentname == undefined){
+        document.getElementById('studentname').style.border = '1px solid red';
+        }
+    }
+
 function showSection(sectionId, completedStep) {
     // Hide all sections
     document.querySelectorAll('.section').forEach(function (section) {
@@ -15,22 +37,6 @@ function showSection(sectionId, completedStep) {
 
 function validateAndSubmitForm() {
     let isValid = true;
-
-    // Validate each field
-    const studentname = document.getElementById('studentname').value.trim();
-    const studentmobilenumber = document.getElementById('studentmobilenumber').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const studentdob = document.getElementById('studentdob').value.trim();
-    const studentaadharcard = document.getElementById('studentaadharcard').value.trim();
-    const language = document.getElementById('language-select').value.trim();
-    const level = document.getElementById('level-select').value.trim();
-    const courseType = document.getElementById('Course-type').value.trim();
-    const counselor = document.getElementById('nameOfCounselor').value.trim();
-    const paymentType = document.getElementById('Payment-type').value.trim();
-    const transactionId = document.getElementById('transactionid').value.trim();
-    const accountHolderName = document.getElementById('account-holder-name').value.trim();
-    const accountNumber = document.getElementById('account-number').value.trim();
-    const balanceAmount = document.getElementById('balanceamount').value.trim();
 
     // Check if any required field is empty
     if (studentname === '') {
@@ -139,7 +145,7 @@ function updateLevels() {
                 data.levels.forEach(level => {
                     const option = document.createElement('option');
                     option.value = level.id;
-                    option.textContent = `${level.Level} -- ${level.Hours} -- ${level.Help_Text}`;
+                    option.textContent = `${level.level} -- ${level.hours} -- ${level.help_text}`;
                     levelSelect.appendChild(option);
                 });
             })

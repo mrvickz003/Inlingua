@@ -1,36 +1,11 @@
 {% extends 'main.html' %}
 {% load static %}
-
 {% block title %}
 Add student | Inlingua
 {% endblock %}
-
 {% block style %}
-<style>
-    .bxs-check-circle {
-        position: relative;
-    }
-
-    .bxs-check-circle-after::after {
-        content: "";
-        position: absolute;
-        bottom: 10px; 
-        left:56%; 
-        transform: translateX(-50%);
-        width: 97%; 
-        height: 3px; 
-        background: #6c757d; 
-    }
-    .section {
-        display: none;
-    }
-
-    .section.activate {
-        display: block;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/add_students.css' %}">
 {% endblock %}
-
 {% block container %}
 {% include 'inc/sidebar.html' %}
 {% include 'inc/message.html' %}
@@ -66,7 +41,7 @@ Add student | Inlingua
         </div>
     </div>
 </div>
-<form action="save" method="post" id="student-form">
+<form action="" method="post" id="student-form" enctype="multipart/form-data">
     {% csrf_token %}
     <div id="student-details" class="section activate mt-5">
         <div class="row mb-4">
@@ -136,7 +111,7 @@ Add student | Inlingua
             <div class="col-4">
             </div>
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <button type="button" onclick="showSection('language-details', 'step1-icon')" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Language Details</button>
+                <button type="button" onclick="student_details('language-details', 'step1-icon')" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Language Details</button>
             </div>
         </div>
     </div>
@@ -151,7 +126,7 @@ Add student | Inlingua
                 <select name="language" id="language-select" class="form-select" onchange="updateLevels()">
                     <option value="">Select Language</option>
                     {% for Language in All_languages %}
-                    <option value="{{ Language.id }}">{{ Language.Language }}</option>
+                    <option value="{{ Language.id }}">{{ Language.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -180,8 +155,9 @@ Add student | Inlingua
             <div class="col-4">
                 <select name="Course-type" id="Course-type" class="form-select">
                     <option value="">Select Course Type </option>
-                    <option value="Week Days">Week Days</option>
-                    <option value="Week end">Week end</option>
+                    {% for Course in Course_Type %}
+                    <option value="{{ Course.0 }}">{{ Course.1 }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="col-4 d-flex align-items-center justify-content-start">
@@ -196,7 +172,7 @@ Add student | Inlingua
                 <select name="nameOfCounselor" id="nameOfCounselor" class="form-select">
                     <option value="">Select Counselor</option>
                     {% for Counselor in nameOfCounselor %}
-                    <option value="{{Counselor.id}}">{{Counselor.Name}}</option>
+                    <option value="{{Counselor.id}}">{{Counselor.name}}</option>
                     {% endfor%}
                 </select>
             </div>
@@ -223,8 +199,9 @@ Add student | Inlingua
             <div class="col-4">
                 <select name="Payment-type" id="Payment-type" class="form-select">
                     <option value="">Select Payment Type </option>
-                    <option value="Part">Part</option>
-                    <option value="Full">Full</option>
+                    {% for Payment in Payment_Type %}
+                    <option value="{{ Payment.0 }}">{{ Payment.1 }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="col-4 d-flex align-items-center justify-content-start">
@@ -255,10 +232,10 @@ Add student | Inlingua
         </div>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="account-number">Account Paide <strong class="text-danger">*</strong></label>
+                <label for="account-number">Amount Paide <strong class="text-danger">*</strong></label>
             </div>
             <div class="col-4">
-                <input type="number" id="account-number" name="account-number" class="form-control" value="0">
+                <input type="number" id="account-number" name="Amount-paid" class="form-control" value="0">
             </div>
             <div class="col-4 d-flex align-items-center justify-content-start">
                 <p class="p-0 m-0 text-danger" id="account-number-error"></p>

@@ -13,126 +13,78 @@ Student page | Inlingua
     <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
         <h4>Students</h4>
         <div class="d-flex align-items-center gap-1">
-            <a href="{% url 'addstudent' %}" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">New Student</a>
-            <a href="{% url 'addstudent' %}" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Import Students</a>
-            <a href="{% url 'addstudent' %}" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Export Students</a>
+            {% if page_obj %}
+            <a href="{% url 'addstudent' %}" class="btn btn-outline-primary rounded-pill px-4">New Student</a>
+            {% endif %}
+            <a href="{% url 'addstudent' %}" class="btn btn-outline-secondary rounded-pill px-4">Import Students</a>
+            {% if page_obj %}
+            <a href="{% url 'addstudent' %}" class="btn btn-outline-secondary rounded-pill px-4">Export Students</a>
+            {% endif %}
         </div>
     </div>
     <div></div>
-    {% if False %}
+    {% if page_obj %}
     <table class="table border-2 w-100 my-3 rounded">
         <thead class="rounded">
             <tr class="mb-3 rounded">
                 <td class="p-2 text-primary">S.No</td>
+                <td class="p-2 text-primary">Student ID</td>
                 <td class="p-2 text-primary">Student Name</td>
                 <td class="p-2 text-primary">Student Email</td>
                 <td class="p-2 text-primary">Student Phone</td>
-                <td class="p-2 text-primary">Student Address</td>
-                <td class="p-2 text-primary">Student City</td>
+                <td class="p-2 text-primary">Identity Card (Aadhar cord Copy)</td>
             </tr>
         </thead>
         <tbody class="gap-1">
+            {% for student in page_obj %}
             <tr class="mb-3">
-                <td class="p-2 mb-3">1</td>
-                <td class="p-2 mb-3">Vignesh</td>
-                <td class="p-2 mb-3">vignesh@gmail.com</td>
-                <td class="p-2 mb-3">+91 6369706554</td>
-                <td class="p-2 mb-3">Thirumayam</td>
-                <td class="p-2 mb-3">Pudukkotai</td>
+                <td class="p-2 mb-3">{{ forloop.counter }}</td>
+                <td class="p-2 mb-3">{{ student.Student_ID }}</td>
+                <td class="p-2 mb-3">{{ student.Student_Name }}</td>
+                <td class="p-2 mb-3">{{ student.Student_Mail_Id }}</td>
+                <td class="p-2 mb-3">+91 {{ student.Student_Phone_No }}</td>
+                <td class="p-2 mb-3 w-25">
+                  {% if student.Identity_Card_Aadhar_Copy %}
+                  <a href="{{ student.Identity_Card_Aadhar_Copy.url }}">{{ student.Student_Name }} Aadhar Card</a>
+                  {% else %}
+                  No Data
+                  {% endif %}
+                </td>
             </tr>
-            <tr class="mb-3">
-                <td class="p-2">2</td>
-                <td class="p-2">Vignesh</td>
-                <td class="p-2">vignesh@gmail.com</td>
-                <td class="p-2">+91 6369706554</td>
-                <td class="p-2">Thirumayam</td>
-                <td class="p-2">Pudukkotai</td>
-            </tr>
-            <tr class="mb-3">
-                <td class="p-2 mb-3">3</td>
-                <td class="p-2 mb-3">Vignesh</td>
-                <td class="p-2 mb-3">vignesh@gmail.com</td>
-                <td class="p-2 mb-3">+91 6369706554</td>
-                <td class="p-2 mb-3">Thirumayam</td>
-                <td class="p-2 mb-3">Pudukkotai</td>
-            </tr>
-            <tr class="mb-3">
-                <td class="p-2">4</td>
-                <td class="p-2">Vignesh</td>
-                <td class="p-2">vignesh@gmail.com</td>
-                <td class="p-2">+91 6369706554</td>
-                <td class="p-2">Thirumayam</td>
-                <td class="p-2">Pudukkotai</td>
-            </tr>
-            <tr class="mb-3">
-                <td class="p-2 mb-3">5</td>
-                <td class="p-2 mb-3">Vignesh</td>
-                <td class="p-2 mb-3">vignesh@gmail.com</td>
-                <td class="p-2 mb-3">+91 6369706554</td>
-                <td class="p-2 mb-3">Thirumayam</td>
-                <td class="p-2 mb-3">Pudukkotai</td>
-            </tr>
-            <tr class="mb-3">
-                <td class="p-2">6</td>
-                <td class="p-2">Vignesh</td>
-                <td class="p-2">vignesh@gmail.com</td>
-                <td class="p-2">+91 6369706554</td>
-                <td class="p-2">Thirumayam</td>
-                <td class="p-2">Pudukkotai</td>
-            </tr>
-            <tr class="mb-3">
-                <td class="p-2 mb-3">7</td>
-                <td class="p-2 mb-3">Vignesh</td>
-                <td class="p-2 mb-3">vignesh@gmail.com</td>
-                <td class="p-2 mb-3">+91 6369706554</td>
-                <td class="p-2 mb-3">Thirumayam</td>
-                <td class="p-2 mb-3">Pudukkotai</td>
-            </tr>
-            <tr class="mb-3">
-                <td class="p-2">8</td>
-                <td class="p-2">Vignesh</td>
-                <td class="p-2">vignesh@gmail.com</td>
-                <td class="p-2">+91 6369706554</td>
-                <td class="p-2">Thirumayam</td>
-                <td class="p-2">Pudukkotai</td>
-            </tr>
-            <tr class="mb-3">
-                <td class="p-2 mb-3">9</td>
-                <td class="p-2 mb-3">Vignesh</td>
-                <td class="p-2 mb-3">vignesh@gmail.com</td>
-                <td class="p-2 mb-3">+91 6369706554</td>
-                <td class="p-2 mb-3">Thirumayam</td>
-                <td class="p-2 mb-3">Pudukkotai</td>
-            </tr>
-            <tr class="mb-3">
-                <td class="p-2">10</td>
-                <td class="p-2">Vignesh</td>
-                <td class="p-2">vignesh@gmail.com</td>
-                <td class="p-2">+91 6369706554</td>
-                <td class="p-2">Thirumayam</td>
-                <td class="p-2">Pudukkotai</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+            {% endif %}
         </ul>
-      </nav>
-      {% else %}
-      <div class="d-flex flex-column align-items-center justify-content-center w-100 h-100">
+    </nav>
+    {% else %}
+    <div class="d-flex flex-column align-items-center justify-content-center w-100 h-100">
         <img src="{% static 'img/imgs/Student_creation.svg' %}" alt="" class="w-25">
         <a href="{% url 'addstudent' %}" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Add New Student</a>
-      </div>
-      <!-- <h1 class="text-center">No Data Found</h1> -->
-      
-      {% endif %}
+    </div>
+    {% endif %}
 {% endblock %}

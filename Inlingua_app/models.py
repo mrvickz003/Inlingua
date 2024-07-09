@@ -10,7 +10,7 @@ def generate_customer_id():
     Year = str(dt.datetime.now().year)
     last_student = StudentTable.objects.order_by('-id').first()
     year = Year[2:]  # This ensures `year` is always assigned
-    if last_student:
+    if last_student and last_student.Created_date.year == dt.datetime.now().year:
         last_id = int(last_student.Student_ID[7:])
         new_id = last_id + 1
     else:
@@ -82,7 +82,8 @@ class StudentTable(models.Model):
     Payment_Type = models.CharField(choices=PAYMENT_TYPE_CHOICES, max_length=20)
     Transaction_ID = models.IntegerField()
     Account_Holder_Name = models.CharField(max_length=100)
-    Account_Paide = models.FloatField()
+    Amount_Paide = models.FloatField(default=0)
+    Balance_Amount = models.FloatField(default=0)
     Created_by = models.CharField(max_length=100)
     Created_date = models.DateTimeField(auto_now_add=True)
     Updated_by = models.CharField(max_length=100, null=True, blank=True)
