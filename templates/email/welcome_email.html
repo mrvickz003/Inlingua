@@ -1,5 +1,7 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,52 +13,120 @@
             padding: 0;
             background-color: #f6f6f6;
         }
+
         .container {
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
             background-color: #ffffff;
-            padding: 20px;
+            /* padding: 20px; */
         }
+
+        .img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .img-container img {
+            width: 70%;
+        }
+
         .header {
             background-color: #FF751A;
             color: #ffffff;
             text-align: center;
-            padding: 20px;
+            padding: 20px 0;
         }
+
         .content {
-            padding: 20px;
+            padding:0 10px;
         }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .footer{
+
+        .footer {
             background-color: rgb(46, 46, 46);
             text-align: center;
             color: #FFF;
+            margin-top: 2rem;
             padding: 0.5rem 0;
+        }
+        ol li{
+            margin-bottom: 0.8rem;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h1>Welcome to Inlingua</h1>
         </div>
         <div class="content">
+            <div class="img-container">
+                <img src="{% static 'img/imgs/Welcome_mail.png' %}" alt="">
+            </div>
             <p>Dear {{ name }},</p>
             <p>Thank you for signing up for Inlingua. We are excited to have you on board.</p>
             <p>If you have any questions, feel free to <a href="mailto:support@example.com">contact us</a>.</p>
-            <p><a href="https://example.com/login" class="button">Login to Your Account</a></p>
+            <h4>Terms and Conditions</h4>
+            <ol>
+                <li>The course fee must be paid in full at least 7days prior to the commencement of the
+                    course.</li>
+                <li>Payment has to be made by online transfer / credit / debit card / Cheque / DD.</li>
+                <li>Remaining Payment has to be made on or before 30 days from the course start date.
+                    (only for who have paid
+                    the part payment)</li>
+                <li>Fee once paid is valid for a period of six months before which the course has to be
+                    completed or
+                    else the admission stands cancelled and the fee will not be refunded.</li>
+                <li>Minimum number of students required to start a online batch is 6 and for offline batch is
+                    10.</li>
+                <li>Fee once paid will not be refunded. inlingua Chennai refunds the fee collected only if
+                    inlingua drops</li>
+                <li>the batch due to unavoidable situations. If the student wants to withdraw his/her
+                    admission prior to
+                </li>
+                <li>the commencement of the course, a processing fee of Rs 2500/- would be deducted.
+                    Once the class
+                </li>
+                <li>commences, there will be no refund provided.</li>
+                <li>inlingua reserves the right to change the trainer of any ongoing batch at any point of time
+                    for a valid
+                    reason.</li>
+                <li>A minimum attendance of 80% is required to be eligible to take up the inlingua
+                    examination at the</li>
+                <li>end of the course. If a student has less than 80% attendance and above 50% attendance,
+                    he/she
+                </li>
+                <li>will be provided participation certificates only.</li>
+                <li>All back up/missed classes will be charged at the rate of Rs.800/- per hour. Such
+                    sessions will be
+                    planned and executed solely based on the schedule provided by inlingua only.</li>
+                <li>Transfer from one batch to another batch would be accepted only before the
+                    commencement of the</li>
+                <li>course. The same would be decided based on the availability of seats in the desired
+                    batch.</li>
+                <li>Under no circumstances will the postponement of final exam date would be entertained.
+                    However,
+                    students who are unable to take the examination due to valid reasons, will be allotted an
+                    alternate
+                    day on paying an additional fee of Rs.2500/- towards examination charges.</li>
+                <li>Certificates will be processed in 10 working days from the date of completion of the
+
+                    examination
+                    from the respective centers.</li>
+            </ol>
+            <div>
+                <form action="">
+                    <input type="checkbox" name="terms" id="terms" required>
+                    <label for="terms">agree to the above Terms and Conditions <span style="color: red;">*</span></label>
+                </form>
+            </div>
         </div>
         <div class="footer">
             <p>&copy; 2024 Inlingua. All rights reserved.</p>
         </div>
     </div>
 </body>
+
 </html>
