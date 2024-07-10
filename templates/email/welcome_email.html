@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Email</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+        .header {
+            background-color: #FF751A;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer{
+            background-color: rgb(46, 46, 46);
+            text-align: center;
+            color: #FFF;
+            padding: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome to Inlingua</h1>
+        </div>
+        <div class="content">
+            <p>Dear {{ name }},</p>
+            <p>Thank you for signing up for Inlingua. We are excited to have you on board.</p>
+            <p>If you have any questions, feel free to <a href="mailto:support@example.com">contact us</a>.</p>
+            <p><a href="https://example.com/login" class="button">Login to Your Account</a></p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2024 Inlingua. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,6 +3,7 @@ from django.contrib import messages
 from Inlingua_app.models import *
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from Inlingua_app.utils import send_welcome_email
 
 def user_page(request):
         context = {
@@ -85,7 +86,7 @@ def addstudent(request):
             Updated_by=request.user.username,
         )
         student.save()
-
+        send_welcome_email(student.Student_Mail_Id, student.Student_Name)
         return redirect('students') 
 
     context = {
@@ -97,7 +98,8 @@ def addstudent(request):
     }    
     return render(request, "inlingua/addstudent.html", context)
 
-
+def mail(request):
+    return render(request, "email/welcome_email.html", )
 
 
 def get_levels(request, language_id):

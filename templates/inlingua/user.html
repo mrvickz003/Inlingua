@@ -39,7 +39,7 @@ Student page | Inlingua
             {% for student in page_obj %}
             <tr class="mb-3">
                 <td class="p-2 mb-3">{{ forloop.counter }}</td>
-                <td class="p-2 mb-3">{{ student.Student_ID }}</td>
+                <td class="p-2 mb-3"><a href="">{{ student.Student_ID }}</a></td>
                 <td class="p-2 mb-3">{{ student.Student_Name }}</td>
                 <td class="p-2 mb-3">{{ student.Student_Mail_Id }}</td>
                 <td class="p-2 mb-3">+91 {{ student.Student_Phone_No }}</td>
