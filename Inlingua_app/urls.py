@@ -39,6 +39,7 @@ urlpatterns = [
     # path('home/Batchlist/',  trainer_head.Batchlist, name="Batchlist"),
 
     path('students/', user.student_list, name='student_list'),
+    path('mail/', user.mail, name='mail'),
     path('students/', user.user_page, name="students"), 
     path('students/add/', user.addstudent, name="addstudent"),
     path('get_levels/<int:language_id>/', user.get_levels, name='get_levels'),
@@ -83,8 +84,11 @@ urlpatterns = [
 
     # Reset the password urls
 
-    path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
-    path('password_reset/done/', CustomPasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset/done/', CustomPasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('user/password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
+    path('user/password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
+
+    path('user/password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
+    path('user/password_reset/done/', CustomPasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('user/reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('user/reset/done/', CustomPasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
