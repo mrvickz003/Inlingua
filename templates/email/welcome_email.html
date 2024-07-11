@@ -19,15 +19,16 @@
             max-width: 600px;
             margin: 0 auto;
             background-color: #ffffff;
-            /* padding: 20px; */
         }
 
-        .img-container {
+        .img-container, .terms-container {
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
+        .terms-container{
+            justify-content: start;
+        }
         .img-container img {
             width: 70%;
         }
@@ -53,6 +54,21 @@
         ol li{
             margin-bottom: 0.8rem;
         }
+        .btn-outline-primary {
+        color: #FF751A;
+        outline: none;
+        border:1px solid #FF751A;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+
+    }.btn-outline-primary:hover{
+        color: #FFF;
+        background-color: #FF751A !important;
+        outline: none;
+        border:1px solid #FF751A;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+    }
     </style>
 </head>
 
@@ -117,9 +133,13 @@
                     from the respective centers.</li>
             </ol>
             <div>
-                <form action="">
-                    <input type="checkbox" name="terms" id="terms" required>
-                    <label for="terms">agree to the above Terms and Conditions <span style="color: red;">*</span></label>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="terms-container" style="gap: 10px;">
+                        <input type="checkbox" name="terms" id="terms" required>
+                        <label for="terms">agree to the above Terms and Conditions <span style="color: red;">*</span></label>
+                    </div>
+                    <input type="submit" value="Activate Account" class="btn-outline-primary" style="margin-top: 1rem; background-color: #fff;">
                 </form>
             </div>
         </div>
