@@ -21,17 +21,6 @@ Trainer {{training_Staff.TrainerId.Name}} Details
 
 
 <h4 class="card-title">Trainers</h4>
-<!-- {% if training_Staff %} -->
-<!-- Search Box -->
-<!-- <div class="row mb-3">
-    <div class="col-md-6 col-lg-4 mt-3">
-        <div class="input-group">
-            <input type="search" class="form-control rounded" placeholder="Search Trainers" aria-label="Search" aria-describedby="search-addon" />
-            <input type="submit" class="btn text-white" value="Serach" style="background-color: #FF751A;">
-          </div>
-    </div>
-</div>
-{% endif %} -->
 
 
 {% if request.path == "/crm/trainers/" %}
@@ -116,7 +105,6 @@ Trainer {{training_Staff.TrainerId.Name}} Details
     {%  if training.TrainerHead %}
     <a href="{% url 'removehead' id=training.ID %} " class="btn btn-secondary mb-3">Remove Trainer Head</a>
     {% else %}
-    <a href="{% url 'addhead' id=training.ID %} " class="btn btn-secondary mb-3">Add Trainer Head</a> 
     {% endif %}
     <style>
         input{
@@ -133,7 +121,7 @@ Trainer {{training_Staff.TrainerId.Name}} Details
                     <div class="card-header text-white">Profile Picture</div>
                     <div class="card-body text-center"
                     >
-                        <form action="{% url 'trainerprofile' id=training.TrainerId.LoginId.id %}" method="post" enctype="multipart/form-data">
+                        <form action="" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <label for="file-input">
                                 {% if training.TrainerId.LoginId.user_img %}
@@ -178,7 +166,7 @@ Trainer {{training_Staff.TrainerId.Name}} Details
                 <div class="card mb-4 bg-dark">
                     <div class="card-header text-white">Basic Details</div>
                     <div class="card-body">
-                        <form method="post" action="{% url 'trainerbasicdetails' id=training.TrainerId.LoginId.id %}">
+                        <form method="post" action="">
                             {% csrf_token %}
                             <div class="row gx-3 mb-3">
                                 <div class="col-md-6">

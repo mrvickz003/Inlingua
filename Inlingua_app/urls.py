@@ -52,8 +52,8 @@ urlpatterns = [
     # path('students/payment/history/<int:id>/', payment.history_view, name='history'),
     # path('students/payment/history/report/<int:id>/', Generate_Report.GenerateReport, name='generatereport'),
 
-    # path('trainers/', trainers.trainers_view, name="trainers"),
-    # path('trainers/addtrainers/', trainers.add_trainers, name="addtrainers"),
+    path('trainers/', trainers.trainers_view, name="trainers"),
+    path('trainers/addtrainers/', trainers.add_trainers, name="addtrainers"),
     # path('trainers/<int:id>/', trainers.trainer_view, name="trainer"),
     # path('student/trainerprofile/<int:id>/', trainers.trainerprofileupdate, name="trainerprofile"),
     # path('student/trainerbasicdetails/<int:id>/', trainers.trainerbasicdetailsupdate, name="trainerbasicdetails"),

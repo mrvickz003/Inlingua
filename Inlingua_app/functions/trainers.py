@@ -1,32 +1,20 @@
-# import datetime
-# from django.shortcuts import render, redirect
-# from django.contrib import messages
-# from Inlingua_app.models import (User, Languages, TrainerQualifications, TrainingBatches, 
-#                                  StudentDetails, UserRoles,TrainingStaff, Level, UserRoles)
+import datetime
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from Inlingua_app.models import (User, Language, TrainerQualifications, LevelsAndHour)
 
-# def trainers_view(request):
-#     if request.user.is_authenticated:
-#         user_id = request.user.id
-#         user = User.objects.get(id=user_id)
-        
-#         if user.is_staff and user.is_superuser:
-#             languages = Languages.objects.all()
-#             levels = Level.objects.all()
-#             training_Staff = TrainerQualifications.objects.all()
-#             trainer_heads = TrainerQualifications.objects.filter(TrainerHead = True)
-#             context = {'User': user,
-#                        'trainer_heads':trainer_heads,
-#                        'languages': languages, 
-#                        'training_Staff':training_Staff,
-#                        'levels':levels,
-#                        'Trainers':'active'}
-#             return render(request, "inlingua/trainers.html",context)
-#         else:
-#             messages.error(request,"You do not have permission to view this page.")
-#             return redirect('home')
-#     else:
-#         messages.error(request,  "Please login first")
-#         return redirect('login')
+def trainers_view(request):
+        languages = Language.objects.all() 
+        level = LevelsAndHour.objects.all()
+        training_Staff = TrainerQualifications.objects.all()
+        context = {
+            'User': request.user,  
+            'languages': languages,
+            'training_Staff': training_Staff,
+            'levels': level,
+            'Trainers': 'active'
+        }
+        return render(request, "inlingua/trainers.html", context)
                      
 # def trainer_view(request,id):
 #     if request.user.is_authenticated:
@@ -100,147 +88,44 @@
 #     get_tainer_qualification.save()
 #     get_tainer_qualification_loginid.save()
 #     return redirect('trainers')
-
-# def add_trainers(request):
-#     if request.user.is_authenticated:
-#         user_id = request.user.id
-#         user = User.objects.get(id=user_id)
-        
-#         if user.is_staff and user.is_superuser:
-#             if request.method == 'POST':
-#                 name = request.POST.get('trainername')
-#                 if name == '':
-#                     name = None
-#                     messages.error(request, 'Enter the Name')
-
-#                 firstname = request.POST.get('fname')
-#                 if firstname == '':
-#                     firstname = None
-#                     messages.error(request, 'Enter the First Name')
-
-#                 lasttname = request.POST.get('lname')
-#                 if lasttname == '':
-#                     lasttname = None
-#                     messages.error(request, 'Enter the Last Name')
-
-#                 email = request.POST.get('gmail')
-#                 if email == '':
-#                     email = None
-#                     messages.error(request, 'Enter the mail')
-
-#                 mobilenumber = request.POST.get('mobilenumber')
-#                 if mobilenumber == '':
-#                     mobilenumber = None
-#                     messages.error(request, 'Enter the Mobile Number')
-
-#                 trainer_photo = request.FILES.get('trainerphoto')
-#                 password1 = email
-#                 address = request.POST.get('Address')
-
-#                 certificateNumber = request.POST.get('certificateNumber')
-#                 if certificateNumber == '':
-#                     certificateNumber = None
-#                     messages.error(request, 'Enter the Certificate Number')
-
-#                 certifyingAuthority = request.POST.get('certifyingAuthority')
-#                 if certifyingAuthority == '':
-#                     certifyingAuthority = None
-#                     messages.error(request, 'Enter the Certifying Authority')
-
-#                 certificateValidTill = request.POST.get('certificateValidTill')
-#                 if certificateValidTill == '':
-#                     certificateValidTill = None
-#                     messages.error(request, 'Enter the Certificate Valid Till')
-
-#                 language = request.POST.get('Language')
-#                 if language == '':
-#                     language = None
-#                     messages.error(request, 'Enter the Language')
-
-#                 level = request.POST.get('level')
-#                 if level == '':
-#                     level = None
-#                     messages.error(request, '')
+def add_trainers(request):
+                # try:
+                #     lastuser = User.objects.last()
+                #     new_trainer_details = TrainingStaff.objects.create(
+                #         Name = name,
+                #         EmailID = email,
+                #         LoginId = lastuser,
+                #         IsActive = True,
+                #         CreatedBy = user.name,
+                #         CreatedDate = datetime.datetime.now(),
+                #         UpdatedBy = user.name,
+                #         UpdatedDate = datetime.datetime.now(),
+                #     )
+                #     new_trainer_details.save()
+                #     Language = Languages.objects.get(ID = int(language))
+                #     level = Level.objects.get(ID = int(level))
+                #     lastuser = TrainingStaff.objects.last()
                     
-#                 trainerid = request.POST.get('trainerid')
+                #     new_trainer_qualification = TrainerQualifications.objects.create(
+                #         userid = trainerid,
+                #         LanguageID = Language,
+                #         LevelId = level,
+                #         CertificateNumber = certificateNumber,
+                #         CertifyingAuthority = certifyingAuthority,
+                #         CertificateValidTill = certificateValidTill,
+                #         TrainerId = lastuser,
+                #         CreatedBy = user.name,
+                #         CreatedDate = datetime.datetime.now(),
+                #         UpdatedBy = user.name,
+                #         UpdatedDate = datetime.datetime.now(),
+                #     )
+                #     new_trainer_qualification.save()
+                # except Exception as e:
+                #     messages.error(request, f"{e}")
+                #     return redirect('trainers')
 
-#                 try:
-#                     role = UserRoles.objects.get(Name='Trainer')
-#                 except UserRoles.DoesNotExist:
-#                     role = UserRoles.objects.create(Name='Trainer',IsActive=True,CreatedBy=request.user,UpdatedBy=request.user)
-                
-#                 try:
-#                     new_trainer = User.objects.create(
-#                         name=name,
-#                         first_name=firstname,
-#                         last_name=lasttname,
-#                         Mobile_Number=mobilenumber,
-#                         email=email,
-#                         username=email,
-#                         user_img=trainer_photo,
-#                         Address=address,
-#                         created_by=request.user.username,
-#                         updated_by=request.user.username,
-#                         is_staff=True,
-#                         updated_date=datetime.datetime.now(),
-#                         role_id=role,
-#                     )
-#                     new_trainer.set_password(password1)
-#                     new_trainer.save()
-#                 except Exception as e:
-#                     messages.error(request, f"{e}")
-#                     return redirect('trainers')
-#                 try:
-#                     lastuser = User.objects.last()
-#                     new_trainer_details = TrainingStaff.objects.create(
-#                         Name = name,
-#                         EmailID = email,
-#                         LoginId = lastuser,
-#                         IsActive = True,
-#                         CreatedBy = user.name,
-#                         CreatedDate = datetime.datetime.now(),
-#                         UpdatedBy = user.name,
-#                         UpdatedDate = datetime.datetime.now(),
-#                     )
-#                     new_trainer_details.save()
-#                     Language = Languages.objects.get(ID = int(language))
-#                     level = Level.objects.get(ID = int(level))
-#                     lastuser = TrainingStaff.objects.last()
-                    
-#                     new_trainer_qualification = TrainerQualifications.objects.create(
-#                         userid = trainerid,
-#                         LanguageID = Language,
-#                         LevelId = level,
-#                         CertificateNumber = certificateNumber,
-#                         CertifyingAuthority = certifyingAuthority,
-#                         CertificateValidTill = certificateValidTill,
-#                         TrainerId = lastuser,
-#                         CreatedBy = user.name,
-#                         CreatedDate = datetime.datetime.now(),
-#                         UpdatedBy = user.name,
-#                         UpdatedDate = datetime.datetime.now(),
-#                     )
-#                     new_trainer_qualification.save()
-#                 except Exception as e:
-#                     messages.error(request, f"{e}")
-#                     return redirect('trainers')
-                
-#                 messages.success(request, "Registration successful Trainer "+ name +" Login to continue")
-#                 return redirect('trainers')
-#             else:
-#                 languages = Languages.objects.all()
-#                 levels = Level.objects.all()
-#                 context = {'User': user,
-#                            'languages': languages,
-#                            'levels':levels,
-#                            'Trainers':'active'}
-#                 return render(request, 'inlingua/addtrainer.html', context)
-#         else:
-#             messages.error(request, "You do not have permission to add a trainer")
-#             return redirect('home')
-#     else:
-#         messages.warning(request, "Please login first!")
-#         return redirect('login')
+            context = {'Trainers':'active'}
+            return render(request, 'inlingua/addtrainer.html', context)
     
 # def trainerprofileupdate(request, id):
 #     if request.user.is_authenticated:

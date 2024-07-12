@@ -6,11 +6,19 @@ function student_details(nextSection, currentStepIcon) {
     const studentdob = document.getElementById('studentdob').value.trim();
     const studentaadharcard = document.getElementById('studentaadharcard').value.trim();
 
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const numberRegex = /^\d{10}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
     let isValid = true;
 
-    if (studentname === '') {
+    if (studentname === '' ) {
         document.getElementById('studentname').style.border = '1px solid red';
         document.getElementById('studentname-error').textContent = 'Student Name is required';
+        isValid = false;
+    } else if(!nameRegex.test(studentname)){
+        document.getElementById('studentname').style.border = '1px solid red';
+        document.getElementById('studentname-error').textContent = 'Should not have special charecter';
         isValid = false;
     } else {
         document.getElementById('studentname').style.border = '';
@@ -21,7 +29,11 @@ function student_details(nextSection, currentStepIcon) {
         document.getElementById('studentmobilenumber').style.border = '1px solid red';
         document.getElementById('studentmobilenumber-error').textContent = 'Student Mobile number is required';
         isValid = false;
-    } else {
+    } else if (!numberRegex.test(studentmobilenumber)){
+        document.getElementById('studentmobilenumber').style.border = '1px solid red';
+        document.getElementById('studentmobilenumber-error').textContent = 'Number should be Exactly 10 Digits';
+    } 
+    else {
         document.getElementById('studentmobilenumber').style.border = '';
         document.getElementById('studentmobilenumber-error').textContent = '';
     }
@@ -30,7 +42,12 @@ function student_details(nextSection, currentStepIcon) {
         document.getElementById('email').style.border = '1px solid red';
         document.getElementById('email-error').textContent = 'Student Mail is required';
         isValid = false;
-    } else {
+    } else if (!emailRegex.test(email)){
+        document.getElementById('email').style.border = '1px solid red';
+        document.getElementById('email-error').textContent = 'Mail should be Valid Mail Address';
+        isValid = false;
+    }
+    else {
         document.getElementById('email').style.border = '';
         document.getElementById('email-error').textContent = '';
     }
