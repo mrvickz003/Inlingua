@@ -51,6 +51,34 @@ class NameOfCounselor(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Trainer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    languages = models.ManyToManyField(Language)
+    levels = models.ManyToManyField(LevelsAndHour)
+    is_trainer_head = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
+class TrainerQualifications(models.Model):
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+    qualification = models.CharField(max_length=255)
+    institution = models.CharField(max_length=255)
+    year = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.trainer.user.username} - {self.qualification}"
+
+class TrainingBatch(models.Model):
+    name = models.CharField(max_length=255)
+    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    def __str__(self):
+        return self.name
+
 
 class StudentTable(models.Model):
     WEEK_DAYS = 'Week Days'
@@ -66,6 +94,8 @@ class StudentTable(models.Model):
         (FULL, 'Full'),
         (PART, 'Part'),
     ]
+
+    
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     Student_ID = models.CharField(unique=True, default=generate_customer_id, null=False, blank=False, max_length=20)
