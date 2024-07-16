@@ -1,7 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from Inlingua_app.models import (User, Language, TrainerQualifications, LevelsAndHour)
+from Inlingua_app.models import (User, Language, TrainerQualifications, LevelsAndHour, trainer_table)
 
 def trainers_view(request):
         languages = Language.objects.all() 
@@ -16,33 +16,36 @@ def trainers_view(request):
         }
         return render(request, "inlingua/trainers.html", context)
     
-# def trainer_view(request,id):
-#     if request.user.is_authenticated:
-#         user_id = request.user.id
-#         user = User.objects.get(id=user_id)
+def add_trainer(request):
+    if request.method == 'POST':
+        # Retrieve all form fields
+        trainer_name = request.POST.get('trainer_name')
+        trainer_dob = request.POST.get('trainer_dob')
+        trainer_education = request.POST.get('trainer_education')
+        trainer_mail = request.POST.get('trainer_mail')
+        trainer_phone = request.POST.get('trainer_phone')
+        trainer_languages = request.POST.get('trainer_languages')
+        trainer_address = request.POST.get('trainer_address')
+        trainer_photo = request.FILES.get('trainer_photo')  # Use request.FILES for file fields
+        trainer_bank_details = request.POST.get('trainer_bank')
+        trainer_aadhar = request.POST.get('trainer_aadhar')
+        trainer_role = request.POST.get('trainer_role')
 
-#         if user.is_staff and user.is_superuser:
-#             try:
-#                 training = TrainerQualifications.objects.get(ID=id)
-#             except:
-#                 messages.warning(request, "No such trainer exists!")
-#                 return redirect('trainers')
-#             training_batches = TrainingBatches.objects.filter(TrainerId = training.TrainerId.ID)
-#             Student_details = StudentDetails.objects.all()
-            
-#             context = {'User': user,
-#                        'Trainers':'active',
-#                        'training':training,
-#                        'training_batches':training_batches,
-#                        'Student_details':Student_details,
-#                        }
-#             return render(request, "inlingua/trainers.html",context)
-#         else:
-#             messages.error(request,"You do not have permission to view this page.")
-#             return redirect('home')
-#     else:
-#         messages.error(request,  "Please login first")
-#         return redirect('login')
+        # Example: Create a Trainer object and save it to the database
+        new_trainer = trainer_table.objects.create(
+            name=trainer_name,
+            dob=trainer_dob,
+            education=trainer_education,
+            mail=trainer_mail,
+            phone=trainer_phone,
+            languages=trainer_languages,
+            address=trainer_address,
+            photo=trainer_photo,
+            bank_details=trainer_bank_details,
+            aadhar=trainer_aadhar,
+            role=trainer_role
+        )
+        new_trainer.save()
 
 # def add_trainer_head(request, id):
 #     if request.user.is_authenticated:
