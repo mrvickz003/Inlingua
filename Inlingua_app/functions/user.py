@@ -85,7 +85,7 @@ def addstudent(request):
         )
         student.save()
         send_welcome_email(student.Student_Mail_Id, student.Student_Name)
-        return redirect('Students') 
+        return redirect('student_list') 
 
     context = {
         'Students': 'active',
