@@ -2,6 +2,42 @@ import datetime as dt
 from django.db import models
 from django.contrib.auth.models import User
 
+def Employee_data(instance, filename):
+    Year = dt.datetime.now().year
+    return f'Employee/{Year}/{instance.employee_ID}/{filename}'
+
+def generate_employee_id():
+    Year = str(dt.datetime.now().year)
+    last_employee = employees.objects.order_by('-id').first()
+    year = Year[2:]  # This ensures `year` is always assigned
+    if last_employee and last_employee.Created_date.year == dt.datetime.now().year:
+        last_id = int(last_employee.employee_ID[7:])
+        new_id = last_id + 1
+    else:
+        new_id = 1
+    return f'INL{year}EMP{new_id:04d}'
+
+class employees(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    employee_ID = models.CharField(unique=True, default=generate_employee_id, null=False, blank=False, max_length=20)
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    employee_photo = models.FileField(upload_to=Employee_data, null=True, blank=True)
+    address = models.CharField(max_length=100)
+    date_of_birth = models.DateField()
+    date_of_joining = models.DateField()
+    designation = models.CharField(max_length=100)
+    is_admin = models.BooleanField(default=False)
+    is_business_manager = models.BooleanField(default=False)
+    is_trainer_head = models.BooleanField(default=False)
+    is_trainer = models.BooleanField(default=False)
+    is_accoountant = models.BooleanField(default=False)
+    is_business_development_executive = models.BooleanField(default=False)
+    
+
+    def __str__(self):
+        return self.name
+
 def Students_data(instance, filename):
     Year = dt.datetime.now().year
     return f'Students/{Year}/{instance.Student_ID}/{filename}'
@@ -15,7 +51,7 @@ def generate_customer_id():
         new_id = last_id + 1
     else:
         new_id = 1
-    return f'ING{year}S{new_id:04d}'
+    return f'INL{year}STD{new_id:04d}'
 
 class Language(models.Model):
     name = models.CharField(max_length=100)
@@ -95,6 +131,7 @@ class StudentTable(models.Model):
 from django.db import models
 
 class trainer_table(models.Model):
+    employee_ID = models.CharField(unique=True, default=generate_employee_id, null=False, blank=False, max_length=20)
     trainer_name_mod = models.CharField(max_length=100)
     trainer_dob_mod = models.DateField()
     trainer_education_mod = models.CharField(max_length=100)
