@@ -16,13 +16,11 @@ def user_page(request):
 def student_list(request):
     all_students = StudentTable.objects.all()[::-1]
     paginator = Paginator(all_students, 10)
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
     context = {
         'Students':'active',
-        'all_students': page_obj,
+        'all_students': page_obj, 
         'page_obj': page_obj,
     }
     
@@ -87,7 +85,7 @@ def addstudent(request):
         )
         student.save()
         send_welcome_email(student.Student_Mail_Id, student.Student_Name)
-        return redirect('students') 
+        return redirect('Students') 
 
     context = {
         'Students': 'active',
