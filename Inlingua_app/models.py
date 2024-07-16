@@ -51,34 +51,6 @@ class NameOfCounselor(models.Model):
 
     def __str__(self):
         return self.name
-    
-class Trainer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    languages = models.ManyToManyField(Language)
-    levels = models.ManyToManyField(LevelsAndHour)
-    is_trainer_head = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.user.username
-
-class TrainerQualifications(models.Model):
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-    qualification = models.CharField(max_length=255)
-    institution = models.CharField(max_length=255)
-    year = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.trainer.user.username} - {self.qualification}"
-
-class TrainingBatch(models.Model):
-    name = models.CharField(max_length=255)
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField()
-
-    def __str__(self):
-        return self.name
-
 
 class StudentTable(models.Model):
     WEEK_DAYS = 'Week Days'
@@ -94,8 +66,6 @@ class StudentTable(models.Model):
         (FULL, 'Full'),
         (PART, 'Part'),
     ]
-
-    
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     Student_ID = models.CharField(unique=True, default=generate_customer_id, null=False, blank=False, max_length=20)
@@ -121,3 +91,32 @@ class StudentTable(models.Model):
 
     def __str__(self):
         return f'{self.Student_ID} -- {self.Student_Name}'
+
+from django.db import models
+
+class trainer_table(models.Model):
+    trainer_name_mod = models.CharField(max_length=100)
+    trainer_dob_mod = models.DateField()
+    trainer_education_mod = models.CharField(max_length=100)
+    trainer_mail_mod = models.EmailField()
+    trainer_phone_mod = models.CharField(max_length=15)  # Assuming phone number can include international format
+    trainer_languages_mod = models.CharField(max_length=100)
+    trainer_address_mod = models.TextField()
+    trainer_photo_mod= models.ImageField(upload_to='trainer_photos/')
+    trainer_bank_details_mod = models.CharField(max_length=100)
+    trainer_aadhar_mod = models.CharField(max_length=12)  # Assuming Aadhar number has 12 digits
+    trainer_role_mod = models.CharField(max_length=100)  # Adjust max_length as per your role field requirements
+
+    def __str__(self):
+        return self.trainer_name_mod
+    
+
+class TrainerQualifications(models.Model):
+    trainer = models.ForeignKey(trainer_table, on_delete=models.CASCADE)
+    qualification = models.CharField(max_length=255)
+    institution = models.CharField(max_length=255)
+    year = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.trainer.user.username} - {self.qualification}"
+
