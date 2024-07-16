@@ -15,7 +15,7 @@ def trainers_view(request):
             'Trainers': 'active'
         }
         return render(request, "inlingua/trainers.html", context)
-                     
+    
 # def trainer_view(request,id):
 #     if request.user.is_authenticated:
 #         user_id = request.user.id
