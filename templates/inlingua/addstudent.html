@@ -154,11 +154,11 @@ Add student | Inlingua
         </div>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="Course-type">Course Type <strong class="text-danger">*</strong></label>
+                <label for="Course-type">Batch Preferences <strong class="text-danger">*</strong></label>
             </div>
             <div class="col-4">
                 <select name="Course-type" id="Course-type" class="form-select">
-                    <option value="">Select Course Type </option>
+                    <option value="">Select Batch Preferences </option>
                     {% for Course in Course_Type %}
                     <option value="{{ Course.0 }}">{{ Course.1 }}</option>
                     {% endfor %}

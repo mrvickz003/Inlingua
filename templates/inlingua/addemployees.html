@@ -1,0 +1,487 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}
+Add student | Inlingua
+{% endblock %}
+{% block style %}
+<!-- <link rel="stylesheet" href="{% static 'css/add_students.css' %}"> -->
+{% endblock %}
+{% block container %}
+{% include 'inc/sidebar.html' %}
+{% include 'inc/message.html' %}
+<style>
+    .bxs-check-circle {
+    position: relative;
+}
+
+.bxs-check-circle-after::after {
+    content: "";
+    position: absolute;
+    bottom: 10px; 
+    left:56%; 
+    transform: translateX(-50%);
+    width: 97%; 
+    height: 3px; 
+    background: #6c757d; 
+}
+.step-completed::after {
+    content: "";
+    position: absolute;
+    bottom: 10px; 
+    left: 56%; 
+    transform: translateX(-50%);
+    width: 97%; 
+    height: 3px; 
+    background: #FF751A; 
+}
+</style>
+<div class="">
+    <div class="row pt-3">
+        <div class="col-1"></div>
+        <div class="col-4 after-effect">
+            <div class="d-flex align-items-center gap-3 details-container">
+                <div>
+                    <p class="p-0 m-0">Step 1</p>
+                    <p class="p-0 m-0 text-primary" id="step1-lable">Employee Details</p>
+                </div>
+            </div>
+            <i id="step1-icon" class='bx bxs-check-circle bxs-check-circle-after text-muted fs-4 w-100'></i>
+        </div>
+        <div class="col-4 after-effect">
+            <div class="d-flex align-items-center gap-3 details-container">
+                <div>
+                    <p class="p-0 m-0">Step 2</p>
+                    <p class="p-0 m-0 text-primary">Role Details</p>
+                </div>
+            </div>
+            <i id="step2-icon" class='bx bxs-check-circle bxs-check-circle-after text-muted fs-4 w-100'></i>
+        </div>
+        <div class="col-2 after-effect">
+            <div class="d-flex align-items-center gap-3">
+                <div>
+                    <p class="p-0 m-0">Step 3</p>
+                    <p class="p-0 m-0 text-primary">Bank Details</p>
+                </div>
+            </div>
+            <i id="step3-icon" class='bx bxs-check-circle text-muted fs-4 w-100'></i>
+        </div>
+    </div>
+</div>
+<form action="" method="post" id="student-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Employee Details -->
+    <div id="student-details" class="section mt-5">
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="employeename">Employee Name <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="text" id="employeename" name="employeename" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="employeename-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="employeephonenumber">Employee Phone No <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="number" id="employeephonenumber" name="employeephonenumber" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="employeephonenumber-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="employeemail">Employee Mail Id <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="email" id="employeemail" name="employeemail" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="employeemail-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="employeedob">Employee Date of Birth <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="date" id="employeedob" name="employeedob" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="employeedob-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="employeedoj">Employee Date of Join <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="date" id="employeedoj" name="employeedoj" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="employeedoj-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="employeeaadharcard">Identity Card (Aadhar card Copy) <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="file" id="employeeaadharcard" name="employeeaadharcard" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="employeeaadharcard-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="employeaddress">Employee Address <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <textarea name="employeaddress" id="employeaddress" rows="4" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="Employeephoto">Employee Photo</label>
+            </div>
+            <div class="col-4">
+                <input type="file" id="Employeephoto" name="Employeephoto" class="form-control">
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <button type="button" onclick="validateEmployeeDetails()" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Role Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Roles Details -->
+    <div id="role-details" class="section mt-5 d-none">
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="isadmin">Is admin</label>
+            </div>
+            <div class="col-4">
+                <select name="isadmin" id="isadmin" class="form-select">
+                    <option value="false">NO</option>
+                    <option value="true">Yes</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="isbusinessmanager">Is Business Manager</label>
+            </div>
+            <div class="col-4">
+                <select name="isbusinessmanager" id="isbusinessmanager" class="form-select">
+                    <option value="false">NO</option>
+                    <option value="true">Yes</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="trainerhead">Is Trainer Head</label>
+            </div>
+            <div class="col-4">
+                <select name="trainerhead" id="trainerhead" class="form-select">
+                    <option value="false">NO</option>
+                    <option value="true">Yes</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="isaccountant">Is accountant</label>
+            </div>
+            <div class="col-4">
+                <select name="isaccountant" id="isaccountant" class="form-select">
+                    <option value="false">NO</option>
+                    <option value="true">Yes</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="businessdevelopment">Is Business Development Executive</label>
+            </div>
+            <div class="col-4">
+                <select name="businessdevelopment" id="businessdevelopment" class="form-select">
+                    <option value="false">NO</option>
+                    <option value="true">Yes</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-end gap-1">
+                <button type="button" onclick="goBackToEmployeeDetails()" class="btn btn-outline-secondary rounded-pill">Go Back</button>
+                <button type="button" onclick="validateRoleDetails()" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Payment Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bank Details -->
+    <div id="bank-details" class="section mt-5 d-none">
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="bankaccountnumber">Bank Account Number <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="number" id="bankaccountnumber" name="bankaccountnumber" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="bankaccountnumber-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="bankname">Bank Name <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="text" id="bankname" name="bankname" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="bankname-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="bankbranch">Bank Branch <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="text" id="bankbranch" name="bankbranch" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="bankbranch-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="bankifsccode">Bank IFSC Code <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="text" id="bankifsccode" name="bankifsccode" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="bankifsccode-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="Passbookcopy">Passbook Copy <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="file" id="Passbookcopy" name="Passbookcopy" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="Passbookcopy-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-end gap-1">
+                <button type="button" onclick="goBackToRoleDetails()" class="btn btn-outline-secondary rounded-pill">Go Back</button>
+                <button type="button" onclick="validateAndSubmitForm()" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Save Employee</button>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+{% block script %}
+<script>
+    function showError(elementId, errorMessage) {
+        document.getElementById(elementId).innerText = errorMessage;
+    }
+
+    function clearError(elementId) {
+        document.getElementById(elementId).innerText = '';
+    }
+
+    function isValidEmail(email) {
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return emailPattern.test(email);
+    }
+
+    function isValidPhoneNumber(phoneNumber) {
+        return phoneNumber.length === 10 && /^[0-9]+$/.test(phoneNumber);
+    }
+
+    function isValidName(name) {
+        const namePattern = /^[a-zA-Z\s]+$/;
+        return namePattern.test(name);
+    }
+
+    function isValidIFSC(ifsc) {
+        return ifsc.length <= 10;
+    }
+
+    function isValidDateOfBirth(dob) {
+        const dobDate = new Date(dob);
+        const today = new Date();
+        const age = today.getFullYear() - dobDate.getFullYear();
+        return age >= 18;
+    }
+
+    function isValidDateOfJoin(doj) {
+        const dojDate = new Date(doj);
+        const today = new Date();
+        const minDate = new Date(today);
+        const maxDate = new Date(today);
+        minDate.setDate(today.getDate() - 10);
+        maxDate.setDate(today.getDate() + 10);
+        return dojDate >= minDate && dojDate <= maxDate;
+    }
+
+    function validateEmployeeDetails() {
+        let isValid = true;
+
+        const employeename = document.getElementById('employeename').value;
+        if (!isValidName(employeename)) {
+            showError('employeename-error', 'Invalid name. No special characters allowed.');
+            isValid = false;
+        } else {
+            clearError('employeename-error');
+        }
+
+        const employeephonenumber = document.getElementById('employeephonenumber').value;
+        if (!isValidPhoneNumber(employeephonenumber)) {
+            showError('employeephonenumber-error', 'Phone number must be 10 digits.');
+            isValid = false;
+        } else {
+            clearError('employeephonenumber-error');
+        }
+
+        const employeemail = document.getElementById('employeemail').value;
+        if (!isValidEmail(employeemail)) {
+            showError('employeemail-error', 'Invalid email address.');
+            isValid = false;
+        } else {
+            clearError('employeemail-error');
+        }
+
+        const employeedob = document.getElementById('employeedob').value;
+        if (!isValidDateOfBirth(employeedob)) {
+            showError('employeedob-error', 'Age must be at least 18 years.');
+            isValid = false;
+        } else {
+            clearError('employeedob-error');
+        }
+
+        const employeedoj = document.getElementById('employeedoj').value;
+        if (!isValidDateOfJoin(employeedoj)) {
+            showError('employeedoj-error', 'Joining date must be within 10 days from today.');
+            isValid = false;
+        } else {
+            clearError('employeedoj-error');
+        }
+
+        const employeeaadharcard = document.getElementById('employeeaadharcard').files[0];
+        if (employeeaadharcard && employeeaadharcard.type !== 'application/pdf') {
+            showError('employeeaadharcard-error', 'Only PDF files are allowed.');
+            isValid = false;
+        } else {
+            clearError('employeeaadharcard-error');
+        }
+
+        if (isValid) {
+            document.getElementById('student-details').classList.add('d-none');
+            document.getElementById('role-details').classList.remove('d-none');
+            document.getElementById('step1-icon').classList.remove('text-muted');
+            document.getElementById('step1-icon').classList.add('text-primary', 'step-completed');
+
+        }
+    }
+
+    function goBackToEmployeeDetails() {
+        document.getElementById('role-details').classList.add('d-none');
+        document.getElementById('student-details').classList.remove('d-none');
+        document.getElementById('step1-icon').classList.add('text-muted');
+        document.getElementById('step1-icon').classList.remove('text-primary', 'step-completed');
+    }
+
+    function validateRoleDetails() {
+        const isadmin = document.getElementById('isadmin').value;
+        const isbusinessmanager = document.getElementById('isbusinessmanager').value;
+        const trainerhead = document.getElementById('trainerhead').value;
+        const isaccountant = document.getElementById('isaccountant').value;
+        const businessdevelopment = document.getElementById('businessdevelopment').value;
+
+        if (isadmin === 'false' && isbusinessmanager === 'false' && trainerhead === 'false' && isaccountant === 'false' && businessdevelopment === 'false') {
+            alert('At least one role must be selected.');
+            return;
+        }
+
+        document.getElementById('role-details').classList.add('d-none');
+        document.getElementById('bank-details').classList.remove('d-none');
+        document.getElementById('step2-icon').classList.remove('text-muted');
+        document.getElementById('step2-icon').classList.add('text-primary', 'step-completed');
+    }
+
+    function goBackToRoleDetails() {
+        document.getElementById('bank-details').classList.add('d-none');
+        document.getElementById('role-details').classList.remove('d-none');
+        document.getElementById('step2-icon').classList.add('text-muted');
+        document.getElementById('step2-icon').classList.remove('text-primary', 'step-completed');
+    }
+
+    function validateAndSubmitForm() {
+        let isValid = true;
+
+        const bankaccountnumber = document.getElementById('bankaccountnumber').value;
+        if (bankaccountnumber.length === 0) {
+            showError('bankaccountnumber-error', 'Bank account number is required.');
+            isValid = false;
+        } else {
+            clearError('bankaccountnumber-error');
+        }
+
+        const bankname = document.getElementById('bankname').value;
+        if (!isValidName(bankname)) {
+            showError('bankname-error', 'Invalid bank name. No special characters or numbers allowed.');
+            isValid = false;
+        } else {
+            clearError('bankname-error');
+        }
+
+        const bankbranch = document.getElementById('bankbranch').value;
+        if (!isValidName(bankbranch)) {
+            showError('bankbranch-error', 'Invalid bank branch. No special characters or numbers allowed.');
+            isValid = false;
+        } else {
+            clearError('bankbranch-error');
+        }
+
+        const bankifsccode = document.getElementById('bankifsccode').value;
+        if (!isValidIFSC(bankifsccode)) {
+            showError('bankifsccode-error', 'IFSC code must be 10 characters long.');
+            isValid = false;
+        } else {
+            clearError('bankifsccode-error');
+        }
+
+        const passbookcopy = document.getElementById('Passbookcopy').files[0];
+        if (passbookcopy && passbookcopy.type !== 'application/pdf') {
+            showError('Passbookcopy-error', 'Only PDF files are allowed.');
+            isValid = false;
+        } else {
+            clearError('Passbookcopy-error');
+        }
+
+        if (isValid) {
+            document.getElementById('step2-icon').classList.add('text-muted');
+            document.getElementById('step2-icon').classList.remove('text-primary');
+            document.getElementById('student-form').submit();
+        }
+    }
+</script>
+{% endblock %}

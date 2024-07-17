@@ -12635,7 +12635,7 @@ fieldset:disabled .btn {
     background: #FF751A !important;
 }
 
-.form-control:focus {
+.form-control:focus, .form-select:focus {
     box-shadow: none !important;
     border:1px solid #ced4da !important;
 }
