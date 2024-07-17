@@ -17,23 +17,49 @@ def generate_employee_id():
         new_id = 1
     return f'INL{year}EMP{new_id:04d}'
 
+class CurrentRole(models.Model):
+    current_role = models.CharField(max_length=31)
+
+    @classmethod
+    def create_roles(cls):
+        roles = ['Admin', 'Business Manager', 'Trainer Head', 'Accountant', 'Business Development Executive']
+        for role in roles:
+            if not cls.objects.filter(current_role=role).exists():
+                cls.objects.create(current_role=role)
+
+    def __str__(self):
+        return self.current_role
+    
 class employees(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     employee_ID = models.CharField(unique=True, default=generate_employee_id, null=False, blank=False, max_length=20)
     name = models.CharField(max_length=100)
     phone = models.CharField(max_length=20)
+    email = models.EmailField(max_length=100)
+    Date_of_birth = models.DateField(null=True, blank=True)
     employee_photo = models.FileField(upload_to=Employee_data, null=True, blank=True)
-    address = models.CharField(max_length=100)
-    date_of_birth = models.DateField()
+    aadhar_card = models.FileField(upload_to=Employee_data, null=True, blank=True)
+    address = models.TextField(max_length=100)
     date_of_joining = models.DateField()
-    designation = models.CharField(max_length=100)
+    bank_account_number = models.IntegerField()
+    bank_name = models.CharField(max_length=100)
+    bank_branch = models.CharField(max_length=100)
+    bank_ifsc = models.CharField(max_length=11)
+    passbook = models.FileField(upload_to=Employee_data, null=True, blank=True)
+    
+    # Roles
     is_admin = models.BooleanField(default=False)
     is_business_manager = models.BooleanField(default=False)
     is_trainer_head = models.BooleanField(default=False)
     is_trainer = models.BooleanField(default=False)
     is_accoountant = models.BooleanField(default=False)
     is_business_development_executive = models.BooleanField(default=False)
-    
+    current_role = models.ForeignKey(CurrentRole, on_delete=models.CASCADE)
+
+    Created_by = models.CharField(max_length=100)
+    Created_date = models.DateTimeField(auto_now_add=True)
+    Updated_by = models.CharField(max_length=100, null=True, blank=True)
+    Updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -45,7 +71,7 @@ def Students_data(instance, filename):
 def generate_customer_id():
     Year = str(dt.datetime.now().year)
     last_student = StudentTable.objects.order_by('-id').first()
-    year = Year[2:]  # This ensures `year` is always assigned
+    year = Year[2:]
     if last_student and last_student.Created_date.year == dt.datetime.now().year:
         last_id = int(last_student.Student_ID[7:])
         new_id = last_id + 1
