@@ -94,7 +94,7 @@ class StudentTable(models.Model):
 
 from django.db import models
 
-class trainer_table(models.Model):
+class TrainerTable(models.Model):
     trainer_name_mod = models.CharField(max_length=100)
     trainer_dob_mod = models.DateField()
     trainer_education_mod = models.CharField(max_length=100)
@@ -112,7 +112,7 @@ class trainer_table(models.Model):
     
 
 class TrainerQualifications(models.Model):
-    trainer = models.ForeignKey(trainer_table, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(TrainerTable, on_delete=models.CASCADE)
     qualification = models.CharField(max_length=255)
     institution = models.CharField(max_length=255)
     year = models.IntegerField()

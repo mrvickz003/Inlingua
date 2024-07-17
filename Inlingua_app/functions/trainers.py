@@ -1,7 +1,7 @@
 import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from Inlingua_app.models import (User, Language, TrainerQualifications, LevelsAndHour, trainer_table)
+from Inlingua_app.models import (User, Language, TrainerQualifications, LevelsAndHour, TrainerTable)
 
 def trainers_view(request):
         languages = Language.objects.all() 
@@ -32,7 +32,7 @@ def add_trainer(request):
         trainer_role = request.POST.get('trainer_role')
 
         # Example: Create a Trainer object and save it to the database
-        new_trainer = trainer_table.objects.create(
+        new_trainer = TrainerTable.objects.create(
             name=trainer_name,
             dob=trainer_dob,
             education=trainer_education,
