@@ -1,0 +1,19 @@
+# Ignore Django database file
+db.sqlite3
+
+# Ignore media files
+/media/
+/Inlingua_app/migrations/
+
+# Ignore virtual environment
+/venv/
+
+# Ignore IDE-specific files
+.vscode/
+*.pyc
+
+# Ignore deployment-specific files
+/deployment/
+
+# Ignore sensitive or local configuration files
+/config/local_settings.py
