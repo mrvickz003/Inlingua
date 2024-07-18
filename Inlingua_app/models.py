@@ -11,7 +11,7 @@ def generate_employee_id():
     last_employee = employees.objects.order_by('-id').first()
     year = Year[2:]
     if last_employee and last_employee.Created_date.year == dt.now().year:
-        last_id = int(last_employee.employee_ID[7:])
+        last_id = int(last_employee.employee_ID[9:])
         new_id = last_id + 1
     else:
         new_id = 1
@@ -47,10 +47,19 @@ def generate_trainer_id():
         new_id = 1
     return f'INL{year}TR{new_id:04d}'
 
-class CurrentRole(models.Model):
-    current_role = models.CharField(max_length=31)
-
 class employees(models.Model):
+    isadmin = 'isadmin'
+    isbusinessmanager = 'isbusinessmanager'
+    trainerhead = 'rainerhead'
+    isaccountant = 'isaccountant'
+    businessdevelopment = 'businessdevelopment'
+    COURSE_CURRENT_ROLE = [
+        (isadmin, 'Admin'),
+        (isbusinessmanager, 'Business Manager (BM)'),
+        (trainerhead, 'Trainer Head (TD)'),
+        (isaccountant, 'Accountant (AC)'),
+        (businessdevelopment, 'Business Development Executive (BDE)'),
+    ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_employees')
     employee_ID = models.CharField(unique=True, default=generate_employee_id, null=False, blank=False, max_length=20)
     name = models.CharField(max_length=100)
@@ -71,15 +80,14 @@ class employees(models.Model):
     is_admin = models.BooleanField(default=False)
     is_business_manager = models.BooleanField(default=False)
     is_trainer_head = models.BooleanField(default=False)
-    is_trainer = models.BooleanField(default=False)
     is_accoountant = models.BooleanField(default=False)
     is_business_development_executive = models.BooleanField(default=False)
-    current_role = models.ForeignKey(CurrentRole, on_delete=models.CASCADE)
+    current_role = models.CharField(choices=COURSE_CURRENT_ROLE, max_length=40)
 
     Created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employees_created_by')
     Created_date = models.DateTimeField()
     Updated_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='employees_updated_by')
-    Updated_date = models.DateTimeField()
+    Updated_date = models.DateTimeField(null=True, blank=True,)
 
     def __str__(self):
         return self.name

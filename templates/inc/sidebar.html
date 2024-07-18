@@ -10,7 +10,7 @@
             <i class='bx bx-menu' id="header-toggle"></i>
         </div>
         <div>
-            <p class="m-0 p-0 fw-bold fs-5">Welcome {{request.user}} <span style="color: #FF751A;">INL24EMP0001</span> </p>
+            <p class="m-0 p-0 fw-bold fs-5">Welcome {{current_employee.name}} <span style="color: #FF751A;">{{request.user}} </span> </p>
         </div>
     </div>
     <div class="d-flex align-items-center justify-content-between">
@@ -19,21 +19,29 @@
                 <div class="d-flex align-items-center justify-content-between border rounded-pill p-1 gap-2"
                     id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
                     <div class="header_img m-0">
-                        {% if request.user.user_img %}
-                        <img src="{{ request.user.user_img.url }}" alt="User Img">
+                        {% if current_employee.employee_photo %}
+                        <img src="{{ current_employee.employee_photo.url }}" alt="User Img">
                         {% else %}
                         <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img">
                         {% endif %}
                     </div>
-                    <p class="m-0 p-0 text-primary fw-bold fs-5">Admin <i class="bi bi-caret-down-fill"></i></p>
+                    <p class="m-0 p-0 text-primary fw-bold fs-5">{{current_employee.current_role}} <i class="bi bi-caret-down-fill"></i></p>
                 </div>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                    <li><a class="dropdown-item active" href="#">Admin</a></li>
-                    <li><a class="dropdown-item" href="#">Business Manager (BM)</a></li>
-                    <li><a class="dropdown-item" href="#">Trainer Head (TH)</a></li>
-                    <li><a class="dropdown-item" href="#">Trainer</a></li>
-                    <li><a class="dropdown-item" href="#">Accountant</a></li>
-                    <li><a class="dropdown-item" href="#">Business Development Executive (BDE)</a></li>
+                    {% for role_code, role_name in role_choices %}
+                        <li>
+                            <form action="{% url 'rolemaping' role=role_name %}" method="post">
+                                {% csrf_token %}
+                                <input type="submit" class="dropdown-item
+                                {% if not current_employee.is_admin and role_name == 'Admin' %}disabled text-muted{% endif %}
+                                {% if not current_employee.is_business_manager and role_name == 'Business Manager (BM)' %}disabled text-muted{% endif %}
+                                {% if not current_employee.is_trainer_head and role_name == 'Trainer Head (TD)' %}disabled text-muted{% endif %}
+                                {% if not current_employee.is_accoountant and role_name == 'Accountant (AC)' %}disabled text-muted{% endif %}
+                                {% if not current_employee.is_business_development_executive and role_name == 'Business Development Executive (BDE)' %}disabled text-muted{% endif %}
+                                {% if current_employee.current_role == role_name %}active{% endif %}" value="{{ role_name }}">
+                            </form>
+                        </li>
+                    {% endfor %}
                     <li>
                         <hr class="dropdown-divider">
                     </li>
@@ -50,7 +58,7 @@
                 <img src="{% static 'img/imgs/L1.webp' %}" alt="Webside logo img" width="150px">
             </a>
             <div class="nav_list">
-                <a href="" class="nav_link {{Dashboard}}">
+                <a href="{% url 'dashboard' %}" class="nav_link {{Dashboard}}">
                     <i class='bx bx-grid-alt nav_icon'></i>
                     <span class="nav_name">Dashboard</span>
                 </a>
@@ -65,10 +73,6 @@
                 <a href="{% url 'student_list' %}" class="nav_link {{Students}}">
                     <i class='bx bx-user nav_icon'></i>
                     <span class="nav_name">Student</span>
-                </a>
-                <a href="" class="nav_link {{tables}}">
-                    <i class='bx bx-bookmark nav_icon'></i>
-                    <span class="nav_name">Languages</span>
                 </a>
                 <a href="" class="nav_link {{courceandlevels}}">
                     <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
