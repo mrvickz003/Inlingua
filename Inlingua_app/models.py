@@ -10,7 +10,7 @@ def generate_employee_id():
     Year = str(dt.datetime.now().year)
     last_employee = employees.objects.order_by('-id').first()
     year = Year[2:]  # This ensures `year` is always assigned
-    if last_employee and last_employee.Created_date.year == dt.datetime.now().year:
+    if last_employee and last_employee.created_date.year == dt.datetime.now().year:
         last_id = int(last_employee.employee_ID[7:])
         new_id = last_id + 1
     else:
@@ -33,7 +33,6 @@ class employees(models.Model):
     is_trainer = models.BooleanField(default=False)
     is_accoountant = models.BooleanField(default=False)
     is_business_development_executive = models.BooleanField(default=False)
-    
 
     def __str__(self):
         return self.name
@@ -130,8 +129,19 @@ class StudentTable(models.Model):
 
 from django.db import models
 
+def generate_trainer_id():
+    year = str(dt.datetime.now().year)[2:]
+    last_trainer = trainer_table.objects.order_by('-id').first()
+
+    if last_trainer and last_trainer.created_date.year == dt.datetime.now().year:
+        last_id = int(last_trainer.trainer_ID[7:])
+        new_id = last_id + 1
+    else:
+        new_id = 1
+    return f'INL{year}TRA{new_id:04d}'
+
 class trainer_table(models.Model):
-    employee_ID = models.CharField(unique=True, default=generate_employee_id, null=False, blank=False, max_length=20)
+    trainer_ID = models.CharField(unique=True, default=generate_trainer_id, null=False, blank=False, max_length=20)
     trainer_name_mod = models.CharField(max_length=100)
     trainer_dob_mod = models.DateField()
     trainer_education_mod = models.CharField(max_length=100)
@@ -142,7 +152,11 @@ class trainer_table(models.Model):
     trainer_photo_mod= models.ImageField(upload_to='trainer_photos/')
     trainer_bank_details_mod = models.CharField(max_length=100)
     trainer_aadhar_mod = models.CharField(max_length=12)  # Assuming Aadhar number has 12 digits
-    trainer_role_mod = models.CharField(max_length=100)  # Adjust max_length as per your role field requirements
+    trainer_role_mod = models.CharField(max_length=100, null=True)  # Adjust max_length as per your role field requirements
+    created_by = models.CharField(max_length=100)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_by = models.CharField(max_length=100, null=True, blank=True)
+    updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.trainer_name_mod
