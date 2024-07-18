@@ -21,7 +21,7 @@
             background-color: #ffffff;
         }
 
-        .img-container, .terms-container {
+        .img-container, .terms-container, .header {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -74,7 +74,8 @@
 
 <body>
     <div class="container">
-        <div class="header">
+        <div class="header" style="gap: 30px;">
+            <img src="{% static 'img/imgs/logo.png' %}" alt="" width="80">
             <h1>Welcome to Inlingua</h1>
         </div>
         <div class="content">

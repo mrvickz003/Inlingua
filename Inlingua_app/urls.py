@@ -1,9 +1,10 @@
 from django.urls import path
 from Inlingua_app.functions import (
+dashboard,
 login,
 user,
 trainers, 
-employees
+employees,
 )
 from django.contrib.auth import views as password_views
 from django.contrib.auth import views as auth_views
@@ -17,7 +18,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('login/', login.custom_login, name="login"),
-
+    
+    path('', dashboard.dashboard, name='dashboard'),
     path('students/', user.student_list, name='student_list'),
     path('mail/', user.mail, name='mail'),
     path('employees/', employees.employee_list, name='employee_list'),
@@ -27,6 +29,10 @@ urlpatterns = [
 
     path('trainers/', trainers.trainers_view, name="trainers"),
     path('trainers/addtrainers/', trainers.add_trainers, name="addtrainers"),
+
+
+    # Role maping
+    path('rolemaping/<str:role>', employees.rolemaping, name="rolemaping"),
 
     path('user/password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
     path('user/password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
