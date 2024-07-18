@@ -32,6 +32,7 @@ function student_details(nextSection, currentStepIcon) {
     } else if (!numberRegex.test(studentmobilenumber)){
         document.getElementById('studentmobilenumber').style.border = '1px solid red';
         document.getElementById('studentmobilenumber-error').textContent = 'Number should be Exactly 10 Digits';
+        isValid = false;
     } 
     else {
         document.getElementById('studentmobilenumber').style.border = '';
