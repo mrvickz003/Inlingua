@@ -16,7 +16,7 @@ function validateFormTrainer() {
     var isValid = true;
 
     // Clear previous error messages
-    document.getElementById('trainer-name-error').textContent = '';
+    document.getElementById('trainer-name-error').textContent = 'Kindly Add Trainer name';
     document.getElementById('trainer-dob-error').textContent = '';
     document.getElementById('trainer-mail-error').textContent = '';
     document.getElementById('trainer-phone-error').textContent = '';

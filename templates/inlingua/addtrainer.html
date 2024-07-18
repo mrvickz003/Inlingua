@@ -8,10 +8,14 @@ Add Trainer | Inlingua
 {% endblock %}
 
 {% block container %}
-
     {% include 'inc/sidebar.html' %}
     {% include 'inc/message.html' %}
-    <h4 class="card-title">Add Trainer</h4>
+    <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
+        <h4>Add Trainer</h4>
+        <div class="d-flex align-items-center gap-1">  
+            <a href="{% url 'trainers' %}" class="btn btn-outline-primary rounded-pill px-4">Back to list</a>
+        </div>
+    </div>
     <body>
         <div class="container mt-5">
             <form method="POST" enctype="multipart/form-data">
@@ -21,36 +25,36 @@ Add Trainer | Inlingua
                         <!-- Name -->
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" id="trainer_name" name="trainer_name" required>
+                            <input type="text" class="form-control" id="trainer_name" name="trainer_name">
                             <p class="p-0 m-0 text-danger" id="trainer-name-error"></p>
                         </div>
                         <!-- DOB -->
                         <div class="form-group">
                             <label for="dob">Date of Birth</label>
-                            <input type="date" class="form-control" id="trainer_dob" name="trainer_dob" required>
+                            <input type="date" class="form-control" id="trainer_dob" name="trainer_dob">
                             <p class="p-0 m-0 text-danger" id="trainer-dob-error"></p>
                         </div>
                         <!-- Education -->
                         <div class="form-group">
                             <label for="education">Education</label>
-                            <input type="text" class="form-control" id="trainer_education" name="trainer_education" required>
+                            <input type="text" class="form-control" id="trainer_education" name="trainer_education">
                         </div>
                         <!-- Mail -->
                         <div class="form-group">
                             <label for="mail">Mail</label>
-                            <input type="email" class="form-control" id="trainer_mail" name="trainer_mail" required>
+                            <input type="email" class="form-control" id="trainer_mail" name="trainer_mail">
                             <p class="p-0 m-0 text-danger" id="trainer-mail-error"></p>
                         </div>
                         <!-- Phone No -->
                         <div class="form-group">
                             <label for="phone">Phone No</label>
-                            <input type="tel" class="form-control" id="trainer_phone" name="trainer_phone" required>
+                            <input type="tel" class="form-control" id="trainer_phone" name="trainer_phone">
                             <p class="p-0 m-0 text-danger" id="trainer-phone-error"></p>
                         </div>
                         <!-- Languages -->
                         <div class="form-group">
                             <label for="languages">Languages</label>
-                            <input type="text" class="form-control" id="trainer_languages" name="trainer_languages" required>
+                            <input type="text" class="form-control" id="trainer_languages" name="trainer_languages">
                             <p class="p-0 m-0 text-danger" id="trainer-language-error"></p>
                         </div>
                     </div>
@@ -58,31 +62,31 @@ Add Trainer | Inlingua
                         <!-- Address -->
                         <div class="form-group">
                             <label for="address">Address</label>
-                            <textarea class="form-control" id="trainer_address" name="trainer_address" rows="3" required></textarea>
+                            <textarea class="form-control" id="trainer_address" name="trainer_address" rows="3"></textarea>
                         </div>
                         <!-- Photo -->
                         <div class="form-group">
                             <label for="photo">Photo</label>
-                            <input type="file" class="form-control-file" id="trainer_photo" name="trainer_photo" required>
+                            <input type="file" class="form-control-file" id="trainer_photo" name="trainer_photo">
                             <p class="p-0 m-0 text-danger" id="trainer-photo-error"></p>
                         </div>
                         <!-- Bank details -->
                         <div class="form-group">
                             <label for="bank">Bank details</label>
-                            <input type="text" class="form-control" id="trainer_bank" name="trainer_bank" required>
+                            <input type="text" class="form-control" id="trainer_bank" name="trainer_bank">
                         </div>
                         <!-- Aadhar -->
                         <div class="form-group">
                             <label for="aadhar">Aadhar</label>
-                            <input type="text" class="form-control" id="trainer_aadhar" name="trainer_aadhar" required>
+                            <input type="text" class="form-control" id="trainer_aadhar" name="trainer_aadhar">
                             <p class="p-0 m-0 text-danger" id="trainer-aadhar-error"></p>
                         </div>
                         <!-- Role -->
                         <div class="form-group">
                             <label for="role">Role</label>
-                            <select name="trainer-role" class="form-control" id="trainer_role" name="trainer_role" required>
+                            <select name="trainer-role" class="form-control" id="trainer_role" name="trainer_role">
                                 <option value="">Select Role</option>
-                                <option value="{trainer_role:0}">{trainer_role:1}</option>
+                                <option value="">Role 1</option>
                             </select>
                         </div>
                     </div>
