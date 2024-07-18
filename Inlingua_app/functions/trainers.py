@@ -2,16 +2,16 @@ import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
-from Inlingua_app.models import (User, Language, TrainerQualifications, LevelsAndHour, trainer_table)
+from Inlingua_app.models import *
 
 def trainers_view(request):
-    trainersList = trainer_table.objects.all()
+    trainersList = TrainerTable.objects.all()
     paginatorTrainer = Paginator(trainersList, 10)
     pageNumber = request.GET.get('page')
     pageObj = paginatorTrainer.get_page(pageNumber)
     context = {
         'Trainers': 'active',
-        'trainersList': trainer_table.objects.all(),
+        'trainersList': TrainerTable.objects.all(),
         'paginatorTrainer': pageObj,
         'PageObj': pageObj
     }
@@ -33,7 +33,7 @@ def add_trainers(request):
         trainer_role = request.POST.get('trainer_role')
 
     # Example: Create a Trainer object and save it to the database
-        new_trainer = trainer_table.objects.create(
+        new_trainer = TrainerTable.objects.create(
             trainer_name_mod = trainer_name,
             trainer_dob_mod = trainer_dob,
             trainer_education_mod = trainer_education,

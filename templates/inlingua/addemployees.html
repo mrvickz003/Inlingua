@@ -139,7 +139,7 @@ Add student | Inlingua
         </div>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="employeaddress">Employee Address <strong class="text-danger">*</strong></label>
+                <label for="employeaddress">Employee Address</label>
             </div>
             <div class="col-4">
                 <textarea name="employeaddress" id="employeaddress" rows="4" class="form-control"></textarea>
@@ -164,6 +164,7 @@ Add student | Inlingua
 
     <!-- Roles Details -->
     <div id="role-details" class="section mt-5 d-none">
+        <p class="m-0 p-0">Error</p>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
                 <label for="isadmin">Is admin</label>
@@ -219,6 +220,7 @@ Add student | Inlingua
                 </select>
             </div>
         </div>
+        <p class="m-0 p-0 text-danger text-center">Error</p>
         <div class="row mb-4">
             <div class="col-4">
             </div>
@@ -386,7 +388,8 @@ Add student | Inlingua
         }
 
         const employeeaadharcard = document.getElementById('employeeaadharcard').files[0];
-        if (employeeaadharcard && employeeaadharcard.type !== 'application/pdf') {
+        console.log(employeeaadharcard);
+        if (employeeaadharcard === undefined || employeeaadharcard.type !== 'application/pdf') {
             showError('employeeaadharcard-error', 'Only PDF files are allowed.');
             isValid = false;
         } else {
@@ -436,6 +439,8 @@ Add student | Inlingua
 
     function validateAndSubmitForm() {
         let isValid = true;
+        validateEmployeeDetails()
+        validateRoleDetails()
 
         const bankaccountnumber = document.getElementById('bankaccountnumber').value;
         if (bankaccountnumber.length === 0) {
