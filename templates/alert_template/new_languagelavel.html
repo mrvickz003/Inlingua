@@ -1,0 +1,36 @@
+<!-- Modal -->
+<div class="modal fade" id="addlanguagelevels" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Set Level and & Hourse</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'setlevelandhrs' %}" method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="language" class="form-label">Language</label>
+                    <select name="language" id="language" class="form-select" required>
+                        <option value="">Select Language</option>
+                        {% for language in languages %}
+                        <option value="{{ language.id }}">{{ language.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="level" class="form-label">Level</label>
+                    <input type="text" name="level" class="form-control" id="level" placeholder="XX1" required/>
+                </div>
+                <div class="mb-3">
+                    <label for="hrs" class="form-label">Hourse</label>
+                    <input type="number" name="hrs" class="form-control" id="hrs" placeholder="00" required/>
+                </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Language</button>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>

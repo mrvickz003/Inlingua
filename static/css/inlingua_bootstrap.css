@@ -3260,7 +3260,7 @@ textarea.form-control.is-invalid {
 .btn:hover {
     color: var(--bs-btn-hover-color);
     background-color: var(--bs-btn-hover-bg);
-    border-color: var(--bs-btn-hover-border-color)
+    border-color: var(--bs-dark)
 }
 
 .btn-check+.btn:hover {
@@ -3316,12 +3316,12 @@ fieldset:disabled .btn {
     --bs-btn-bg: #FF751A !important;
     --bs-btn-border-color: #FF751A !important;
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #0b5ed7;
-    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-hover-bg: #FF751A;
+    --bs-btn-hover-border-color: #FF751A;
     --bs-btn-focus-shadow-rgb: 49, 132, 253;
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #0a58ca;
-    --bs-btn-active-border-color: #0a53be;
+    --bs-btn-active-bg: #FF751A;
+    --bs-btn-active-border-color: #FF751A;
     --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color: #fff;
     --bs-btn-disabled-bg: #FF751A !important;
@@ -12635,7 +12635,7 @@ fieldset:disabled .btn {
     background: #FF751A !important;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus, .form-select:focus, button:focus {
     box-shadow: none !important;
     border:1px solid #ced4da !important;
 }

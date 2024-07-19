@@ -19,15 +19,16 @@
                 <div class="d-flex align-items-center justify-content-between border rounded-pill p-1 gap-2"
                     id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
                     <div class="header_img m-0">
-                        {% if current_employee.employee_photo %}
+                        {% if current_employee.employee_photo %} 
                         <img src="{{ current_employee.employee_photo.url }}" alt="User Img">
                         {% else %}
                         <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img">
                         {% endif %}
                     </div>
-                    <p class="m-0 p-0 text-primary fw-bold fs-5">{{current_employee.current_role}} <i class="bi bi-caret-down-fill"></i></p>
+                    <p class="m-0 p-0 text-primary fw-bold fs-5">{% if request.user.is_superuser %} Super User {% else %}  {{current_employee.current_role}} {% endif %}<i class="bi bi-caret-down-fill"></i></p>
                 </div>
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                    {% if not request.user.is_superuser %}
                     {% for role_code, role_name in role_choices %}
                         <li>
                             <form action="{% url 'rolemaping' role=role_name %}" method="post">
@@ -45,6 +46,7 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li>
+                    {% endif %}
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                 </ul>
             </div>
@@ -66,7 +68,7 @@
                     <i class='bx bx-user nav_icon'></i>
                     <span class="nav_name">Employees</span>
                 </a>
-                <a href="" class="nav_link {{Trainers}}">
+                <a href="{% url 'trainers' %}" class="nav_link {{Trainers}}">
                     <i class='bx bx-user nav_icon'></i>
                     <span class="nav_name">Trainers</span>
                 </a>
@@ -74,13 +76,9 @@
                     <i class='bx bx-user nav_icon'></i>
                     <span class="nav_name">Student</span>
                 </a>
-                <a href="" class="nav_link {{courceandlevels}}">
+                <a href="{% url 'batchandlanguage' %}" class="nav_link {{courceandlevels}}">
                     <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
-                    <span class="nav_name">Batches, Courses</span>
-                </a>
-                <a href="" class="nav_link {{Message_page}}">
-                    <i class='bx bx-bar-chart-alt-2 nav_icon'></i>
-                    <span class="nav_name">Message</span>
+                    <span class="nav_name">Languages & Batch</span>
                 </a>
             </div>
         </div>

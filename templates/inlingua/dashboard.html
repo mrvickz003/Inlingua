@@ -10,47 +10,14 @@ Employees page | Inlingua
 {% block container %}
     {% include 'inc/sidebar.html' %}
     {% include 'inc/message.html' %}
+    
     <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
         <p class="p-0 m-0 fw-bold fs-5">Over All Dashboard</p>
         <div class="d-flex align-items-center gap-1">
+            {% include 'alert_template/new_language.html' %}
             <button class="btn btn-outline-primary rounded-pill px-4"  data-bs-toggle="modal" data-bs-target="#addlanguage">New Language</button>
-            <!-- Modal -->
-            <div class="modal fade" id="addlanguage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    ...
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
-                    </div>
-                </div>
-                </div>
-            </div>
+            {% include 'alert_template/new_languagelavel.html' %}
             <button class="btn btn-outline-secondary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addlanguagelevels">Set Levels & Hourse</button>
-            <!-- Modal -->
-            <div class="modal fade" id="addlanguagelevels" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    ...
-                    </div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
-                    </div>
-                </div>
-                </div>
-            </div>
         </div>
     </div>
     <div class="row mt-2">
@@ -124,12 +91,19 @@ Employees page | Inlingua
             </div>
         </div>
     </div>
-    <p class="p-0 m-0 fw-bold fs-5 mt-3">Online Batches List</p>
-    <div class="row mb-3">
-        <div class="col-12">
-            <div class="p-3 border rounded-2 mt-3">
-                <p class="p-0 m-0 fw-bold fs-5">Batches Name</p>
-            </div>
-        </div>
+    <div class="mb-3">
+      <p class="p-0 m-0 fw-bold fs-5 pt-3 mb-3"> <span class="text-primary"><i class='bx bxs-circle'></i> Online</span> Batches List</p>
+      <div class="row">
+          <div class="col-6  mb-3">
+              <div class="p-3 border rounded-2">
+                  <p class="p-0 m-0 fw-bold fs-5">German-A1-online-31-01-2024</p>
+              </div>
+          </div>
+      </div>
+      <div class="w-100 border-top d-flex align-items-center justify-content-center">
+        <img src="{% static 'img/imgs/no-online-batchs.png' %}" alt="" class="w-50 mt-3">
+      </div>
     </div>
+    
+    
 {% endblock %}
