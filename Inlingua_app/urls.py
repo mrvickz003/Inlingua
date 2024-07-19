@@ -5,6 +5,8 @@ login,
 user,
 trainers, 
 employees,
+languages,
+Batchandlevels,
 )
 from django.contrib.auth import views as password_views
 from django.contrib.auth import views as auth_views
@@ -29,6 +31,11 @@ urlpatterns = [
 
     path('trainers/', trainers.trainers_view, name="trainers"),
     path('trainers/addtrainers/', trainers.add_trainers, name="addtrainers"),
+
+    # Languages and levels
+    path('batchandlanguage/', Batchandlevels.batchandlanguage, name="batchandlanguage"),
+    path('new_language/', languages.new_language, name="new_language"),
+    path('set_levelandhrs/', languages.set_levelandhrs, name="setlevelandhrs"),
 
 
     # Role maping

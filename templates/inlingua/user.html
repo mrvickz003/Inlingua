@@ -11,14 +11,14 @@ Student page | Inlingua
     {% include 'inc/sidebar.html' %}
     {% include 'inc/message.html' %}
     <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
-        <h4>Students</h4>
+        <h4 class="fw-bold fs-5">Students</h4>
         <div class="d-flex align-items-center gap-1">
             {% if page_obj %}
             <a href="{% url 'addstudent' %}" class="btn btn-outline-primary rounded-pill px-4">New Student</a>
             {% endif %}
-            <a href="{% url 'addstudent' %}" class="btn btn-outline-secondary rounded-pill px-4">Import Students</a>
+            <a href="" class="btn btn-outline-secondary rounded-pill px-4">Import Students</a>
             {% if page_obj %}
-            <a href="{% url 'addstudent' %}" class="btn btn-outline-secondary rounded-pill px-4">Export Students</a>
+            <a href="" class="btn btn-outline-secondary rounded-pill px-4">Export Students</a>
             {% endif %}
         </div>
     </div>
