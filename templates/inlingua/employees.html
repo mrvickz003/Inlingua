@@ -10,6 +10,14 @@ Employees page | Inlingua
 {% block container %}
     {% include 'inc/sidebar.html' %}
     {% include 'inc/message.html' %}
+    <style>
+        .table td {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
     <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
         <p class="p-0 m-0 fw-bold fs-5">Employees list</p>
         <div class="d-flex align-items-center gap-1">
@@ -22,34 +30,36 @@ Employees page | Inlingua
         </div>
     </div>
     {% if all_employees %}
-    <table class="table border-2 w-100 my-3 rounded">
-        <thead class="rounded">
-            <tr class="mb-3 rounded">
-                <td class="p-2 text-primary">S.No</td>
-                <td class="p-2 text-primary">Employee ID</td>
-                <td class="p-2 text-primary">Employee Name</td>
-                <td class="p-2 text-primary">Employee Email</td>
-                <td class="p-2 text-primary">Employee Phone</td>
-                <td class="p-2 text-primary">Employee Role</td>
-                <td class="p-2 text-primary">Employee Status</td>
-            </tr>
-        </thead>
-        <tbody class="gap-1">
-            {% for employee in page_obj %}
-            <tr class="mb-3">
-                <td class="p-2 mb-3">{{ forloop.counter }}</td>
-                <td class="p-2 mb-3"><a href="">{{ employee.employee_ID }}</a></td>
-                <td class="p-2 mb-3">{{ employee.name }}</td>
-                <td class="p-2 mb-3">{{ employee.email }}</td>
-                <td class="p-2 mb-3">+91 {{ employee.phone }}</td>
-                <td class="p-2 mb-3">{{ employee.current_role }}</td>
-                <td class="p-2 mb-3 w-25">
-                  <span class="alert-primary px-3 py-1 rounded-pill">Active</span>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div style="overflow-x: auto;">
+        <table class="table border-2 w-100 my-3 rounded">
+            <thead class="rounded">
+                <tr class="mb-3 rounded">
+                    <td class="p-2 text-primary text-center">S.No</td>
+                    <td class="p-2 text-primary text-center">Employee ID</td>
+                    <td class="p-2 text-primary text-center">Employee Name</td>
+                    <td class="p-2 text-primary text-center">Employee Email</td>
+                    <td class="p-2 text-primary text-center">Employee Phone</td>
+                    <td class="p-2 text-primary text-center">Employee Role</td>
+                    <td class="p-2 text-primary text-center">Employee Status</td>
+                </tr>
+            </thead>
+            <tbody class="gap-1">
+                {% for employee in page_obj %}
+                <tr class="mb-3">
+                    <td class="p-2 mb-3 text-center">{{ forloop.counter }}</td>
+                    <td class="p-2 mb-3 text-center"><a href="">{{ employee.employee_ID }}</a></td>
+                    <td class="p-2 mb-3 text-center">{{ employee.name }}</td>
+                    <td class="p-2 mb-3 text-center">{{ employee.email }}</td>
+                    <td class="p-2 mb-3 text-center">+91 {{ employee.phone }}</td>
+                    <td class="p-2 mb-3 text-center">{{ employee.current_role }}</td>
+                    <td class="p-2 mb-3 text-center w-25">
+                      <span class="alert-primary px-3 py-1 rounded-pill">Active</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
             {% if page_obj.has_previous %}
