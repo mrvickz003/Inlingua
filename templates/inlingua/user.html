@@ -27,28 +27,36 @@ Student page | Inlingua
     <table class="table border-2 w-100 my-3 rounded">
         <thead class="rounded">
             <tr class="mb-3 rounded">
-                <td class="p-2 text-primary">S.No</td>
-                <td class="p-2 text-primary">Student ID</td>
-                <td class="p-2 text-primary">Student Name</td>
-                <td class="p-2 text-primary">Student Email</td>
-                <td class="p-2 text-primary">Student Phone</td>
-                <td class="p-2 text-primary">Identity Card (Aadhar cord Copy)</td>
+                <td class="p-2 text-primary text-center">S.No</td>
+                <td class="p-2 text-primary text-center">Student ID</td>
+                <td class="p-2 text-primary text-center">Student Name</td>
+                <td class="p-2 text-primary text-center">Student Email</td>
+                <td class="p-2 text-primary text-center">Student Phone</td>
+                <td class="p-2 text-primary text-center">Status</td>
             </tr>
         </thead>
         <tbody class="gap-1">
             {% for student in page_obj %}
             <tr class="mb-3">
-                <td class="p-2 mb-3">{{ forloop.counter }}</td>
-                <td class="p-2 mb-3"><a href="">{{ student.Student_ID }}</a></td>
-                <td class="p-2 mb-3">{{ student.Student_Name }}</td>
-                <td class="p-2 mb-3">{{ student.Student_Mail_Id }}</td>
-                <td class="p-2 mb-3">+91 {{ student.Student_Phone_No }}</td>
-                <td class="p-2 mb-3 w-25">
-                  {% if student.Identity_Card_Aadhar_Copy %}
-                  <a href="{{ student.Identity_Card_Aadhar_Copy.url }}">{{ student.Student_Name }} Aadhar Card</a>
-                  {% else %}
-                  No Data
-                  {% endif %}
+                <td class="p-2 mb-3 text-center">{{ forloop.counter }}</td>
+                <td class="p-2 mb-3 text-center"><a href="">{{ student.Student_ID }}</a></td>
+                <td class="p-2 mb-3 text-center">{{ student.Student_Name }}</td>
+                <td class="p-2 mb-3 text-center">{{ student.Student_Mail_Id }}</td>
+                <td class="p-2 mb-3 text-center">+91 {{ student.Student_Phone_No }}</td>
+                <td class="p-2 mb-3 text-center w-25">
+                    <span class="px-3 py-1 rounded-pill
+                    {% if student.status == 'New Student' %}
+                    alert-primary
+                    {% elif student.status == 'Verified' %}
+                    alert-success
+                    {% elif student.status == 'Batch Allocated' %}
+                    alert-warning
+                    {% elif student.status == 'Waiting for Assessment' %}
+                    alert-info
+                    {% elif student.status == 'Course Completed' %}
+                    alert-danger
+                    {% endif %}
+                    ">{{ student.status }}</span>
                 </td>
             </tr>
             {% endfor %}

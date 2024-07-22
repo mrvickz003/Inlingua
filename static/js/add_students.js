@@ -203,7 +203,7 @@ function updateLevels() {
                 data.levels.forEach(level => {
                     const option = document.createElement('option');
                     option.value = level.id;
-                    option.textContent = `${level.level} -- ${level.hours} -- ${level.help_text}`;
+                    option.textContent = `${level.level} -- ${level.hours}`;
                     levelSelect.appendChild(option);
                 });
             })

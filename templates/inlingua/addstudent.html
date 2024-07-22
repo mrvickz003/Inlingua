@@ -103,6 +103,23 @@ Add student | Inlingua
         </div>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="professions">Professions <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <select name="professions" id="professions" class="form-select">
+                    <option value="">Select Profession</option>
+                    {% for profession in professions %}
+                    <option value="{{ profession.0 }}">{{ profession.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="professions-error"></p>
+            </div>
+            
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
                 <label for="studentphoto">Student Photo</label>
             </div>
             <div class="col-4">
@@ -159,8 +176,8 @@ Add student | Inlingua
             <div class="col-4">
                 <select name="Course-type" id="Course-type" class="form-select">
                     <option value="">Select Batch Preferences </option>
-                    {% for Course in Course_Type %}
-                    <option value="{{ Course.0 }}">{{ Course.1 }}</option>
+                    {% for Batch_Preference in Batch_Preferences %}
+                    <option value="{{ Batch_Preference.pk }}">{{ Batch_Preference }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -183,6 +200,22 @@ Add student | Inlingua
             </div>
             <div class="col-4 d-flex align-items-center justify-content-start">
                 <p class="p-0 m-0 text-danger" id="counselor-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="batch_types">Batch Types <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <select name="batch_types" id="batch_types" class="form-select">
+                    <option value="">Select Batch Types</option>
+                    {% for batch_type in batch_types %}
+                    <option value="{{ batch_type.0 }}">{{ batch_type.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="batch_types-error"></p>
             </div>
         </div>
         <div class="row mb-4">

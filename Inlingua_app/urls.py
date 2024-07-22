@@ -27,7 +27,7 @@ urlpatterns = [
     path('employees/', employees.employee_list, name='employee_list'),
     path('employees/add/', employees.addemployee, name="addemployee"),
     path('students/add/', user.addstudent, name="addstudent"),
-    path('get_levels/<int:language_id>/', user.get_levels, name='get_levels'),
+    
 
     path('trainers/', trainers.trainers_view, name="trainers"),
     path('trainers/addtrainers/', trainers.add_trainers, name="addtrainers"),
@@ -36,6 +36,7 @@ urlpatterns = [
     path('batchandlanguage/', Batchandlevels.batchandlanguage, name="batchandlanguage"),
     path('new_language/', languages.new_language, name="new_language"),
     path('set_levelandhrs/', languages.set_levelandhrs, name="setlevelandhrs"),
+    path('get_levels/<int:language_id>/', user.get_levels, name='get_levels'),
 
 
     # Role maping
