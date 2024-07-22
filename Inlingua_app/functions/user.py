@@ -10,7 +10,6 @@ def student_list(request):
     paginator = Paginator(all_students, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    print(StudentTable.STATUS_CHOICES[0][0])
     context = {
         'Students':'active',
         'all_students': page_obj, 
@@ -89,9 +88,13 @@ def addstudent(request):
     }    
     return render(request, "inlingua/addstudent.html", context)
 
-def mail(request):
-    return render(request, "email/welcome_email.html", )
-
+def verify(request, pk):
+    get_student = get_object_or_404(StudentTable, pk=pk)
+    context={
+        'Dashboard':'active',
+        'get_student':get_student,
+    }
+    return render(request, "inlingua/students_details.html", context)
 
 def get_levels(request, language_id):
     levels = LevelsAndHour.objects.filter(language=language_id).values('id','level', 'hours', )

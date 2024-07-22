@@ -22,13 +22,10 @@ urlpatterns = [
     path('login/', login.custom_login, name="login"),
     
     path('', dashboard.dashboard, name='dashboard'),
-    path('students/', user.student_list, name='student_list'),
-    path('mail/', user.mail, name='mail'),
     path('employees/', employees.employee_list, name='employee_list'),
     path('employees/add/', employees.addemployee, name="addemployee"),
-    path('students/add/', user.addstudent, name="addstudent"),
     
-
+    # Trainer
     path('trainers/', trainers.trainers_view, name="trainers"),
     path('trainers/addtrainers/', trainers.add_trainers, name="addtrainers"),
 
@@ -37,6 +34,11 @@ urlpatterns = [
     path('new_language/', languages.new_language, name="new_language"),
     path('set_levelandhrs/', languages.set_levelandhrs, name="setlevelandhrs"),
     path('get_levels/<int:language_id>/', user.get_levels, name='get_levels'),
+
+    # Students
+    path('students/', user.student_list, name='student_list'),
+    path('students/add/', user.addstudent, name="addstudent"),
+    path('students/<int:pk>/verify/', user.verify, name="verify"),
 
 
     # Role maping
