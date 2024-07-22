@@ -34,21 +34,6 @@ def generate_customer_id():
         new_id = 1
     return f'INL{year}STD{new_id:04d}'
 
-def Trainer_data(instance, filename):
-    Year = dt.now().year
-    return f'Students/{Year}/{instance.Student_ID}/{filename}'
-
-def generate_trainer_id():
-    Year = str(dt.now().year)
-    last_trainer = TrainerTable.objects.order_by('-id').first()
-    year = Year[2:]
-    if last_trainer and last_trainer.Created_date.year == dt.now().year:
-        last_id = int(last_trainer.Trainer_ID[7:])
-        new_id = last_id + 1
-    else:
-        new_id = 1
-    return f'INL{year}TR{new_id:04d}'
-
 def generate_batch_id():
     Year = str(dt.now().year)
     last_trainer = TrainerTable.objects.order_by('-id').first()
@@ -60,11 +45,11 @@ def generate_batch_id():
         new_id = 1
     return f'INL{year}TR{new_id:04d}'
 
-class BatchType(models.Model):
-    batch_type = models.CharField(max_length=20)
+class batch_preferences(models.Model):
+    batch_preferences = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.batch_type
+        return self.batch_preferences
 
 class employees(models.Model):
     isadmin = 'isadmin'
@@ -89,6 +74,8 @@ class employees(models.Model):
     aadhar_card = models.FileField(upload_to=Employee_data, null=True, blank=True)
     address = models.TextField(max_length=100)
     date_of_joining = models.DateField()
+
+    #Bank Details
     bank_account_number = models.IntegerField()
     bank_name = models.CharField(max_length=100)
     bank_branch = models.CharField(max_length=100)
@@ -197,6 +184,37 @@ class StudentTable(models.Model):
         (FULL, 'Full'),
         (PART, 'Part'),
     ]
+    
+    NEW_STUDENT = 'New Student'
+    VERIFYD = 'Verified'
+    BATCH_ALLOCATED = 'Batch Allocated'
+    WAITING_FOR_ASSESSMENT = 'Waiting for Assessment'
+    COURSE_COMPLETED = 'Course Completed'
+    STATUS_CHOICES = [
+        (NEW_STUDENT, 'New Student'),
+        (VERIFYD, 'Verified'),
+        (BATCH_ALLOCATED, 'Batch Allocated'),
+        (WAITING_FOR_ASSESSMENT, 'Waiting for Assessment'),
+        (COURSE_COMPLETED, 'Course Completed'),
+    ]
+
+    ONE_TO_ONE = 'One to One'
+    GROUP = 'Group'
+    BATCH_TYPE_CHOICES = [
+        (ONE_TO_ONE, 'One to One'),
+        (GROUP, 'Group'),
+    ]
+
+    STUDENT = 'Student'
+    EMPLOYEE = 'Employee'
+    SELF_EMPLOYEE = 'Self Employee'
+    OTHERS = 'Others'
+    PROFESSION_CHOICES = [
+        (STUDENT, 'Student'),
+        (EMPLOYEE, 'Employee'),
+        (SELF_EMPLOYEE, 'Self Employee'),
+        (OTHERS, 'Others'),
+    ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     Student_ID = models.CharField(unique=True, default=generate_customer_id, null=False, blank=False, max_length=20)
@@ -208,13 +226,17 @@ class StudentTable(models.Model):
     Student_Photo = models.FileField(upload_to=Students_data, null=True, blank=True)
     Language_Name = models.ForeignKey(Language, on_delete=models.SET_NULL, blank=True, null=True)
     Level_and_Hour = models.ForeignKey(LevelsAndHour, on_delete=models.SET_NULL, blank=True, null=True)
-    batch_type = models.ForeignKey(BatchType, on_delete=models.SET_NULL, blank=True, null=True)
+    batch_preferences = models.ForeignKey(batch_preferences, on_delete=models.SET_NULL, blank=True, null=True)
+    Batch_type = models.CharField(choices=BATCH_TYPE_CHOICES, max_length=20)
+    
+    Profession = models.CharField(choices=PROFESSION_CHOICES, max_length=20)
     Student_Counselor = models.ForeignKey(NameOfCounselor, on_delete=models.SET_NULL, blank=True, null=True)
     Payment_Type = models.CharField(choices=PAYMENT_TYPE_CHOICES, max_length=20)
     Transaction_ID = models.IntegerField()
     Account_Holder_Name = models.CharField(max_length=100)
     Amount_Paide = models.FloatField(default=0)
     Balance_Amount = models.FloatField(default=0)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=25)
     Created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='students_created_by')
     Created_date = models.DateTimeField()
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='students_updated_by')
@@ -223,6 +245,21 @@ class StudentTable(models.Model):
     def __str__(self):
         return f'{self.Student_ID} -- {self.Student_Name}'
 
+def Trainer_data(instance, filename):
+    Year = dt.now().year
+    return f'Trainer/{Year}/{instance.Trainer_ID}/{filename}'
+
+def generate_trainer_id():
+    Year = str(dt.now().year)
+    last_trainer = TrainerTable.objects.order_by('-id').first()
+    year = Year[2:]
+    if last_trainer and last_trainer.Created_date.year == dt.now().year:
+        last_id = int(last_trainer.Trainer_ID[7:])
+        new_id = last_id + 1
+    else:
+        new_id = 1
+    return f'INL{year}TR{new_id:04d}'
+
 class TrainerTable(models.Model):
     Trainer_ID = models.CharField(unique=True, default=generate_trainer_id, null=False, blank=False, max_length=20)
     trainer_name = models.CharField(max_length=100)
@@ -230,12 +267,21 @@ class TrainerTable(models.Model):
     trainer_education = models.CharField(max_length=100)
     trainer_mail = models.EmailField()
     trainer_phone = models.CharField(max_length=15) 
-    trainer_languages = models.CharField(max_length=100)
-    trainer_address = models.TextField()
-    trainer_photo = models.ImageField(upload_to=Trainer_data)
+    trainer_languages = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, blank=True)
+    trainer_address = models.TextField(max_length=500)
+    trainer_photo = models.FileField(upload_to=Trainer_data)
     trainer_bank_details = models.CharField(max_length=100)
-    trainer_aadhar = models.CharField(max_length=12)
-    trainer_role = models.CharField(max_length=100)
+    trainer_aadhar = models.FileField(upload_to=Trainer_data)
+
+    qualification = models.CharField(max_length=255)
+    institution = models.CharField(max_length=255)
+    year_of_passing = models.CharField(max_length=4) 
+
+    bank_account_number = models.IntegerField()
+    bank_name = models.CharField(max_length=100)
+    bank_branch = models.CharField(max_length=100)
+    bank_ifsc = models.CharField(max_length=11)
+    passbook = models.FileField(upload_to=Employee_data, null=True, blank=True)
 
     Created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainers_created_by')
     Created_date = models.DateTimeField()
@@ -245,53 +291,44 @@ class TrainerTable(models.Model):
     def __str__(self):
         return self.trainer_name
 
-class TrainerQualifications(models.Model):
-    trainer = models.ForeignKey(TrainerTable, on_delete=models.CASCADE)
-    qualification = models.CharField(max_length=255)
-    institution = models.CharField(max_length=255)
-    year_of_passing = models.CharField(max_length=4)  # Assuming year is a 4-digit number
-
-    def __str__(self):
-        return f"{self.trainer} -- {self.qualification} -- {self.institution} -- {self.year_of_passing}"
-
 class BatchTiming(models.Model):
-    batch_type = models.ForeignKey(BatchType, on_delete=models.CASCADE)
+    batch_preferences = models.ForeignKey(batch_preferences, on_delete=models.CASCADE)
     timing = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"{self.batch_type} -- {self.timing}"
+        return f"{self.batch_preferences} -- {self.timing}"
 
 @receiver(post_migrate)
 def create_batch_timing(sender, **kwargs):
     if sender.name == 'Inlingua_app':
-        weekdays, _ = BatchType.objects.get_or_create(batch_type='Weekdays')
-        weekend, _ = BatchType.objects.get_or_create(batch_type='Weekend')
+        weekdays, _ = batch_preferences.objects.get_or_create(batch_preferences='Weekdays')
+        weekend, _ = batch_preferences.objects.get_or_create(batch_preferences='Weekend')
 
         BatchTiming.objects.get_or_create(
-            batch_type=weekdays,
+            batch_preferences=weekdays,
             timing='06:00 pm to 07:30 pm'
         )
         BatchTiming.objects.get_or_create(
-            batch_type=weekdays,
+            batch_preferences=weekdays,
             timing='07:00 pm to 08:30 pm'
         )
         BatchTiming.objects.get_or_create(
-            batch_type=weekdays,
+            batch_preferences=weekdays,
             timing='07:30 pm to 09:00 pm'
         )
         BatchTiming.objects.get_or_create(
-            batch_type=weekend,
+            batch_preferences=weekend,
             timing='10:00 am to 01:00 pm'
         )
         BatchTiming.objects.get_or_create(
-            batch_type=weekend,
+            batch_preferences=weekend,
             timing='02:00 pm to 05:00 pm'
         )
 
 class Batch(models.Model):
     batch_name = models.CharField(unique=True, null=False, blank=False, max_length=20)
     levels = models.ForeignKey(LevelsAndHour, on_delete=models.SET_NULL,null=True, blank=True)
-    batch_type = models.ForeignKey(BatchType, on_delete=models.SET_NULL,null=True, blank=True)
+    batch_preferences = models.ForeignKey(batch_preferences, on_delete=models.SET_NULL,null=True, blank=True)
     students = models.ManyToManyField(StudentTable)
     time_slot = models.ForeignKey(BatchTiming, on_delete=models.SET_NULL,  null=True, blank=True)
     trainer = models.ForeignKey(TrainerTable, on_delete=models.SET_NULL, null=True, blank=True)

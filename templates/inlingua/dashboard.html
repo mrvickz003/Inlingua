@@ -11,14 +11,9 @@ Employees page | Inlingua
     {% include 'inc/sidebar.html' %}
     {% include 'inc/message.html' %}
     
-    <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
+    <div class="mt-5 py-3 d-flex align-items-center justify-content-between">
         <p class="p-0 m-0 fw-bold fs-5">Over All Dashboard</p>
-        <div class="d-flex align-items-center gap-1">
-            {% include 'alert_template/new_language.html' %}
-            <button class="btn btn-outline-primary rounded-pill px-4"  data-bs-toggle="modal" data-bs-target="#addlanguage">New Language</button>
-            {% include 'alert_template/new_languagelavel.html' %}
-            <button class="btn btn-outline-secondary rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addlanguagelevels">Set Levels & Hourse</button>
-        </div>
+        
     </div>
     <div class="row mt-2">
         <div class="col-8">
@@ -27,9 +22,7 @@ Employees page | Inlingua
             <div>
                 <canvas id="myChart"></canvas>
               </div>
-              
               <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-              
               <script>
                 const ctx = document.getElementById('myChart');
               
@@ -38,7 +31,7 @@ Employees page | Inlingua
                   data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apl', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nav', 'Dec'],
                     datasets: [{
-                      label: '# of Votes',
+                      label: ' Students',
                       data: [12, 19, 3, 5, 2, 3],
                       borderWidth: 1,
                       fill: true,
@@ -72,9 +65,9 @@ Employees page | Inlingua
                     new Chart(ctxx, {
                       type: 'doughnut',
                       data: {
-                        labels: ['Jan', 'Feb', 'Yellow', 'Green', 'Purple', 'Orange'],
+                        labels: ['German', 'French', 'Mandarin', 'Spanish', 'English', 'Japanese'],
                         datasets: [{
-                          label: '# of Votes',
+                          label: ' Srtudents',
                           data: [12, 19, 3, 5, 2, 3],
                           borderWidth: 1,
                         }]
