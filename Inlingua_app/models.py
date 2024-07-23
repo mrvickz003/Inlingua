@@ -110,7 +110,7 @@ class LevelsAndHour(models.Model):
     hours = models.IntegerField()
 
     def __str__(self):
-        return f"{self.language} -- {self.level} -- {self.hours}"
+        return f" {self.level}"
 
 @receiver(post_migrate)
 def create_level_hour(sender, **kwargs):
@@ -237,6 +237,7 @@ class StudentTable(models.Model):
     Amount_Paide = models.FloatField(default=0)
     Balance_Amount = models.FloatField(default=0)
     status = models.CharField(choices=STATUS_CHOICES, max_length=25)
+    payment_complited = models.BooleanField(default=False)
     Created_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='students_created_by')
     Created_date = models.DateTimeField()
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='students_updated_by')
