@@ -3,6 +3,7 @@ from django.contrib import messages
 from Inlingua_app.models import *
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from django.urls import reverse
 from Inlingua_app.utils import send_welcome_email
 
 def student_list(request):
@@ -90,13 +91,37 @@ def addstudent(request):
 
 def verify(request, pk):
     get_student = get_object_or_404(StudentTable, pk=pk)
-    context={
-        'Dashboard':'active',
-        'get_student':get_student,
-    }
-    return render(request, "inlingua/students_details.html", context)
+    if not get_student.user.is_active:
+        if request.method == 'POST':
+            get_student.status = StudentTable.STATUS_CHOICES[1][0]
+            get_student.updated_by = request.user
+            get_student.Updated_date = dt.now()
+            get_student.user.is_active = True
+            get_student.save()
+            get_student.user.save()
+            send_welcome_email(get_student.user.email, get_student.Student_Name)
+            messages.success(request, f'Student {get_student.Student_Name} success fully verified and activated ...')
+            return redirect('dashboard')
+        context={
+            'Dashboard':'active',
+            'get_student':get_student,
+        }
+        return render(request, "inlingua/students_details.html", context)
+    else:
+        messages.error(request, f'Student {get_student.Student_Name} is already verified and activated')
+        return redirect('dashboard')
 
 def get_levels(request, language_id):
     levels = LevelsAndHour.objects.filter(language=language_id).values('id','level', 'hours', )
     print(levels)
     return JsonResponse({'levels': list(levels)})
+
+def full_payments(request, pk):
+    if request.method == 'POST':
+        get_student = get_object_or_404(StudentTable, pk=pk)
+        get_student.payment_complited = True
+        get_student.updated_by = request.user
+        get_student.Updated_date = dt.now()
+        get_student.save()
+        messages.success(request, 'Payment Complited success fully updated')
+        return redirect(reverse('verify', kwargs={'pk':pk}))

@@ -136,7 +136,6 @@ a {
 .active {
     color: var(--white-color);
     background: rgb(255,117,26);
-    background: linear-gradient(90deg, rgba(255,117,26,1) 0%, rgba(255,255,255,1) 100%);
     transition: 0.3s;
 }
 
