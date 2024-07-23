@@ -10,15 +10,7 @@ Employees page | Inlingua
 {% block container %}
     {% include 'inc/sidebar.html' %}
     {% include 'inc/message.html' %}
-    <style>
-        .table td {
-            max-width: 150px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    </style>
-    <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
+    <div class="mt-5 py-3 d-flex align-items-center justify-content-between ">
         <p class="p-0 m-0 fw-bold fs-5">Employees list</p>
         <div class="d-flex align-items-center gap-1">
             {% if all_employees %}
@@ -29,68 +21,98 @@ Employees page | Inlingua
             {% endif %}
         </div>
     </div>
-    {% if all_employees %}
-    <div style="overflow-x: auto;">
-        <table class="table border-2 w-100 my-3 rounded">
-            <thead class="rounded">
-                <tr class="mb-3 rounded">
-                    <td class="p-2 text-primary text-center">S.No</td>
-                    <td class="p-2 text-primary text-center">Employee ID</td>
-                    <td class="p-2 text-primary text-center">Employee Name</td>
-                    <td class="p-2 text-primary text-center">Employee Email</td>
-                    <td class="p-2 text-primary text-center">Employee Phone</td>
-                    <td class="p-2 text-primary text-center">Employee Role</td>
-                    <td class="p-2 text-primary text-center">Employee Status</td>
-                </tr>
-            </thead>
-            <tbody class="gap-1">
-                {% for employee in page_obj %}
-                <tr class="mb-3">
-                    <td class="p-2 mb-3 text-center">{{ forloop.counter }}</td>
-                    <td class="p-2 mb-3 text-center"><a href="">{{ employee.employee_ID }}</a></td>
-                    <td class="p-2 mb-3 text-center">{{ employee.name }}</td>
-                    <td class="p-2 mb-3 text-center">{{ employee.email }}</td>
-                    <td class="p-2 mb-3 text-center">+91 {{ employee.phone }}</td>
-                    <td class="p-2 mb-3 text-center">{{ employee.current_role }}</td>
-                    <td class="p-2 mb-3 text-center w-25">
-                      <span class="alert-primary px-3 py-1 rounded-pill">Active</span>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            {% endif %}
-            {% for num in page_obj.paginator.page_range %}
-            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-            </li>
-            {% endfor %}
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% else %}
-    <div class="d-flex flex-column align-items-center justify-content-center w-100 h-100">
-        <img src="{% static 'img/imgs/employees.png' %}" alt="" class="w-25 mt-4">
-        <a href="{% url 'addemployee' %}" class="btn text-white rounded-pill px-4 mt-2" style="background-color: #FF751A;">Add New Employees</a>
-    </div>
-    {% endif %}
+    <div class="">
+        <div class="row mb-1 mx-1">
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            <div class="row">
+                <div class="col-3">
+                    S.NO
+                </div>
+                <div class="col-9">
+                    Employee ID
+                </div>
+            </div>
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Employee Name
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Employee Email
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Employee Phone
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Employee Role
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Date Of Joining
+          </div>
+        </div>
+        {% if page_obj %}
+        {% for employee in page_obj %}
+        <div class="row mb-1 mx-1" style="background-color: rgb(238, 238, 238);">
+          <div class="col-2 text-truncate p-2" >
+            <div class="row">
+                <div class="col-3">
+                    {{forloop.counter}}
+                </div>
+                <div class="col-9">
+                    <a href="{{employee.employee_ID}}">{{employee.employee_ID}}</a>
+                </div>
+            </div>
+          </div>
+          <div class="col-2 text-truncate p-2">
+            {{employee.name}}
+          </div>
+          <div class="col-2 text-truncate p-2">
+            {{employee.email}}
+          </div>
+          <div class="col-2 text-truncate p-2">
+            +91 {{employee.phone}}
+          </div>
+          <div class="col-2 text-truncate p-2">
+            {{employee.current_role}}
+          </div>
+          <div class="col-2 text-truncate p-2">
+            {{ employee.date_of_joining }}
+          </div>
+        </div>
+        {% endfor %}
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end mt-2">
+              {% if page_obj.has_previous %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+              </li>
+              {% endif %}
+              {% for num in page_obj.paginator.page_range %}
+              <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+              {% endfor %}
+              {% if page_obj.has_next %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                  <a class="page-link" href="#">Next</a>
+              </li>
+              {% endif %}
+          </ul>
+      </nav>
+        {% else %}
+        <div class="row">
+          <div class="col-12 border d-flex flex-column align-items-center py-3">
+            <img src="{% static 'img/imgs/Student_creation.png' %}" alt="" class="w-25">
+            <p class="text-center p-0 m-0 p-2 fs-5 fw-bold">No Students List, Create (or) Import Studens</p>
+          </div>
+        </div>
+        {% endif %}
+      </div>
 {% endblock %}

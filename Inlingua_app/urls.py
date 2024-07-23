@@ -7,6 +7,7 @@ trainers,
 employees,
 languages,
 Batchandlevels,
+batches,
 )
 from django.contrib.auth import views as password_views
 from django.contrib.auth import views as auth_views
@@ -39,7 +40,10 @@ urlpatterns = [
     path('students/', user.student_list, name='student_list'),
     path('students/add/', user.addstudent, name="addstudent"),
     path('students/<int:pk>/verify/', user.verify, name="verify"),
+    path('students/<int:pk>/full_payments_complited/', user.full_payments, name="full_payments"),
 
+    # Batch Createtion
+    path('batch/create/', batches.create_batch, name="create_batch"),
 
     # Role maping
     path('rolemaping/<str:role>', employees.rolemaping, name="rolemaping"),

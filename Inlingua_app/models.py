@@ -28,7 +28,7 @@ def generate_customer_id():
     last_student = StudentTable.objects.order_by('-id').first()
     year = Year[2:]
     if last_student and last_student.Created_date.year == dt.now().year:
-        last_id = int(last_student.Student_ID[7:])
+        last_id = int(last_student.Student_ID[8:])
         new_id = last_id + 1
     else:
         new_id = 1

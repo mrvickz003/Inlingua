@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-{{get_student.Student_Name}}| Inlingua
+{{get_student.Student_Name}} | Inlingua
 {% endblock %}
 {% block style %}
 {% endblock %}
@@ -10,77 +10,6 @@
 {% block container %}
 {% include 'inc/sidebar.html' %}
 {% include 'inc/message.html' %}
-
-<style>
-    .profile-page .profile-header .cover {
-        position: relative;
-        border-radius: .25rem .25rem 0 0;
-    }
-
-
-    .profile-page .profile-header .cover figure {
-        margin-bottom: 0;
-        height: 130px;
-    }
-
-    @media (max-width: 767px) {
-        .profile-page .profile-header .cover figure {
-            height: 110px;
-            overflow: hidden;
-        }
-    }
-
-    @media (min-width: 2400px) {
-        .profile-page .profile-header .cover figure {
-            height: 280px;
-            overflow: hidden;
-        }
-    }
-
-    .profile-page .profile-header .cover figure img {
-        border-radius: .25rem .25rem 0 0;
-        width: 100%;
-    }
-
-    @media (max-width: 767px) {
-        .profile-page .profile-header .cover figure img {
-            -webkit-transform: scale(2);
-            transform: scale(2);
-            margin-top: 15px;
-        }
-    }
-
-    @media (min-width: 2400px) {
-        .profile-page .profile-header .cover figure img {
-            margin-top: -55px;
-        }
-    }
-
-    .profile-page .profile-header .cover .gray-shade {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        background: linear-gradient(rgba(255, 255, 255, 0.1), #fff 99%);
-    }
-
-    .profile-page .profile-header .cover .cover-body {
-        position: absolute;
-        bottom: -20px;
-        left: 0;
-        z-index: 2;
-        width: 100%;
-        padding: 0 20px;
-    }
-
-    .profile-page .profile-header .cover .cover-body .profile-pic {
-        border-radius: 50%;
-        width: 100px;
-    }
-</style>
-
 <div class="">
     <div class="profile-page tx-13">
         <div class="row m-0">
@@ -92,18 +21,23 @@
                         </figure>
                         <div class="cover-body d-flex justify-content-between align-items-end border-bottom pb-3">
                             <div class="d-flex align-items-center justify-content-center gap-3">
-                                <img class="profile-pic border" src="{% static 'img/imgs/logo.png' %}" alt="profile">
+                                <img class="profile-pic border rounded-pill" src="{% static 'img/imgs/logo.png' %}"
+                                    alt="profile" style="width: 100px; height: 100px;">
                                 <div>
                                     <span class="profile-name fw-bold fs-5">{{get_student.Student_Name}}</span>
                                     <p class="profile-name fw-bold fs-5 p-0 m-0">{{get_student.Language_Name}} <span
                                             class="text-primary">{{get_student.Level_and_Hour}} </span> </p>
                                 </div>
                             </div>
+                            {% if not get_student.payment_complited %}
                             <div class="d-flex d-md-block">
-                                <input type="submit" class="btn btn-outline-primary" value="Verifid account">
-                                <input type="submit" class="btn btn-outline-secondary rounded-pill"
-                                    value="Not a Verified">
+                                <form action="{% url 'full_payments' pk=get_student.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-outline-primary" value="Payment Complited">
+                                </form>
+
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -112,9 +46,9 @@
     </div>
 </div>
 <div class="row mt-5">
-    <span class="profile-name fw-bold fs-5 mb-3">Payment & Batch Details</span>
     <div class="col-5">
-        <div class="card mb-4">
+        <span class="profile-name fw-bold fs-5">Payment & Batch Details</span>
+        <div class="card mt-3">
             <div class="card-body">
                 <table class="table m-0">
                     <tbody>
@@ -153,80 +87,215 @@
                         </tr>
                         <tr>
                             <td>Payment Complited</td>
-                            <td><span class="fa fa-check text-primary"></span>&nbsp; Yes payment_complited</td>
+                            {% if get_student.payment_complited %}
+                            <td><span class="fa fa-check text-primary"></span>&nbsp; Payment Complited</td>
+                            {% else %}
+                            <td><span class="fa fa-check text-primary"></span>&nbsp; Payment Not Complited</td>
+                            {% endif %}
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <div class="col-5">
-        <a href="{{comments.comments_img.url}}" target="_blank">
-            <img class="mt-3 border rounded" src="{{get_student.Identity_Card_Aadhar_Copy.url}}" alt="">
-        </a>
+    <div class="col-7" style="overflow: auto; height: 70vh;">
+        <p class="fs-5 fw-bold m-0 p-0">Last Activity</p>
+        <ol class="timeline">
+            {% for comments in commentss %}
+            <li class="timeline-item d-flex align-items-start">
+                <span class="timeline-item-icon | faded-icon bg-gray">
+                    {% if comments.user.employee_photo %}
+                    <img src="{{comments.user.employee_photo.url}}" />
+                    {% else %}
+                    <img src="{% static 'images/Employee_avathar.png' %}" />
+                    {% endif %}
+                </span>
+                <div class="timeline-item-description border p-3 rounded ">
+                    <span style="font-size:medium;"><a href="#"
+                            class="fw-semibold text-decoration-none text-primary">{{comments.user}}</a>
+                        {{comments.comments}}
+
+                        {% if comments.BeforeAssignees %}
+                        <a href="{% url 'showemployee' epk=comments.BeforeAssignees.pk %}"
+                            class="fw-semibold text-decoration-none text-primary cs-alert-gray"
+                            style="border-radius: 3px !important;">{{comments.BeforeAssignees}}</a> to
+                        <a href="{% url 'showemployee' epk=comments.AfterAssignees.pk %}"
+                            class="fw-semibold text-decoration-none text-primary cs-alert-gray"
+                            style="border-radius: 3px !important;">{{comments.AfterAssignees}}</a>
+                        {% endif %}
+
+                        {% if comments.BeforePriority %}
+                        <del><span class="
+                    {% if comments.BeforePriority == 'High' %}
+                    cs-alert-danger
+                    {% elif comments.BeforePriority == 'Medium' %}
+                    cs-alert-orange
+                    {% elif comments.BeforePriority == 'Low' %}
+                    cs-alert-primary
+                    {% endif %}">
+                                {{comments.BeforePriority}}</span></del> to
+                        <span class="
+                    {% if comments.AfterPriority == 'High' %}
+                    cs-alert-danger
+                    {% elif comments.AfterPriority == 'Medium' %}
+                    cs-alert-orange
+                    {% elif comments.AfterPriority == 'Low' %}
+                    cs-alert-primary
+                    {% endif %} 
+                    " data-bs-toggle="offcanvas" data-bs-target="#taskid{{task.pk}}"
+                            aria-controls="offcanvasRight">{{comments.AfterPriority}}</span>
+                        {% endif %}
+                        {% if comments.BeforeDescription %}
+                        <del>{{comments.BeforeDescription}}</del> to
+                        <span>{{comments.AfterDescription}}</span>
+                        {% endif %}
+                        {% if comments.BeforeAttachment %}
+                        <a href="{{comments.BeforeAttachment.url}}" class="text-danger">Before attachment</a> to
+                        <a href="{{comments.AfterAttachment.url}}" class="text-primary">After attachment</a>
+                        {% endif %}
+                        {% if comments.BeforeStatus %}
+                        <span class="
+                    {% if comments.BeforeStatus.color == 'None' %}
+                    border
+                    {% elif comments.BeforeStatus.color == 'Gray' %}
+                    cs-alert-gray
+                    {% elif comments.BeforeStatus.color == 'Blue' %}
+                    cs-alert-primary
+                    {% elif comments.BeforeStatus.color == 'Green' %}
+                    cs-alert-green
+                    {% elif comments.BeforeStatus.color == 'Yellow' %}
+                    cs-alert-yellow
+                    {% elif comments.BeforeStatus.color == 'Orange' %}
+                    cs-alert-orange
+                    {% elif comments.BeforeStatus.color == 'Red' %}
+                    cs-alert-danger
+                    {% elif comments.BeforeStatus.color == 'Pink' %}
+                    cs-alert-pink
+                    {% elif comments.BeforeStatus.color == 'Purple' %}
+                    cs-alert-purple
+                    {% endif %}" data-bs-toggle="offcanvas" data-bs-target="#taskid{{task.pk}}"
+                            aria-controls="offcanvasRight"><del>{{comments.BeforeStatus}}</del></span> to
+                        <span class="
+                    {% if comments.AfterStatus.color == 'None' %}
+                    border
+                    {% elif comments.AfterStatus.color == 'Gray' %}
+                    cs-alert-gray
+                    {% elif comments.AfterStatus.color == 'Blue' %}
+                    cs-alert-primary
+                    {% elif comments.AfterStatus.color == 'Green' %}
+                    cs-alert-green
+                    {% elif comments.AfterStatus.color == 'Yellow' %}
+                    cs-alert-yellow
+                    {% elif comments.AfterStatus.color == 'Orange' %}
+                    cs-alert-orange
+                    {% elif comments.AfterStatus.color == 'Red' %}
+                    cs-alert-danger
+                    {% elif comments.AfterStatus.color == 'Pink' %}
+                    cs-alert-pink
+                    {% elif comments.AfterStatus.color == 'Purple' %}
+                    cs-alert-purple
+                    {% endif %}
+                    " data-bs-toggle="offcanvas" data-bs-target="#taskid{{task.pk}}"
+                            aria-controls="offcanvasRight">{{comments.AfterStatus}}</span>
+                        {% endif %}
+                        <time class="text-muted small"> on {{comments.corrent_date_time}}</time></span>
+                    {% if comments.comments_img %}
+                    <br><a href="{{comments.comments_img.url}}" target="_blank"><img class="mt-3 border rounded"
+                            src="{{comments.comments_img.url}}" alt=""></a>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+            <li class="timeline-item">
+                <span class="timeline-item-icon | avatar-icon">
+                    <i class="avatar">
+                        <img src="{% static 'img/imgs/logo.png' %}" class="bg-white" />
+                    </i>
+                </span>
+                <div class="timeline-item-description border p-3 rounded ">
+                    <div class="border-bottom">
+                        <span>{{get_student.Student_Name}} joined <span
+                                class="fs-5 fw-bold text-primary">inlingua</span> on {{get_student.Created_date}} Amount
+                            Paid: {{get_student.Amount_Paide}} Rs.
+                            {% if get_student.payment_complited %}
+                            <span class="text-success"> Payment Completed</span>
+                            {% endif %}
+                            {% if get_student.Balance_Amount != 0.0 %}
+                            , Balance Amount to be Paid: {{get_student.Balance_Amount}} Rs.
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="mt-2 d-flex align-items-center gap-1">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Payment Verified"
+                                class="btn btn-outline-primary btn-sm rounded-pill">
+                        </form>
+                        <input type="submit" value="Payment not a Verified"
+                            class="btn btn-outline-secondary btn-sm rounded-pill">
+                    </div>
+                </div>
+            </li>
+        </ol>
+        <style>
+            img {
+                max-width: 100%;
+            }
+
+            .timeline {
+                width: 85%;
+                max-width: 700px;
+                margin-left: auto;
+                margin-right: auto;
+                display: flex;
+                flex-direction: column;
+                padding: 32px 0 32px 32px;
+                border-left: 2px solid rgb(218, 218, 218);
+                font-size: 1.125rem;
+            }
+
+            .timeline-item {
+                display: flex;
+                gap: 8px;
+
+                &+* {
+                    margin-top: 30px;
+                }
+
+                &+.extra-space {
+                    margin-top: 48px;
+                }
+            }
+
+            .timeline-item-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-left: -52px;
+                flex-shrink: 0;
+                overflow: hidden;
+                box-shadow: 0 0 0 6px #fff;
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                &.faded-icon {
+                    background-color: var(--c-grey-100);
+                    color: var(--c-grey-400);
+                }
+
+                &.filled-icon {
+                    background-color: var(--c-blue-500);
+                    color: #fff;
+                }
+            }
+        </style>
     </div>
-    <style>
-        img {
-            max-width: 100%;
-        }
-
-        .timeline {
-            width: 85%;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            display: flex;
-            flex-direction: column;
-            padding: 32px 0 32px 32px;
-            border-left: 2px solid rgb(218, 218, 218);
-            font-size: 1.125rem;
-        }
-
-        .timeline-item {
-            display: flex;
-            gap: 8px;
-
-            &+* {
-                margin-top: 30px;
-            }
-
-            &+.extra-space {
-                margin-top: 48px;
-            }
-        }
-
-        .timeline-item-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-left: -52px;
-            flex-shrink: 0;
-            overflow: hidden;
-            box-shadow: 0 0 0 6px #fff;
-
-            svg {
-                width: 20px;
-                height: 20px;
-            }
-
-            &.faded-icon {
-                background-color: var(--c-grey-100);
-                color: var(--c-grey-400);
-            }
-
-            &.filled-icon {
-                background-color: var(--c-blue-500);
-                color: #fff;
-            }
-        }
-    </style>
 </div>
-</div>
-
-
-
 
 {% endblock %}

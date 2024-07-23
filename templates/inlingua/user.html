@@ -22,77 +22,111 @@ Student page | Inlingua
             {% endif %}
         </div>
     </div>
-    <div></div>
-    {% if page_obj %}
-    <table class="table border-2 w-100 my-3 rounded">
-        <thead class="rounded">
-            <tr class="mb-3 rounded">
-                <td class="p-2 text-primary text-center">S.No</td>
-                <td class="p-2 text-primary text-center">Student ID</td>
-                <td class="p-2 text-primary text-center">Student Name</td>
-                <td class="p-2 text-primary text-center">Student Email</td>
-                <td class="p-2 text-primary text-center">Student Phone</td>
-                <td class="p-2 text-primary text-center">Status</td>
-            </tr>
-        </thead>
-        <tbody class="gap-1">
-            {% for student in page_obj %}
-            <tr class="mb-3">
-                <td class="p-2 mb-3 text-center">{{ forloop.counter }}</td>
-                <td class="p-2 mb-3 text-center"><a href="">{{ student.Student_ID }}</a></td>
-                <td class="p-2 mb-3 text-center">{{ student.Student_Name }}</td>
-                <td class="p-2 mb-3 text-center">{{ student.Student_Mail_Id }}</td>
-                <td class="p-2 mb-3 text-center">+91 {{ student.Student_Phone_No }}</td>
-                <td class="p-2 mb-3 text-center w-25">
-                    <span class="px-3 py-1 rounded-pill
-                    {% if student.status == 'New Student' %}
-                    alert-primary
-                    {% elif student.status == 'Verified' %}
-                    alert-success
-                    {% elif student.status == 'Batch Allocated' %}
-                    alert-warning
-                    {% elif student.status == 'Waiting for Assessment' %}
-                    alert-info
-                    {% elif student.status == 'Course Completed' %}
-                    alert-danger
-                    {% endif %}
-                    ">{{ student.status }}</span>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-            {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
+    <div class="">
+        <div class="row mb-1 mx-1">
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            <div class="row">
+                <div class="col-3">
+                    S.NO
+                </div>
+                <div class="col-9">
+                    Student ID
+                </div>
+            </div>
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Student Name
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Language & Level
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Mobile Number
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Student Email
+          </div>
+          <div class="col-2 text-truncate bg-primary p-2 text-white">
+            Status & Action
+          </div>
+        </div>
+        {% if page_obj %}
+        {% for student in page_obj %}
+        <div class="row mb-1 mx-1" style="background-color: rgb(238, 238, 238);">
+          <div class="col-2 text-truncate p-2" >
+            <div class="row">
+                <div class="col-3">
+                    {{forloop.counter}}
+                </div>
+                <div class="col-9">
+                    {{student.Student_ID}}
+                </div>
+            </div>
+          </div>
+          <div class="col-2 text-truncate p-2">
+            {{student.Student_Name}}
+          </div>
+          <div class="col-2 text-truncate p-2">
+            {{student.Language_Name}} {{student.Level_and_Hour}}
+          </div>
+          <div class="col-2 text-truncate p-2">
+            {{student.Student_Mail_Id}}
+          </div>
+          <div class="col-2 text-truncate p-2">
+            +91 {{student.Student_Phone_No}}
+          </div>
+          <div class="col-2 text-truncate p-2">
+            <a href="">
+            <span class="px-3 py-1 rounded-pill
+            {% if student.status == 'New Student' %}
+            alert-primary
+            {% elif student.status == 'Verified' %}
+            alert-success
+            {% elif student.status == 'Batch Allocated' %}
+            alert-warning
+            {% elif student.status == 'Waiting for Assessment' %}
+            alert-info
+            {% elif student.status == 'Course Completed' %}
+            alert-danger
             {% endif %}
-            {% for num in page_obj.paginator.page_range %}
-            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-            </li>
-            {% endfor %}
-            {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-            </li>
-            {% else %}
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    {% else %}
-    <div class="d-flex flex-column align-items-center justify-content-center w-100 h-100">
-        <img src="{% static 'img/imgs/Student_creation.png' %}" alt="" class="" style="width: 40% !important;">
-        <a href="{% url 'addstudent' %}" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Add New Student</a>
-    </div>
-    {% endif %}
+            ">{{ student.status }} & Update</span></a>
+          </div>
+        </div>
+        {% endfor %}
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end mt-2">
+              {% if page_obj.has_previous %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+              </li>
+              {% endif %}
+              {% for num in page_obj.paginator.page_range %}
+              <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+              </li>
+              {% endfor %}
+              {% if page_obj.has_next %}
+              <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                  <a class="page-link" href="#">Next</a>
+              </li>
+              {% endif %}
+          </ul>
+      </nav>
+        {% else %}
+        <div class="row">
+          <div class="col-12 border d-flex flex-column align-items-center py-3">
+            <img src="{% static 'img/imgs/Student_creation.png' %}" alt="" class="w-25">
+            <p class="text-center p-0 m-0 p-2 fs-5 fw-bold">No Students List, Create (or) Import Studens</p>
+          </div>
+        </div>
+        {% endif %}
+      </div>
 {% endblock %}
