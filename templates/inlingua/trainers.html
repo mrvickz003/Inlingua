@@ -21,23 +21,23 @@ Trainers List | Inlingua
         <thead class="rounded">
             <tr class="mb-3 rounded">
                 <td class="p-2 text-primary">S.NO</td>
-                <td class="p-2 text-primary">Employee ID</td>
-                <td class="p-2 text-primary">Employee Name</td>
-                <td class="p-2 text-primary">Employee Email</td>
-                <td class="p-2 text-primary">Employee Phone</td>
-                <td class="p-2 text-primary">Employee Role</td>
-                <td class="p-2 text-primary">Employee Status</td>
+                <td class="p-2 text-primary">Trainer ID</td>
+                <td class="p-2 text-primary">Trainer Name</td>
+                <td class="p-2 text-primary">Trainer Email</td>
+                <td class="p-2 text-primary">Trainer Phone</td>
+                <td class="p-2 text-primary">Trainer Role</td>
+                <td class="p-2 text-primary">Trainer Status</td>
             </tr>
         </thead>
         <tbody class="gap-1">
-            {% for employee in page_obj %}
+            {% for trainer in pageObjTrainer %}
             <tr class="mb-3">
                 <td class="p-2 mb-3">{{ forloop.counter }}</td>
-                <td class="p-2 mb-3"><a href="">{{ employee.employee_ID }}</a></td>
-                <td class="p-2 mb-3">{{ employee.name }}</td>
-                <td class="p-2 mb-3">{{ employee.email }}</td>
-                <td class="p-2 mb-3">+91 {{ employee.phone }}</td>
-                <td class="p-2 mb-3">{{ employee.current_role }}</td>
+                <td class="p-2 mb-3"><a href="">{{ trainer.Trainer_ID }}</a></td>
+                <td class="p-2 mb-3">{{ trainer.trainer_name }}</td>
+                <td class="p-2 mb-3">{{ trainer.trainer_mail }}</td>
+                <td class="p-2 mb-3">+91 {{ trainer.trainer_phone }}</td>
+                <td class="p-2 mb-3">{{ trainer.trainer_languages }}</td>
                 <td class="p-2 mb-3 w-25">
                   <span class="alert-primary px-3 py-1 rounded-pill">Active</span>
                 </td>
@@ -75,7 +75,7 @@ Trainers List | Inlingua
     {% else %}
     <div class="d-flex flex-column align-items-center justify-content-center w-100 h-100">
         <img src="{% static 'img/imgs/trainer_logo.png' %}" alt="" class="w-25 mt-4">
-        <a href="{% url 'addemployee' %}" class="btn text-white rounded-pill px-4 mt-2" style="background-color: #FF751A;">Add New Employees</a>
+        <a href="{% url 'addtrainers' %}" class="btn text-white rounded-pill px-4 mt-2" style="background-color: #FF751A;">Add New Trainer</a>
     </div>
     {% endif %}
 {% endblock %}
