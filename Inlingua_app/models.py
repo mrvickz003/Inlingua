@@ -255,23 +255,22 @@ def generate_trainer_id():
     last_trainer = TrainerTable.objects.order_by('-id').first()
     year = Year[2:]
     if last_trainer and last_trainer.Created_date.year == dt.now().year:
-        last_id = int(last_trainer.Trainer_ID[7:])
-        new_id = last_id + 1
+        last_trainer_id = int(last_trainer.Trainer_ID[7:])
+        new_trainer_id = last_trainer_id + 1
     else:
-        new_id = 1
-    return f'INL{year}TR{new_id:04d}'
+        new_trainer_id = 1
+    return f'INL{year}TR{new_trainer_id:04d}'
 
 class TrainerTable(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_Trainer')
     Trainer_ID = models.CharField(unique=True, default=generate_trainer_id, null=False, blank=False, max_length=20)
     trainer_name = models.CharField(max_length=100)
     trainer_dob = models.DateField()
-    trainer_education = models.CharField(max_length=100)
     trainer_mail = models.EmailField()
     trainer_phone = models.CharField(max_length=15) 
     trainer_languages = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, blank=True)
     trainer_address = models.TextField(max_length=500)
     trainer_photo = models.FileField(upload_to=Trainer_data)
-    trainer_bank_details = models.CharField(max_length=100)
     trainer_aadhar = models.FileField(upload_to=Trainer_data)
 
     qualification = models.CharField(max_length=255)
@@ -282,7 +281,7 @@ class TrainerTable(models.Model):
     bank_name = models.CharField(max_length=100)
     bank_branch = models.CharField(max_length=100)
     bank_ifsc = models.CharField(max_length=11)
-    passbook = models.FileField(upload_to=Employee_data, null=True, blank=True)
+    passbook = models.FileField(upload_to=Trainer_data, null=False, blank=False)
 
     Created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainers_created_by')
     Created_date = models.DateTimeField()
@@ -328,6 +327,7 @@ def create_batch_timing(sender, **kwargs):
 
 class Batch(models.Model):
     batch_name = models.CharField(unique=True, null=False, blank=False, max_length=20)
+    language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, blank=True)
     levels = models.ForeignKey(LevelsAndHour, on_delete=models.SET_NULL,null=True, blank=True)
     batch_preferences = models.ForeignKey(batch_preferences, on_delete=models.SET_NULL,null=True, blank=True)
     students = models.ManyToManyField(StudentTable)

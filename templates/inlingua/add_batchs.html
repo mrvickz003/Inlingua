@@ -10,6 +10,9 @@ Employees page | Inlingua
 {% block container %}
 {% include 'inc/sidebar.html' %}
 {% include 'inc/message.html' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 <style>
     .bxs-check-circle {
     position: relative;
@@ -58,168 +61,189 @@ Employees page | Inlingua
         </div>
     </div>
 </div>
-<form action="{% url 'addemployee' %}" method="post" id="student-form" enctype="multipart/form-data">
+<form action="" method="post" id="batch_form" enctype="multipart/form-data">
     {% csrf_token %}
-    <!-- Employee Details -->
-    <div id="student-details" class="section mt-5">
+    <!-- Batch Setup -->
+    <div id="batch_setup_container" class="section mt-5">
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="employeename">Employee Name <strong class="text-danger">*</strong></label>
+                <label for="batch_language">Language <strong class="text-danger">*</strong></label>
             </div>
             <div class="col-4">
-                <input type="text" id="employeename" name="employeename" class="form-control">
+                <select name="batch_language" id="batch_language" class="form-select">
+                    <option value="">Select Language</option>
+                    {% for language in languages %}
+                    <option value="{{ language.pk }}">{{ language }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="col-4 d-flex align-items-center justify-content-start">
-                <p class="p-0 m-0 text-danger" id="employeename-error"></p>
+                <p class="p-0 m-0 text-danger" id="batch_language-error"></p>
             </div>
         </div>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="employeephonenumber">Employee Phone No <strong class="text-danger">*</strong></label>
+                <label for="language_level">Language Levels <strong class="text-danger">*</strong></label>
             </div>
             <div class="col-4">
-                <input type="number" id="employeephonenumber" name="employeephonenumber" class="form-control">
+                <select name="language_level" id="language_level" class="form-select">
+                    <option value="">Select Level</option>
+                </select>
             </div>
             <div class="col-4 d-flex align-items-center justify-content-start">
-                <p class="p-0 m-0 text-danger" id="employeephonenumber-error"></p>
+                <p class="p-0 m-0 text-danger" id="language_level-error"></p>
             </div>
         </div>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="employeemail">Employee Mail Id <strong class="text-danger">*</strong></label>
+                <label for="batch_preference">Batch Preferences <strong class="text-danger">*</strong></label>
             </div>
             <div class="col-4">
-                <input type="email" id="employeemail" name="employeemail" class="form-control">
+                <select name="batch_preference" id="batch_preference" class="form-select">
+                    <option value="">Select Batch Preference</option>
+                    {% for Batch_Preference in Batch_Preferences %}
+                    <option value="{{ Batch_Preference.pk }}">{{ Batch_Preference }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="col-4 d-flex align-items-center justify-content-start">
-                <p class="p-0 m-0 text-danger" id="employeemail-error"></p>
+                <p class="p-0 m-0 text-danger" id="batch_preference-error"></p>
             </div>
         </div>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="employeedob">Employee Date of Birth <strong class="text-danger">*</strong></label>
+                <label for="time_slot">Time Slot <strong class="text-danger">*</strong></label>
             </div>
             <div class="col-4">
-                <input type="date" id="employeedob" name="employeedob" class="form-control">
+                <select name="time_slot" id="time_slot" class="form-select">
+                    <option value="">Select Time Slot</option>
+                </select>
             </div>
             <div class="col-4 d-flex align-items-center justify-content-start">
-                <p class="p-0 m-0 text-danger" id="employeedob-error"></p>
-            </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="employeedoj">Employee Date of Join <strong class="text-danger">*</strong></label>
-            </div>
-            <div class="col-4">
-                <input type="date" id="employeedoj" name="employeedoj" class="form-control">
-            </div>
-            <div class="col-4 d-flex align-items-center justify-content-start">
-                <p class="p-0 m-0 text-danger" id="employeedoj-error"></p>
-            </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="employeeaadharcard">Identity Card (Aadhar card Copy) <strong class="text-danger">*</strong></label>
-            </div>
-            <div class="col-4">
-                <input type="file" id="employeeaadharcard" name="employeeaadharcard" class="form-control">
-            </div>
-            <div class="col-4 d-flex align-items-center justify-content-start">
-                <p class="p-0 m-0 text-danger" id="employeeaadharcard-error"></p>
-            </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="employeaddress">Employee Address</label>
-            </div>
-            <div class="col-4">
-                <textarea name="employeaddress" id="employeaddress" rows="4" class="form-control"></textarea>
-            </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="Employeephoto">Employee Photo</label>
-            </div>
-            <div class="col-4">
-                <input type="file" id="Employeephoto" name="Employeephoto" class="form-control">
+                <p class="p-0 m-0 text-danger" id="time_slot-error"></p>
             </div>
         </div>
         <div class="row mb-4">
             <div class="col-4">
             </div>
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <button type="button" onclick="validateEmployeeDetails()" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Role Details</button>
+                <button type="button" onclick="batch_setup()" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Add Students</button>
             </div>
         </div>
     </div>
-
     <!-- Roles Details -->
-    <div id="role-details" class="section mt-5 d-none">
-        <p class="m-0 p-0">Error</p>
+    <div id="add_students_container" class="section mt-5 d-none">
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="isadmin">Is admin</label>
+                <label for="students">Students</label>
             </div>
             <div class="col-4">
-                <select name="isadmin" id="isadmin" class="form-select">
-                    <option value="false">NO</option>
-                    <option value="true">Yes</option>
+                <select id="students" class="selectpicker w-100 bg-white" multiple data-live-search="true" data-actions-box="true" style="outline: none !important; border: 1px solid #6c757d;">
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                    <option value="4">Four</option>
+                    <option value="5">Five</option>
                 </select>
             </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="isbusinessmanager">Is Business Manager</label>
-            </div>
-            <div class="col-4">
-                <select name="isbusinessmanager" id="isbusinessmanager" class="form-select">
-                    <option value="false">NO</option>
-                    <option value="true">Yes</option>
-                </select>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="students-error"></p>
             </div>
         </div>
-        <div class="row mb-4">
-            <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="trainerhead">Is Trainer Head</label>
-            </div>
-            <div class="col-4">
-                <select name="trainerhead" id="trainerhead" class="form-select">
-                    <option value="false">NO</option>
-                    <option value="true">Yes</option>
-                </select>
-            </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="isaccountant">Is accountant</label>
-            </div>
-            <div class="col-4">
-                <select name="isaccountant" id="isaccountant" class="form-select">
-                    <option value="false">NO</option>
-                    <option value="true">Yes</option>
-                </select>
-            </div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-4 d-flex align-items-center justify-content-end">
-                <label for="businessdevelopment">Is Business Development Executive</label>
-            </div>
-            <div class="col-4">
-                <select name="businessdevelopment" id="businessdevelopment" class="form-select">
-                    <option value="false">NO</option>
-                    <option value="true">Yes</option>
-                </select>
-            </div>
-        </div>
-        <p class="m-0 p-0 text-danger text-center">Error</p>
         <div class="row mb-4">
             <div class="col-4">
             </div>
             <div class="col-4 d-flex align-items-center justify-content-end gap-1">
-                <button type="button" onclick="goBackToEmployeeDetails()" class="btn btn-outline-secondary rounded-pill">Go Back</button>
-                <button type="button" onclick="validateRoleDetails()" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Payment Details</button>
+                <button type="button" onclick="goBackToBatchsetup()" class="btn btn-outline-secondary rounded-pill">Go Back</button>
+                <button type="button" onclick="validateAndSubmitForm()" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;">Create Batch</button>
             </div>
         </div>
     </div>
 </form>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Select JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        console.log("Initializing selectpicker");
+        $('.selectpicker').selectpicker();
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#batch_language').change(function(){
+            var languageId = $(this).val();
+            
+            // Load levels
+            $.ajax({
+                url: "{% url 'ajax_load_levels' %}",
+                data: {
+                    'language_id': languageId
+                },
+                success: function(data){
+                    $('#language_level').html('<option value="">Select Level</option>');
+                    $.each(data, function(key, value){
+                        $('#language_level').append('<option value="'+value.id+'">'+value.level+'</option>');
+                    });
+                }
+            });
+        });
+    });
+
+    $(document).ready(function(){
+        $('#batch_preference').change(function(){
+            var batchpreference = $(this).val();
+            
+            // load batch preference
+            $.ajax({
+                url: "{% url 'ajax_load_time_slots' %}",
+                data: {
+                    'batchpreference_id': batchpreference
+                },
+                success: function(data){
+                    $('#time_slot').html('<option value="">Select Time Slot</option>');
+                    $.each(data, function(key, value){
+                        $('#time_slot').append('<option value="'+value.id+'">'+value.timing+'</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+{% block script %}
+<script>
+    function batch_setup() {
+        let isValid = true;
+
+        if (isValid) {
+            document.getElementById('batch_setup_container').classList.add('d-none');
+            document.getElementById('add_students_container').classList.remove('d-none');
+            document.getElementById('step1-icon').classList.remove('text-muted');
+            document.getElementById('step1-icon').classList.add('text-primary', 'step-completed');
+
+        }
+    }
+    function goBackToBatchsetup() {
+        document.getElementById('add_students_container').classList.add('d-none');
+        document.getElementById('batch_setup_container').classList.remove('d-none');
+        document.getElementById('step1-icon').classList.add('text-muted');
+        document.getElementById('step1-icon').classList.remove('text-primary', 'step-completed');
+    }
+    function validateAndSubmitForm() {
+        let isValid = true;
+        batch_setup()
+
+        if (isValid) {
+            document.getElementById('step2-icon').classList.add('text-muted');
+            document.getElementById('step2-icon').classList.remove('text-primary');
+            document.getElementById('batch_form').submit();
+        }
+    }
+</script>
 {% endblock %}
