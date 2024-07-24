@@ -43,11 +43,12 @@ def addstudent(request):
         student_counselor = NameOfCounselor.objects.get(id=student_counselor_id)
         course_type = batch_preferences.objects.get(pk=course_type)
         
-
-
         new_user = User.objects.create(
             username = student_mail_id,
             email = student_mail_id,
+            is_active = False,
+            is_staff = False,
+            is_superuser = False,
         )
         new_user.set_password(student_mail_id)
         new_user.save()

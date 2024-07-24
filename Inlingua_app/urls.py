@@ -46,6 +46,7 @@ urlpatterns = [
     path('batch/create/', batches.create_batch, name="create_batch"),
     path('ajax/load-levels/', batches.load_levels, name='ajax_load_levels'),
     path('ajax/load-time-slots/', batches.load_time_slots, name='ajax_load_time_slots'),
+    path('ajax/get_students/', batches.get_students, name='get_students'),
 
     # Role maping
     path('rolemaping/<str:role>', employees.rolemaping, name="rolemaping"),
