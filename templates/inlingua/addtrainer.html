@@ -7,9 +7,37 @@ Add Trainer | Inlingua
 {% block style %}
 {% endblock %}
 
+
 {% block container %}
     {% include 'inc/sidebar.html' %}
     {% include 'inc/message.html' %}
+
+    <style>
+        .bxs-check-circle {
+        position: relative;
+    }
+    
+    .bxs-check-circle-after::after {
+        content: "";
+        position: absolute;
+        bottom: 10px; 
+        left:56%; 
+        transform: translateX(-50%);
+        width: 97%; 
+        height: 3px; 
+        background: #6c757d; 
+    }
+    .step-completed::after {
+        content: "";
+        position: absolute;
+        bottom: 10px; 
+        left: 56%; 
+        transform: translateX(-50%);
+        width: 97%; 
+        height: 3px; 
+        background: #FF751A; 
+    }
+    </style>
     <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
         <h4>Add Trainer</h4>
         <div class="d-flex align-items-center gap-1">  
@@ -17,82 +45,474 @@ Add Trainer | Inlingua
         </div>
     </div>
     <body>
-        <div class="container mt-5">
-            <form method="POST" enctype="multipart/form-data">
+        <div class="mt-5">
+            <div class="row pt-3">
+                <div class="col-1"></div>
+                <div class="col-4 after-effect">
+                    <div class="d-flex align-items-center gap-3 details-container">
+                        <div>
+                            <p class="p-0 m-0">Step 1</p>
+                            <p class="p-0 m-0 text-primary" id="step1-lable">Trainer Detail</p>
+                        </div>
+                    </div>
+                    <i id="step1-icon" class='bx bxs-check-circle bxs-check-circle-after text-muted fs-4 w-100'></i>
+                </div>
+                <div class="col-4 after-effect">
+                    <div class="d-flex align-items-center gap-3 details-container">
+                        <div>
+                            <p class="p-0 m-0">Step 2</p>
+                            <p class="p-0 m-0 text-primary">Education Details</p>
+                        </div>
+                    </div>
+                    <i id="step2-icon" class='bx bxs-check-circle bxs-check-circle-after text-muted fs-4 w-100'></i>
+                </div>
+                <div class="col-2 after-effect">
+                    <div class="d-flex align-items-center gap-3">
+                        <div>
+                            <p class="p-0 m-0">Step 3</p>
+                            <p class="p-0 m-0 text-primary">Bank Details</p>
+                        </div>
+                    </div>
+                    <i id="step3-icon" class='bx bxs-check-circle text-muted fs-4 w-100'></i>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-5 mb-5">
+            <form id="trainerForm" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6">
-                        <!-- Name -->
-                        <div class="form-group">
-                            <label for="name">Name</label>
+            
+                <!-- Step 1: Trainer Personal Detail -->
+                <div id="step1">
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="trainer_name">Name <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
                             <input type="text" class="form-control" id="trainer_name" name="trainer_name">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
                             <p class="p-0 m-0 text-danger" id="trainer-name-error"></p>
                         </div>
-                        <!-- DOB -->
-                        <div class="form-group">
-                            <label for="dob">Date of Birth</label>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="trainer_dob">Date of Birth <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
                             <input type="date" class="form-control" id="trainer_dob" name="trainer_dob">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
                             <p class="p-0 m-0 text-danger" id="trainer-dob-error"></p>
                         </div>
-                        <!-- Education -->
-                        <div class="form-group">
-                            <label for="education">Education</label>
-                            <input type="text" class="form-control" id="trainer_education" name="trainer_education">
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="trainer_mail">Mail <strong class="text-danger">*</strong></label>
                         </div>
-                        <!-- Mail -->
-                        <div class="form-group">
-                            <label for="mail">Mail</label>
+                        <div class="col-4">
                             <input type="email" class="form-control" id="trainer_mail" name="trainer_mail">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
                             <p class="p-0 m-0 text-danger" id="trainer-mail-error"></p>
                         </div>
-                        <!-- Phone No -->
-                        <div class="form-group">
-                            <label for="phone">Phone No</label>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="trainer_phone">Phone No <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
                             <input type="tel" class="form-control" id="trainer_phone" name="trainer_phone">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
                             <p class="p-0 m-0 text-danger" id="trainer-phone-error"></p>
                         </div>
-                        <!-- Languages -->
-                        <div class="form-group">
-                            <label for="languages">Languages</label>
-                            <input type="text" class="form-control" id="trainer_languages" name="trainer_languages">
-                            <p class="p-0 m-0 text-danger" id="trainer-language-error"></p>
-                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <!-- Address -->
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <textarea class="form-control" id="trainer_address" name="trainer_address" rows="3"></textarea>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="trainer_languages">Languages <strong class="text-danger">*</strong></label>
                         </div>
-                        <!-- Photo -->
-                        <div class="form-group">
-                            <label for="photo">Photo</label>
-                            <input type="file" class="form-control-file" id="trainer_photo" name="trainer_photo">
-                            <p class="p-0 m-0 text-danger" id="trainer-photo-error"></p>
-                        </div>
-                        <!-- Bank details -->
-                        <div class="form-group">
-                            <label for="bank">Bank details</label>
-                            <input type="text" class="form-control" id="trainer_bank" name="trainer_bank">
-                        </div>
-                        <!-- Aadhar -->
-                        <div class="form-group">
-                            <label for="aadhar">Aadhar</label>
-                            <input type="text" class="form-control" id="trainer_aadhar" name="trainer_aadhar">
-                            <p class="p-0 m-0 text-danger" id="trainer-aadhar-error"></p>
-                        </div>
-                        <!-- Role -->
-                        <div class="form-group">
-                            <label for="role">Role</label>
-                            <select name="trainer-role" class="form-control" id="trainer_role" name="trainer_role">
-                                <option value="">Select Role</option>
-                                <option value="">Role 1</option>
+                        <div class="col-4">
+                            <select name="trainer_languages" id="trainer_languages" class="form-control" onchange="updateLevels()">
+                                <option value="">Select Language</option>
+                                {% for Language in All_languages %}
+                                <option value="{{ Language.id }}">{{ Language.name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="trainer-languages-error"></p>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="trainer_address">Address</label>
+                        </div>
+                        <div class="col-4">
+                            <textarea class="form-control" id="trainer_address" name="trainer_address" rows="3"></textarea>
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <!-- No error message column for optional field -->
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="trainer_date_of_join">Date of Join <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="date" class="form-control" id="trainer_date_of_join" name="trainer_date_of_join">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="trainer-date-of-join-error"></p>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="trainer_aadhar">Aadhar (File) <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="file" class="form-control" id="trainer_aadhar" name="trainer_aadhar">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="trainer-aadhar-error"></p>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="trainer_photo">Photo</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="file" class="form-control" id="trainer_photo" name="trainer_photo">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <!-- No error message column for optional field -->
+                        </div>
+                    </div>
+                    <div class="col-8 d-flex align-items-center justify-content-end">
+                        <button type="button" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;" onclick="validateStep1()">Next</button>
                     </div>
                 </div>
-                <button type="submit" onclick="validateFormTrainer()" class="btn btn-primary">Submit</button>
-            </form>
+            
+                <!-- Step 2: Education Details -->
+                <div id="step2" style="display: none;">
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="education_qualification">Qualification <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="education_qualification" name="education_qualification">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="education-qualification-error"></p>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="education_institute">Institute <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="education_institute" name="education_institute">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="education-institute-error"></p>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="education_year_of_passing">Year of Passing <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="education_year_of_passing" name="education_year_of_passing">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="education-year-of-passing-error"></p>
+                        </div>
+                    </div>
+                    <div class="col-8 d-flex align-items-center justify-content-end gap-1">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" onclick="previousStep()">Previous</button>
+                    <button type="button" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;" onclick="validateStep2()">Next</button>
+                    </div>
+                </div>
+            
+                <!-- Step 3: Bank Details -->
+                <div id="step3" style="display: none;">
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="bank_account_number">Account Number <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="bank_account_number" name="bank_account_number">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="bank-account-number-error"></p>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="bank_name">Bank Name <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="bank_name" name="bank_name">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="bank-name-error"></p>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="bank_branch">Branch <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="bank_branch" name="bank_branch">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="bank-branch-error"></p>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="bank_ifsc_code">IFSC Code <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="bank_ifsc_code" name="bank_ifsc_code">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="bank-ifsc-code-error"></p>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-4">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <label for="bank_passbook">Passbook (Front page) <strong class="text-danger">*</strong></label>
+                        </div>
+                        <div class="col-4">
+                            <input type="file" class="form-control" id="bank_passbook" name="bank_passbook">
+                        </div>
+                        <div class="col-4 d-flex align-items-center justify-content-start">
+                            <p class="p-0 m-0 text-danger" id="bank-passbook-error"></p>
+                        </div>
+                    </div>
+
+                    <div class="col-8 d-flex align-items-center justify-content-end gap-1">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" onclick="previousStep()">Previous</button>
+                    <button type="submit" class="btn text-white rounded-pill px-4" style="background-color: #FF751A;" onclick="validateStep3()">Submit</button>
+                    </div>
+                </div>
+            </form>            
         </div>
         </body>
+
+    <Script>
+      function validateStep1() {
+    // Reset all error messages
+    resetErrors();
+
+    let isValid = true;
+
+    // Validate Name
+    const name = document.getElementById('trainer_name').value.trim();
+    if (name === '') {
+        isValid = false;
+        showError('trainer-name-error', 'Name is required');
+    }
+
+    // Validate Date of Birth
+    const dob = document.getElementById('trainer_dob').value;
+    if (dob === '') {
+        isValid = false;
+        showError('trainer-dob-error', 'Date of Birth is required');
+    } else {
+        // Check if the trainer is above 18 years old
+        const today = new Date();
+        const birthDate = new Date(dob);
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        if (age < 18) {
+            isValid = false;
+            showError('trainer-dob-error', 'Trainer must be above 18 years old');
+        }
+    }
+
+    // Validate Mail
+    const mail = document.getElementById('trainer_mail').value.trim();
+    if (mail === '') {
+        isValid = false;
+        showError('trainer-mail-error', 'Mail is required');
+    }
+
+    // Validate Phone No
+    const phone = document.getElementById('trainer_phone').value.trim();
+    if (phone === '') {
+        isValid = false;
+        showError('trainer-phone-error', 'Phone No is required');
+    }
+
+    // Validate Languages
+    const languages = document.getElementById('trainer_languages').value;
+    if (languages === '') {
+        isValid = false;
+        showError('trainer-languages-error', 'Please select a Language');
+    }
+
+    // Validate Date of Join
+    const joinDate = document.getElementById('trainer_date_of_join').value;
+    if (joinDate === '') {
+        isValid = false;
+        showError('trainer-date-of-join-error', 'Date of Join is required');
+    } else {
+        const today = new Date();
+        const addDate = new Date(joinDate);
+        const timeDiff = addDate.getTime() - today.getTime();
+        const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        if (diffDays < 0 || diffDays > 10) {
+            isValid = false;
+            showError('trainer-date-of-join-error', 'Date of Join should be within 10 days from today');
+        }
+    }
+
+    // Validate Aadhar (File)
+    const aadhar = document.getElementById('trainer_aadhar').value;
+    if (aadhar === '') {
+        isValid = false;
+        showError('trainer-aadhar-error', 'Aadhar (File) is required');
+    }
+
+    if (isValid) {
+        // Hide current step and show next step
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+        document.getElementById('step1-icon').classList.remove('text-muted');
+        document.getElementById('step1-icon').classList.add('text-primary', 'step-completed');
+   } 
+}
+
+function validateStep2() {
+    // Reset all error messages
+    resetErrors();
+
+    let isValid = true;
+
+    // Validate Qualification
+    const qualification = document.getElementById('education_qualification').value.trim();
+    if (qualification === '') {
+        isValid = false;
+        showError('education-qualification-error', 'Qualification is required');
+    }
+
+    // Validate Institute
+    const institute = document.getElementById('education_institute').value.trim();
+    if (institute === '') {
+        isValid = false;
+        showError('education-institute-error', 'Institute is required');
+    }
+
+    // Validate Year of Passing
+    const yearOfPassing = document.getElementById('education_year_of_passing').value.trim();
+    if (yearOfPassing === '') {
+        isValid = false;
+        showError('education-year-of-passing-error', 'Year of Passing is required');
+    }
+
+    // Additional validation logic for Year of Passing (if needed)
+
+    if (isValid) {
+        // Hide current step and show next step
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step3').style.display = 'block';
+        document.getElementById('step2-icon').classList.remove('text-muted');
+        document.getElementById('step2-icon').classList.add('text-primary', 'step-completed');
+    }
+}
+
+function validateStep3() {
+    // Reset all error messages
+    resetErrors();
+
+    let isValid = true;
+
+    // Validate Account Number
+    const accountNumber = document.getElementById('bank_account_number').value.trim();
+    if (accountNumber === '') {
+        isValid = false;
+        showError('bank-account-number-error', 'Account Number is required');
+    }
+
+    // Validate Bank Name
+    const bankName = document.getElementById('bank_name').value.trim();
+    if (bankName === '') {
+        isValid = false;
+        showError('bank-name-error', 'Bank Name is required');
+    }
+
+    // Validate Branch
+    const bankBranch = document.getElementById('bank_branch').value.trim();
+    if (bankBranch === '') {
+        isValid = false;
+        showError('bank-branch-error', 'Branch is required');
+    }
+
+    // Validate IFSC Code
+    const ifscCode = document.getElementById('bank_ifsc_code').value.trim();
+    if (ifscCode === '') {
+        isValid = false;
+        showError('bank-ifsc-code-error', 'IFSC Code is required');
+    }
+
+    // Validate Passbook (Front page)
+    const passbook = document.getElementById('bank_passbook').value.trim();
+    if (passbook === '') {
+        isValid = false;
+        showError('bank-passbook-error', 'Passbook (Front page) is required');
+    }
+
+    // Submit the form only if all validations pass
+    if (isValid) {
+        document.getElementById('trainerForm').submit();
+    }
+
+    return isValid;
+
+    
+}
+
+
+function resetErrors() {
+    const errorFields = document.querySelectorAll('.text-danger');
+    errorFields.forEach(field => field.textContent = '');
+}
+
+function showError(id, message) {
+    const errorField = document.getElementById(id);
+    if (errorField) {
+        errorField.textContent = message;
+    }
+}
+
+function previousStep() {
+    // Hide current step and show previous step
+    if (document.getElementById('step3').style.display === 'block') {
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+    } else if (document.getElementById('step2').style.display === 'block') {
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step1').style.display = 'block';
+    }
+}
+
+    </Script>
 {% endblock %}

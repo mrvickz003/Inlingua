@@ -265,7 +265,7 @@ class TrainerTable(models.Model):
     Trainer_ID = models.CharField(unique=True, default=generate_trainer_id, null=False, blank=False, max_length=20)
     trainer_name = models.CharField(max_length=100)
     trainer_dob = models.DateField()
-    trainer_education = models.CharField(max_length=100)
+    trainer_education = models.CharField(max_length=100, null=True)
     trainer_mail = models.EmailField()
     trainer_phone = models.CharField(max_length=15) 
     trainer_languages = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, blank=True)
