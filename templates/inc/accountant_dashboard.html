@@ -1,3 +1,4 @@
+{% load static %}
 <section>
     <div class="row mb-3 ">
         <div class="col-4">
@@ -168,10 +169,11 @@
         </nav>
         {% else %}
         <div class="row">
-            <div class="col-12 border">
-                <p class="text-center p-0 m-0 p-2 fs-5 fw-bold">No Payment, Not Complited Student</p>
+            <div class="col-12 border d-flex flex-column align-items-center py-3">
+              <img src="{% static 'img/imgs/Student_creation.png' %}" alt="" class="w-25">
+              <p class="text-center p-0 m-0 p-2 fs-5 fw-bold">No New Students List</p>
             </div>
-        </div>
+          </div>
         {% endif %}
     </div>
 </section>

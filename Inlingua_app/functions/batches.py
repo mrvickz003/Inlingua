@@ -4,6 +4,18 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import JsonResponse
 
+def all_batches(request):
+    batches = Batch.objects.all()[::-1]
+    paginator = Paginator(batches, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context={
+        'all_batches':'active',
+        'page_obj': page_obj,
+    }
+    return render(request, 'inlingua/all_batches.html', context)
+
+
 def create_batch(request):
     if request.method == 'POST':
         batch_language_id = request.POST.get('batch_language')
@@ -29,10 +41,11 @@ def create_batch(request):
             Created_by=request.user,
             Created_date=dt.now()
         )
-
         # Add students to the batch
         batch.students.set(students)
-
+        for student in students:
+            student.status=StudentTable.STATUS_CHOICES[2][0]
+            student.save()
         return redirect('dashboard')
 
     # If not POST, render a form (assuming you have a form template

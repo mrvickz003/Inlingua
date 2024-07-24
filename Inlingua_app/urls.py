@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('login/', login.custom_login, name="login"),
-    
+        
     path('', dashboard.dashboard, name='dashboard'),
     path('employees/', employees.employee_list, name='employee_list'),
     path('employees/add/', employees.addemployee, name="addemployee"),
@@ -43,6 +43,7 @@ urlpatterns = [
     path('students/<int:pk>/full_payments_complited/', user.full_payments, name="full_payments"),
 
     # Batch Createtion
+    path('batchs/', batches.all_batches, name="all_batches"),
     path('batch/create/', batches.create_batch, name="create_batch"),
     path('ajax/load-levels/', batches.load_levels, name='ajax_load_levels'),
     path('ajax/load-time-slots/', batches.load_time_slots, name='ajax_load_time_slots'),
