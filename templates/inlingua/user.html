@@ -13,9 +13,9 @@ Student page | Inlingua
     <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
         <h4 class="fw-bold fs-5">Students</h4>
         <div class="d-flex align-items-center gap-1">
-            {% if page_obj %}
+            
             <a href="{% url 'addstudent' %}" class="btn btn-outline-primary rounded-pill px-4">New Student</a>
-            {% endif %}
+            
             <a href="" class="btn btn-outline-secondary rounded-pill px-4">Import Students</a>
             {% if page_obj %}
             <a href="" class="btn btn-outline-secondary rounded-pill px-4">Export Students</a>
@@ -121,7 +121,7 @@ Student page | Inlingua
           </ul>
       </nav>
         {% else %}
-        <div class="row">
+        <div class="row mb-1 mx-1">
           <div class="col-12 border d-flex flex-column align-items-center py-3">
             <img src="{% static 'img/imgs/Student_creation.png' %}" alt="" class="w-25">
             <p class="text-center p-0 m-0 p-2 fs-5 fw-bold">No Students List, Create (or) Import Studens</p>
