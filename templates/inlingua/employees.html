@@ -13,9 +13,7 @@ Employees page | Inlingua
     <div class="mt-5 py-3 d-flex align-items-center justify-content-between ">
         <p class="p-0 m-0 fw-bold fs-5">Employees list</p>
         <div class="d-flex align-items-center gap-1">
-            {% if all_employees %}
             <a href="{% url 'addemployee' %}" class="btn btn-outline-primary rounded-pill px-4">New Employees</a>
-            {% endif %}
             {% if all_employees %}
             <a href="{% url 'addemployee' %}" class="btn btn-outline-secondary rounded-pill px-4">Export Employees</a>
             {% endif %}
@@ -109,7 +107,7 @@ Employees page | Inlingua
         {% else %}
         <div class="row mb-1 mx-1">
           <div class="col-12 border d-flex flex-column align-items-center py-3">
-            <img src="{% static 'img/imgs/Student_creation.png' %}" alt="" class="w-25">
+            <img src="{% static 'img/imgs/employees.png' %}" alt="" class="w-25">
             <p class="text-center p-0 m-0 p-2 fs-5 fw-bold">No Students List, Create (or) Import Studens</p>
           </div>
         </div>
