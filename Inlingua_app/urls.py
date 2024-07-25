@@ -23,7 +23,7 @@ urlpatterns = [
     path('login/', login.custom_login, name="login"), 
     path('logout/', login.custom_logout, name="custom_logout"),
         
-    path('', dashboard.dashboard, name='dashboard'), # login validation success
+    path('', dashboard.dashboard, name='dashboard'),
     path('employees/', employees.employee_list, name='employee_list'),
     path('employees/add/', employees.addemployee, name="addemployee"),
     

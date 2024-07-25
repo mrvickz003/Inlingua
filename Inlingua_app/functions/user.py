@@ -5,7 +5,9 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.urls import reverse
 from Inlingua_app.utils import send_welcome_email
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')
 def student_list(request):
     all_students = StudentTable.objects.all()[::-1]
     paginator = Paginator(all_students, 10)
@@ -18,6 +20,7 @@ def student_list(request):
     }
     return render(request, 'inlingua/user.html', context)
 
+@login_required(login_url='login')
 def addstudent(request):
     if request.method == 'POST':
         student_name = request.POST.get('studentname')
@@ -90,6 +93,7 @@ def addstudent(request):
     }    
     return render(request, "inlingua/addstudent.html", context)
 
+@login_required(login_url='login')
 def verify(request, pk):
     get_student = get_object_or_404(StudentTable, pk=pk)
     if not get_student.user.is_active:
@@ -112,11 +116,13 @@ def verify(request, pk):
         messages.error(request, f'Student {get_student.Student_Name} is already verified and activated')
         return redirect('dashboard')
 
+@login_required(login_url='login')
 def get_levels(request, language_id):
     levels = LevelsAndHour.objects.filter(language=language_id).values('id','level', 'hours', )
     print(levels)
     return JsonResponse({'levels': list(levels)})
 
+@login_required(login_url='login')
 def full_payments(request, pk):
     if request.method == 'POST':
         get_student = get_object_or_404(StudentTable, pk=pk)
