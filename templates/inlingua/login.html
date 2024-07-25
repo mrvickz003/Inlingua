@@ -14,7 +14,7 @@
       <div class="mesg-container m-0" style="position: absolute;">
         {% include 'inc/message.html' %}
       </div>
-      <a href="{% url 'home' %}" class="btn btn-outline-primary float-start px-4"><i class='bx bx-left-arrow-alt'></i></a>
+      <a href="{% url 'dashboard' %}" class="btn btn-outline-primary float-start px-4"><i class='bx bx-left-arrow-alt'></i></a>
       <img class="d-none d-md-block" src="{% static 'img/imgs/L1.png' %}" alt="img" width="200px">
     </div>
   </div>
@@ -27,10 +27,10 @@
         <div class="col-md-4">
           <p class="text-white m-0 p-0" style="font-size: 40px; font-weight: normal; line-height: 40px;">Welcome to</p>
           <h3  class="text-white m-0" style="font-size: 40px;"><strong>Inlingua Portal</strong></h3>
-          <form method="post" class="mt-4">
+          <form action="" method="post" class="mt-4">
             {% csrf_token %}
             <div class="input-container">
-              <input type="text" id="username" name="username" placeholder="Email address" required />
+              <input type="text" id="username" name="username" placeholder="User ID (or) Email ID" required />
             </div>
             <div class="input-container" style="position: relative;">
               <input type="password" id="password" name="password" placeholder="Password" required/>

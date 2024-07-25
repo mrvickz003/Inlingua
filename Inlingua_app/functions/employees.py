@@ -4,7 +4,9 @@ from Inlingua_app.models import *
 from django.core.paginator import Paginator
 import datetime as dt
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')
 def employee_list(request):
     try:
         current_employee = employees.objects.get(user=request.user)
@@ -28,6 +30,7 @@ def employee_list(request):
     }
     return render(request, 'inlingua/employees.html', context)
 
+@login_required(login_url='login')
 def addemployee(request):
     if request.method == 'POST':
         employeename = request.POST.get('employeename')
@@ -111,6 +114,7 @@ def addemployee(request):
     }    
     return render(request, "inlingua/addemployees.html", context)
 
+@login_required(login_url='login')
 def rolemaping(request, role):
     try:
         current_employee = employees.objects.get(user=request.user)

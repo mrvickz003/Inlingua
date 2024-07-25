@@ -21,7 +21,12 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
       <link rel="stylesheet" href="{% static 'css/inlingua_bootstrap.css' %}">
   </head>
-  <body class="body-pd" style="margin-top: 80px;">
+  <body class="body-pd"
+  {% if loginpage %}
+  style="margin-top: 0px;"
+  {% else %}
+  style="margin-top: 80px;"
+  {% endif %}>
     {% block container %}
     {% endblock %}
     <script src="{% static 'js/sidebar.js' %}"></script>

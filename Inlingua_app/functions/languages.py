@@ -3,7 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
 from Inlingua_app.models import *
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')
 def new_language(request):
     if request.method == 'POST':
         new_language = request.POST.get('language')
@@ -23,7 +25,7 @@ def new_language(request):
         messages.success(request, 'Something went wrong')
         return redirect('dashboard')
     
-
+@login_required(login_url='login')
 def set_levelandhrs(request):
     if request.method == 'POST':
         language_id = request.POST.get('language')

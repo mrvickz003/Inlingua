@@ -20,7 +20,8 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('login/', login.custom_login, name="login"),
+    path('login/', login.custom_login, name="login"), 
+    path('logout/', login.custom_logout, name="custom_logout"),
         
     path('', dashboard.dashboard, name='dashboard'),
     path('employees/', employees.employee_list, name='employee_list'),

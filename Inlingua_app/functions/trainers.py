@@ -3,7 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
 from Inlingua_app.models import *
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='login')
 def trainers_view(request):
     trainers_list = TrainerTable.objects.all().order_by('-id')
     paginator = Paginator(trainers_list, 10)
@@ -16,8 +18,9 @@ def trainers_view(request):
         'paginator': paginator, 
         'page_obj_trainer': page_obj_trainer,
     }
-
     return render(request, "inlingua/trainers.html", context)
+
+@login_required(login_url='login')
 def add_trainers(request):
     if request.method == 'POST':
         # Step 1: Trainer Personal Details
