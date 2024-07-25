@@ -7,15 +7,16 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
 def trainers_view(request):
-    trainersList = TrainerTable.objects.all()
-    paginatorTrainer = Paginator(trainersList, 10)
-    pageNumber = request.GET.get('page')
-    pageObjTrainer = paginatorTrainer.get_page(pageNumber)
+    trainers_list = TrainerTable.objects.all().order_by('-id')
+    paginator = Paginator(trainers_list, 10)
+
+    page_number = request.GET.get('page')
+    page_obj_trainer = paginator.get_page(page_number)
+
     context = {
         'Trainers': 'active',
-        'trainersList': TrainerTable.objects.all(),
-        'paginator': pageObjTrainer,
-        'PageObjTrainer': pageObjTrainer
+        'paginator': paginator, 
+        'page_obj_trainer': page_obj_trainer,
     }
     return render(request, "inlingua/trainers.html", context)
 
