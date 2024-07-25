@@ -16,7 +16,7 @@ Trainers List | Inlingua
         <a href="{% url 'addtrainers' %}" class="btn btn-outline-primary rounded-pill px-4">Add Trainer</a>
     </div>
 </div>
-{% if False %}
+{% if True %}
     <table class="table border-2 w-100 my-3 rounded">
         <thead class="rounded">
             <tr class="mb-3 rounded">
@@ -30,7 +30,7 @@ Trainers List | Inlingua
             </tr>
         </thead>
         <tbody class="gap-1">
-            {% for trainer in pageObjTrainer %}
+            {% for trainer in page_obj_trainer %}
             <tr class="mb-3">
                 <td class="p-2 mb-3">{{ forloop.counter }}</td>
                 <td class="p-2 mb-3"><a href="">{{ trainer.Trainer_ID }}</a></td>
@@ -47,7 +47,7 @@ Trainers List | Inlingua
     </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
-            {% if page_obj.has_previous %}
+            {% if page_obj_trainer.has_previous %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
             </li>
@@ -56,12 +56,12 @@ Trainers List | Inlingua
                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
             </li>
             {% endif %}
-            {% for num in page_obj.paginator.page_range %}
+            {% for num in page_obj_trainer.paginator.page_range %}
             <li class="page-item {% if page_obj.number == num %}active{% endif %}">
                 <a class="page-link" href="?page={{ num }}">{{ num }}</a>
             </li>
             {% endfor %}
-            {% if page_obj.has_next %}
+            {% if page_obj_trainer.has_next %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
             </li>
