@@ -1,7 +1,7 @@
 {% load static %}
 <section>
     <div class="row mb-3 ">
-        <div class="col-4">
+        <div class="col-12 mb-1 col-lg-4">
             <div class="border p-3 h-100">
                 <p class="p-0 m-0 fw-bold fs-5">Payment Status</p>
                 <div class="mt-3">
@@ -31,7 +31,7 @@
                 </script>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-12 mb-1 col-lg-4">
             <div class="border p-3 h-100">
                 <p class="p-0 m-0 fw-bold fs-5">Batch Preferences</p>
                 <div class="mt-3">
@@ -61,7 +61,7 @@
                 </script>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-12 mb-1 col-lg-4">
             <div class="border p-3 h-100">
                 <p class="p-0 m-0 fw-bold fs-5">Batch Type</p>
                 <div class="mt-3">
@@ -96,44 +96,44 @@
     <p class="p-0 m-0 p-2 fs-5 fw-bold">No Payment, Not Complited Student</p>
     <div class="mx-3">
         <div class="row mb-1">
-            <div class="col-1 bg-primary p-2 text-white">
+            <div class="col-2 col-md-1 bg-primary p-2 text-white">
                 S.NO
             </div>
-            <div class="col-2 text-truncate bg-primary p-2 text-white">
+            <div class="col-5 col-md-2 text-truncate bg-primary p-2 text-white">
                 Student ID
             </div>
-            <div class="col-2 text-truncate bg-primary p-2 text-white">
+            <div class="col-2 col-md-2 d-none d-lg-block text-truncate bg-primary p-2 text-white">
                 Name
             </div>
-            <div class="col-3 text-truncate bg-primary p-2 text-white">
+            <div class="col-5 col-lg-3 text-truncate bg-primary p-2 text-white">
                 Language & Level
             </div>
-            <div class="col-2 text-truncate bg-primary p-2 text-white">
+            <div class="col-2  d-none d-lg-block text-truncate bg-primary p-2 text-white">
                 Status
             </div>
-            <div class="col-2 text-truncate bg-primary p-2 text-white">
+            <div class="col-2 d-none d-lg-block text-truncate bg-primary p-2 text-white">
                 Action
             </div>
         </div>
         {% if all_students %}
         {% for payment_not_complited_student in all_students %}
         <div class="row mb-1 ">
-            <div class="col-1 text-truncate p-2" style="background-color: rgb(238, 238, 238);">
+            <div class="col-2 col-md-1 p-2" style="background-color: rgb(238, 238, 238);">
                 {{forloop.counter}}
             </div>
-            <div class="col-2 text-truncate p-2" style="background-color: rgb(238, 238, 238);">
+            <div class="col-5 col-md-2 text-truncate p-2" style="background-color: rgb(238, 238, 238);">
                 {{payment_not_complited_student.Student_ID}}
             </div>
-            <div class="col-2 text-truncate p-2" style="background-color: rgb(238, 238, 238);">
+            <div class="col-2 col-md-2 d-none d-lg-block text-truncate" style="background-color: rgb(238, 238, 238);">
                 {{payment_not_complited_student.Student_Name}}
             </div>
-            <div class="col-3 text-truncate p-2" style="background-color: rgb(238, 238, 238);">
+            <div class="col-5 col-lg-3 text-truncate p-2" style="background-color: rgb(238, 238, 238);">
                 {{payment_not_complited_student.Language_Name}} {{payment_not_complited_student.Level_and_Hour}}
             </div>
-            <div class="col-2 text-truncate p-2" style="background-color: rgb(238, 238, 238);">
+            <div class="col-2  d-none d-lg-block text-truncate" style="background-color: rgb(238, 238, 238);">
                 {{payment_not_complited_student.status}}
             </div>
-            <div class="col-2 text-truncate p-2" style="background-color: rgb(238, 238, 238);">
+            <div class="col-2 d-none d-lg-block text-truncate p-2" style="background-color: rgb(238, 238, 238);">
                 <a href="{% url 'verify' pk=payment_not_complited_student.pk %}"
                     class="alert-primary px-3 py-1 rounded-pill">Go
                     to Details <i class='bx bx-right-arrow-alt'></i></a>
