@@ -1,0 +1,31 @@
+.bxs-check-circle {
+    position: relative;
+}
+
+.bxs-check-circle-after::after {
+    content: "";
+    position: absolute;
+    bottom: 10px; 
+    left:56%; 
+    transform: translateX(-50%);
+    width: 97%; 
+    height: 3px; 
+    background: #6c757d; 
+}
+.step-completed::after {
+    content: "";
+    position: absolute;
+    bottom: 10px; 
+    left: 56%; 
+    transform: translateX(-50%);
+    width: 97%; 
+    height: 3px; 
+    background: #FF751A; 
+}
+.section {
+    display: none;
+}
+
+.section.activate {
+    display: block;
+}

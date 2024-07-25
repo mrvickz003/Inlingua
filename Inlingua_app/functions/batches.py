@@ -7,6 +7,13 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
 def all_batches(request):
+    try:
+        current_employee = employees.objects.get(user=request.user)
+    except employees.DoesNotExist:
+        current_employee = None
+
+    role_choices = employees.COURSE_CURRENT_ROLE
+
     batches = Batch.objects.all()[::-1]
     paginator = Paginator(batches, 10)
     page_number = request.GET.get('page')
@@ -14,11 +21,20 @@ def all_batches(request):
     context={
         'all_batches':'active',
         'page_obj': page_obj,
+        'current_employee': current_employee,
+        'role_choices': role_choices,
     }
     return render(request, 'inlingua/all_batches.html', context)
 
 @login_required(login_url='login')
 def create_batch(request):
+    try:
+        current_employee = employees.objects.get(user=request.user)
+    except employees.DoesNotExist:
+        current_employee = None
+
+    role_choices = employees.COURSE_CURRENT_ROLE
+
     if request.method == 'POST':
         batch_language_id = request.POST.get('batch_language')
         language_level_id = request.POST.get('language_level')
@@ -54,7 +70,9 @@ def create_batch(request):
     context={
         'Dashboard':'active',
         'languages':Language.objects.all(),
-        'Batch_Preferences':batch_preferences.objects.all()
+        'Batch_Preferences':batch_preferences.objects.all(),
+        'current_employee':current_employee,
+        'role_choices':role_choices,
     }
     return render(request, 'inlingua/add_batchs.html', context)
 

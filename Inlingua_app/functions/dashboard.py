@@ -11,6 +11,8 @@ def dashboard(request):
     except employees.DoesNotExist:
         current_employee = None
 
+    role_choices = employees.COURSE_CURRENT_ROLE
+
     all_students = StudentTable.objects.filter(Q(user__is_active=False) | Q(payment_complited=False))
     paginator = Paginator(all_students, 10)
     page_number = request.GET.get('page')
@@ -28,5 +30,6 @@ def dashboard(request):
         'all_students': page_obj,
         'page_obj': page_obj,
         'trainer_head_students_list_page_obj':trainer_head_students_list_page_obj,
+        'role_choices': role_choices,
     }
     return render(request, 'inlingua/over_all_dashboard.html',context)
