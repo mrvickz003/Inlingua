@@ -9,6 +9,13 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
 def student_list(request):
+    try:
+        current_employee = employees.objects.get(user=request.user)
+    except employees.DoesNotExist:
+        current_employee = None
+
+    role_choices = employees.COURSE_CURRENT_ROLE
+
     all_students = StudentTable.objects.all()[::-1]
     paginator = Paginator(all_students, 10)
     page_number = request.GET.get('page')
@@ -17,11 +24,20 @@ def student_list(request):
         'Students':'active',
         'all_students': page_obj, 
         'page_obj': page_obj,
+        'current_employee': current_employee,
+        'role_choices': role_choices,
     }
     return render(request, 'inlingua/user.html', context)
 
 @login_required(login_url='login')
 def addstudent(request):
+    try:
+        current_employee = employees.objects.get(user=request.user)
+    except employees.DoesNotExist:
+        current_employee = None
+
+    role_choices = employees.COURSE_CURRENT_ROLE
+    
     if request.method == 'POST':
         student_name = request.POST.get('studentname')
         student_phone_no = request.POST.get('studentmobilenumber')
@@ -89,12 +105,21 @@ def addstudent(request):
         'Payment_Type': StudentTable.PAYMENT_TYPE_CHOICES,
         'professions': StudentTable.PROFESSION_CHOICES,
         'batch_types': StudentTable.BATCH_TYPE_CHOICES,
-        'Batch_Preferences' : batch_preferences.objects.all()
+        'Batch_Preferences' : batch_preferences.objects.all(),
+        'current_employee':current_employee,
+        'role_choices':role_choices,
     }    
     return render(request, "inlingua/addstudent.html", context)
 
 @login_required(login_url='login')
 def verify(request, pk):
+    try:
+        current_employee = employees.objects.get(user=request.user)
+    except employees.DoesNotExist:
+        current_employee = None
+
+    role_choices = employees.COURSE_CURRENT_ROLE
+
     get_student = get_object_or_404(StudentTable, pk=pk)
     if not get_student.user.is_active:
         if request.method == 'POST':
@@ -110,6 +135,7 @@ def verify(request, pk):
         context={
             'Dashboard':'active',
             'get_student':get_student,
+            'role_choices':role_choices,
         }
         return render(request, "inlingua/students_details.html", context)
     else:

@@ -7,6 +7,12 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login')
 def trainers_view(request):
+    try:
+        current_employee = employees.objects.get(user=request.user)
+    except employees.DoesNotExist:
+        current_employee = None
+
+    role_choices = employees.COURSE_CURRENT_ROLE
     trainers_list = TrainerTable.objects.all().order_by('-id')
     paginator = Paginator(trainers_list, 10)
 
@@ -17,11 +23,19 @@ def trainers_view(request):
         'Trainers': 'active',
         'paginator': paginator, 
         'page_obj_trainer': page_obj_trainer,
+        'role_choices':role_choices,
+        'current_employee':current_employee,
     }
     return render(request, "inlingua/trainers.html", context)
 
 @login_required(login_url='login')
 def add_trainers(request):
+    try:
+        current_employee = employees.objects.get(user=request.user)
+    except employees.DoesNotExist:
+        current_employee = None
+
+    role_choices = employees.COURSE_CURRENT_ROLE
     if request.method == 'POST':
         # Step 1: Trainer Personal Details
         trainer_name = request.POST.get('trainer_name')
@@ -84,7 +98,10 @@ def add_trainers(request):
         return redirect('trainers')
     
     context = {
-        'All_languages': Language.objects.all()
+        'Trainers': 'active',
+        'All_languages': Language.objects.all(),
+        'role_choices':role_choices,
+        'current_employee':current_employee,
         }
     return render(request, "inlingua/addtrainer.html", context)
 

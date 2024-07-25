@@ -13,13 +13,12 @@ def employee_list(request):
     except employees.DoesNotExist:
         current_employee = None
 
+    role_choices = employees.COURSE_CURRENT_ROLE
+
     all_employees = employees.objects.all().order_by('-id')  # or any other field for sorting
     paginator = Paginator(all_employees, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
-    # Get the choices for roles from the model
-    role_choices = employees.COURSE_CURRENT_ROLE
 
     context = {
         'Employees': 'active',
@@ -32,6 +31,12 @@ def employee_list(request):
 
 @login_required(login_url='login')
 def addemployee(request):
+    try:
+        current_employee = employees.objects.get(user=request.user)
+    except employees.DoesNotExist:
+        current_employee = None
+
+    role_choices = employees.COURSE_CURRENT_ROLE
     if request.method == 'POST':
         employeename = request.POST.get('employeename')
         employeephonenumber = request.POST.get('employeephonenumber')
@@ -110,7 +115,9 @@ def addemployee(request):
         New_user.save()
         return redirect('employee_list')
     context = {
-        'Employees': 'active'
+        'Employees': 'active',
+        'current_employee':current_employee,
+        'role_choices':role_choices,
     }    
     return render(request, "inlingua/addemployees.html", context)
 

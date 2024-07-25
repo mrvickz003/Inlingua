@@ -8,6 +8,8 @@ def batchandlanguage(request):
         current_employee = employees.objects.get(user=request.user)
     except employees.DoesNotExist:
         current_employee = None
+
+    role_choices = employees.COURSE_CURRENT_ROLE
     
     languages = Language.objects.all()
     levels = LevelsAndHour.objects.all()
@@ -17,6 +19,7 @@ def batchandlanguage(request):
         'current_employee':current_employee,
         'languages':languages,
         'levels':levels,
-        'languages':Language.objects.all()
+        'languages':Language.objects.all(),
+        'role_choices':role_choices,
     }
     return render(request, 'inlingua/Batchsandlevels.html',context)
