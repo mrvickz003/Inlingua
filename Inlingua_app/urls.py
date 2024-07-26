@@ -41,6 +41,7 @@ urlpatterns = [
     path('students/', user.student_list, name='student_list'),
     path('students/add/', user.addstudent, name="addstudent"),
     path('students/<int:pk>/verify/', user.verify, name="verify"),
+    path('invoice/<uidb64>/<token>/', user.invoice_download, name='invoice_download'),
     path('students/<int:pk>/full_payments_complited/', user.full_payments, name="full_payments"),
 
     # Batch Createtion

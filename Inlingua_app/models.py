@@ -244,7 +244,7 @@ class StudentTable(models.Model):
     Updated_date = models.DateTimeField(null=True, blank=True,)
 
     def __str__(self):
-        return f'{self.Student_ID} -- {self.Student_Name}'
+        return self.Student_ID
 
 def Trainer_data(instance, filename):
     Year = dt.now().year
