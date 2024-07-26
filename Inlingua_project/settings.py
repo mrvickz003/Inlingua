@@ -160,3 +160,5 @@ EMAIL_HOST_PASSWORD = 'myek povn uyqu nlrq'
 DEFAULT_FROM_EMAIL = 'vignesh@revaadigital.com'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False 
+
+PASSWORD_RESET_TIMEOUT = 120 

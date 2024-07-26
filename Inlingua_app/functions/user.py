@@ -6,6 +6,16 @@ from django.core.paginator import Paginator
 from django.urls import reverse
 from Inlingua_app.utils import send_welcome_email
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.conf import settings
+from Inlingua_app.utils import generate_student_invoice, send_welcome_email
+from datetime import datetime as dt
+from io import BytesIO
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 @login_required(login_url='login')
 def student_list(request):
@@ -129,23 +139,43 @@ def verify(request, pk):
             get_student.user.is_active = True
             get_student.save()
             get_student.user.save()
-            send_welcome_email(get_student.user.email, get_student.Student_Name)
-            messages.success(request, f'Student {get_student.Student_Name} success fully verified and activated ...')
+
+            # Generate student amount invoice in pdf
+            pdf_buffer = generate_student_invoice(get_student)
+            
+            # Send welcome email with invoice attachment
+            send_welcome_email(get_student.user.email, get_student.Student_Name, pdf_buffer)
+            
+            messages.success(request, f'Student {get_student.Student_Name} successfully verified and activated ...')
             return redirect('dashboard')
-        context={
-            'Dashboard':'active',
-            'get_student':get_student,
-            'role_choices':role_choices,
+        
+        context = {
+            'Dashboard': 'active',
+            'current_employee': current_employee,
+            'get_student': get_student,
+            'role_choices': role_choices,
         }
         return render(request, "inlingua/students_details.html", context)
     else:
         messages.error(request, f'Student {get_student.Student_Name} is already verified and activated')
         return redirect('dashboard')
+    
+from django.http import HttpResponse
+
+@login_required(login_url='login')
+def invoice_download(request, uidb64, token):
+    student = get_object_or_404(StudentTable, pk=uidb64)  # Assuming uidb64 is the student's pk
+    pdf_buffer = generate_student_invoice(student)
+
+    response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="invoice_{student.Student_ID}.pdf"'
+    return response
+
 
 @login_required(login_url='login')
 def get_levels(request, language_id):
     levels = LevelsAndHour.objects.filter(language=language_id).values('id','level', 'hours', )
-    print(levels)
+
     return JsonResponse({'levels': list(levels)})
 
 @login_required(login_url='login')

@@ -3,6 +3,9 @@ from django.utils.http import urlsafe_base64_encode
 from django.core.mail import send_mail
 from django.template import loader
 from django.utils.encoding import force_bytes
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.contrib.auth.views import PasswordResetView
+from django.urls import reverse_lazy
 
 def password_reset_email(request, user, subject_template_name='registration/password_reset_subject.txt', email_template_name='registration/password_reset_email.html'):
     # Generate a token and uid for the email link
@@ -29,14 +32,11 @@ def password_reset_email(request, user, subject_template_name='registration/pass
     # Send email using Django's email functionality
     send_mail(subject, email, 'vignesh@revaadigital.com', [user.email])
 
-from django.shortcuts import render
-from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-
 class CustomPasswordResetView(PasswordResetView):
-    template_name = 'registration/password_reset_form.html'
     email_template_name = 'registration/password_reset_email.html'
-    form_class = PasswordResetForm
+    subject_template_name = 'registration/password_reset_subject.txt'
+    html_email_template_name = 'registration/password_reset_email.html' 
+    success_url = reverse_lazy('password_reset_done')
 
 class CustomPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'registration/password_reset_done.html'
