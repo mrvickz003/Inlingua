@@ -4,14 +4,13 @@ from Inlingua_app.models import *
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.urls import reverse
-from Inlingua_app.utils import send_welcome_email
+from Inlingua_app.utils import send_welcome_email, generate_student_invoice
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+
 from django.core.mail import EmailMessage
 from django.conf import settings
-from Inlingua_app.utils import generate_student_invoice, send_welcome_email
 from datetime import datetime as dt
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
@@ -128,23 +127,28 @@ def verify(request, pk):
     except employees.DoesNotExist:
         current_employee = None
 
-    role_choices = employees.COURSE_CURRENT_ROLE
-
     get_student = get_object_or_404(StudentTable, pk=pk)
+    employee = get_object_or_404(employees, user=request.user)
+
     if not get_student.user.is_active:
         if request.method == 'POST':
-            get_student.status = StudentTable.STATUS_CHOICES[1][0]
+            get_student.status = StudentTable.STATUS_CHOICES[0][0]
             get_student.updated_by = request.user
             get_student.Updated_date = dt.now()
-            get_student.user.is_active = True
+            get_student.user.is_active = False
             get_student.save()
             get_student.user.save()
 
-            # Generate student amount invoice in pdf
-            pdf_buffer = generate_student_invoice(get_student)
+            new_receipt = PaymentReceipt.objects.create(
+                student=get_student,
+                employee=employee,
+                created_by=request.user,
+                created_date=dt.now()
+            )
+            pdf_buffer = generate_student_invoice(get_student, employee, new_receipt)
+
+            send_welcome_email(get_student.Student_Mail_Id, get_student.Student_Name, pdf_buffer)
             
-            # Send welcome email with invoice attachment
-            send_welcome_email(get_student.user.email, get_student.Student_Name, pdf_buffer)
             
             messages.success(request, f'Student {get_student.Student_Name} successfully verified and activated ...')
             return redirect('dashboard')
@@ -153,7 +157,6 @@ def verify(request, pk):
             'Dashboard': 'active',
             'current_employee': current_employee,
             'get_student': get_student,
-            'role_choices': role_choices,
         }
         return render(request, "inlingua/students_details.html", context)
     else:
@@ -182,7 +185,7 @@ def get_levels(request, language_id):
 def full_payments(request, pk):
     if request.method == 'POST':
         get_student = get_object_or_404(StudentTable, pk=pk)
-        get_student.payment_complited = True
+        get_student.payment_complited = False
         get_student.updated_by = request.user
         get_student.Updated_date = dt.now()
         get_student.save()

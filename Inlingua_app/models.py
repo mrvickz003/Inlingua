@@ -1,4 +1,5 @@
 from datetime import datetime as dt
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_migrate
@@ -171,11 +172,22 @@ class NameOfCounselor(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='counselors_created_by')
     created_date = models.DateTimeField()
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='counselors_updated_by')
-    updated_date = models.DateTimeField(null=True, blank=True,)
+    updated_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name
-
+    
+@receiver(post_migrate)
+def create_counselor(sender, **kwargs):
+    if sender.name == 'Inlingua_app':
+        NameOfCounselor.objects.get_or_create(
+            name="Parameshwari", 
+            email='parama@gmail.com', 
+            phone='9876543210',
+            created_by=User.objects.get(username='vignesh'),
+            created_date=timezone.now()  # Use timezone.now() to get an aware datetime
+        )
+        
 class StudentTable(models.Model):
 
     FULL = 'Full'
@@ -343,3 +355,28 @@ class Batch(models.Model):
 
     def __str__(Self):
         return Self.batch_name
+
+def PaymentReceiptID():
+    lastpaymentnumber = PaymentReceipt.objects.order_by('-id').first()
+    year = dt.now().year
+    month = dt.now().month
+    if lastpaymentnumber and lastpaymentnumber.created_date.year == dt.now().year:
+        last_id = int(lastpaymentnumber.payment_number[9:])  # Adjusted slicing to match the format
+        new_id = last_id + 1
+    else:
+        new_id = 1
+    return f'INL-{year}{month}{new_id:04d}'
+
+class PaymentReceipt(models.Model):
+    payment_number = models.CharField(max_length=15, unique=True, default=PaymentReceiptID, null=False, blank=False)
+    student = models.ForeignKey(StudentTable, on_delete=models.SET_NULL, null=True, blank=True)
+    employee = models.ForeignKey(employees, on_delete=models.SET_NULL, null=True, blank=True)
+    payment_receipt = models.FileField(upload_to='Students_data/', null=True, blank=True)
+
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='paymentreceipt_created_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='paymentreceipt_updated_by')
+    updated_date = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.payment_number}"

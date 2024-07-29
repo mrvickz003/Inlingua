@@ -1,12 +1,13 @@
+import pdfkit
+
+html_content = """
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Template</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <title>Payment Receipt</title>
 </head>
 <body>
     <div class="px-3 my-5 border">
@@ -15,14 +16,13 @@
                 <h4 class="p-3">PAYMENT RECEIPT</h4>
             </div>
         </div>
-        <div class="row mb-4  border-bottom">
+        <div class="row mb-4 border-bottom">
             <div class="col-6">
                 <img src="https://inlinguachennai.com/wp-content/uploads/2022/07/L1.png" alt="" width="200">
                 <p class="mt-2">1481 Northern Street<br>
                     Greater South Avenue<br>
                     New York, New York 10001<br>
                     USA<p>
-                    
             </div>
             <div class="col-6 text-end">
                 <p class="mb-1 p-0">Payment Bill : INV-000031</p>
@@ -35,7 +35,7 @@
                 <h6>Bill To:</h6>
                 <p>Ms. Mary D. Dunton<br>
                     +91 9876543210<br>
-                    test@inlinguachennai.com</p></p>
+                    test@inlinguachennai.com</p>
             </div>
             <div class="col-6 text-end">
                 <h6>Ship To:</h6>
@@ -88,5 +88,7 @@
     </div>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
+"""
+
+pdfkit.from_string(html_content, 'payment_receipt.pdf')
