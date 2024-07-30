@@ -8,7 +8,9 @@ Add student | Inlingua
 {% endblock %}
 {% block container %}
 {% include 'inc/sidebar.html' %}
-{% include 'inc/message.html' %}
+<div style="position: relative;" class="mx-1">
+    {% include 'inc/message.html' %}
+  </div>
 <div class="">
     <div class="row pt-3">
         <div class="col-1"></div>
@@ -210,7 +212,7 @@ Add student | Inlingua
                 <select name="batch_types" id="batch_types" class="form-select">
                     <option value="">Select Batch Types</option>
                     {% for batch_type in batch_types %}
-                    <option value="{{ batch_type.0 }}">{{ batch_type.1 }}</option>
+                    <option value="{{ batch_type.pk }}">{{ batch_type }}</option>
                     {% endfor %}
                 </select>
             </div>

@@ -8,13 +8,8 @@ from Inlingua_app.utils import send_welcome_email, generate_student_invoice
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-
-from django.core.mail import EmailMessage
-from django.conf import settings
-from datetime import datetime as dt
-from io import BytesIO
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
+from django.http import HttpResponse
+from django.utils import timezone
 
 @login_required(login_url='login')
 def student_list(request):
@@ -65,11 +60,13 @@ def addstudent(request):
         account_holder_name = request.POST.get('account-holder-name')
         amount_paide = float(request.POST.get('Amount-paid'))
         balance_amount = float(request.POST.get('balanceamount'))
+        print(Batch_type)
 
         language_name = Language.objects.get(id=language_name_id)
         level_and_hour = LevelsAndHour.objects.get(id=level_and_hour_id)
         student_counselor = NameOfCounselor.objects.get(id=student_counselor_id)
         course_type = batch_preferences.objects.get(pk=course_type)
+        Batch_type = BatchType.objects.get(pk=Batch_type)
         
         new_user = User.objects.create(
             username = student_mail_id,
@@ -78,8 +75,7 @@ def addstudent(request):
             is_staff = False,
             is_superuser = False,
         )
-        new_user.set_password(student_mail_id)
-        new_user.save()
+        
 
         student = StudentTable.objects.create(
             user=new_user,
@@ -102,9 +98,13 @@ def addstudent(request):
             Balance_Amount=balance_amount,
             status=StudentTable.STATUS_CHOICES[0][0],  # Using the constant
             Created_by=request.user,
-            Created_date=dt.now(),
+            Created_date=timezone.now(),
         )
+        new_user.username = student.Student_ID
+        new_user.set_password(student_mail_id)
+        new_user.save()
         student.save()
+
         return redirect('student_list')
 
     context = {
@@ -113,7 +113,7 @@ def addstudent(request):
         'nameOfCounselor': NameOfCounselor.objects.all(),
         'Payment_Type': StudentTable.PAYMENT_TYPE_CHOICES,
         'professions': StudentTable.PROFESSION_CHOICES,
-        'batch_types': StudentTable.BATCH_TYPE_CHOICES,
+        'batch_types': BatchType.objects.all(),
         'Batch_Preferences' : batch_preferences.objects.all(),
         'current_employee':current_employee,
         'role_choices':role_choices,
@@ -130,12 +130,12 @@ def verify(request, pk):
     get_student = get_object_or_404(StudentTable, pk=pk)
     employee = get_object_or_404(employees, user=request.user)
 
-    if not get_student.user.is_active:
+    if not get_student.user.is_active or not get_student.payment_complited:
         if request.method == 'POST':
-            get_student.status = StudentTable.STATUS_CHOICES[0][0]
+            get_student.status = StudentTable.STATUS_CHOICES[1][0]
             get_student.updated_by = request.user
-            get_student.Updated_date = dt.now()
-            get_student.user.is_active = False
+            get_student.Updated_date = timezone.now()  
+            get_student.user.is_active = True
             get_student.save()
             get_student.user.save()
 
@@ -143,12 +143,11 @@ def verify(request, pk):
                 student=get_student,
                 employee=employee,
                 created_by=request.user,
-                created_date=dt.now()
+                created_date=timezone.now()  
             )
             pdf_buffer = generate_student_invoice(get_student, employee, new_receipt)
 
             send_welcome_email(get_student.Student_Mail_Id, get_student.Student_Name, pdf_buffer)
-            
             
             messages.success(request, f'Student {get_student.Student_Name} successfully verified and activated ...')
             return redirect('dashboard')
@@ -163,8 +162,6 @@ def verify(request, pk):
         messages.error(request, f'Student {get_student.Student_Name} is already verified and activated')
         return redirect('dashboard')
     
-from django.http import HttpResponse
-
 @login_required(login_url='login')
 def invoice_download(request, uidb64, token):
     student = get_object_or_404(StudentTable, pk=uidb64)  # Assuming uidb64 is the student's pk
@@ -173,7 +170,6 @@ def invoice_download(request, uidb64, token):
     response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="invoice_{student.Student_ID}.pdf"'
     return response
-
 
 @login_required(login_url='login')
 def get_levels(request, language_id):
@@ -185,7 +181,7 @@ def get_levels(request, language_id):
 def full_payments(request, pk):
     if request.method == 'POST':
         get_student = get_object_or_404(StudentTable, pk=pk)
-        get_student.payment_complited = False
+        get_student.payment_complited = True
         get_student.updated_by = request.user
         get_student.Updated_date = dt.now()
         get_student.save()

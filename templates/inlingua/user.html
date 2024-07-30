@@ -6,10 +6,11 @@ Student page | Inlingua
 {% endblock %}
 {% block style %}
 {% endblock %}
-
 {% block container %}
     {% include 'inc/sidebar.html' %}
-    {% include 'inc/message.html' %}
+    <div style="position: relative;" class="mx-1">
+      {% include 'inc/message.html' %}
+    </div>
     <div class="mt-5 py-3 d-flex align-items-center justify-content-between border-bottom">
         <h4 class="fw-bold fs-5">Students</h4>
         <div class="d-flex align-items-center gap-1">
@@ -41,10 +42,10 @@ Student page | Inlingua
             Language & Level
           </div>
           <div class="col-2 text-truncate bg-primary p-2 text-white">
-            Mobile Number
+            Student Email
           </div>
           <div class="col-2 text-truncate bg-primary p-2 text-white">
-            Student Email
+            Mobile Number
           </div>
           <div class="col-2 text-truncate bg-primary p-2 text-white">
             Status & Action

@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 @login_required(login_url='login')
 def all_batches(request):
@@ -34,12 +35,16 @@ def create_batch(request):
         current_employee = None
 
     role_choices = employees.COURSE_CURRENT_ROLE
-
+    abc = BatchType.objects.all()
+    for a in abc:
+        print(a)
     if request.method == 'POST':
         batch_language_id = request.POST.get('batch_language')
         language_level_id = request.POST.get('language_level')
         batch_preference_id = request.POST.get('batch_preference')
         time_slot_id = request.POST.get('time_slot')
+        startdate = request.POST.get('startdate')
+        enddate = request.POST.get('enddate')
         student_ids = request.POST.getlist('students')
 
         # Fetch the related instances from the database
@@ -51,26 +56,29 @@ def create_batch(request):
 
         # Create the new batch
         batch = Batch.objects.create(
-            batch_name=f'{batch_language.name}-{language_level.level}-{batch_preference.batch_preferences}-{dt.now().date()}',
+            batch_name=f'{batch_language.name}-{language_level.level}-{batch_preference.batch_preferences}-{datetime.strptime(startdate, "%Y-%m-%d").strftime("%d-%b-%Y")}',
             language=batch_language,
             levels=language_level,
             batch_preferences=batch_preference,
             time_slot=time_slot,
+            course_start_date = startdate,
+            course_End_date = enddate,
             Created_by=request.user,
             Created_date=dt.now()
         )
-        # Add students to the batch
         batch.students.set(students)
         for student in students:
             student.status=StudentTable.STATUS_CHOICES[2][0]
             student.save()
-        return redirect('dashboard')
+        return redirect('all_batches')
 
     # If not POST, render a form (assuming you have a form template
     context={
-        'Dashboard':'active',
+        'all_batches':'active',
         'languages':Language.objects.all(),
+        'batchtypes':BatchType.objects.all(),
         'Batch_Preferences':batch_preferences.objects.all(),
+        'Batch_type': None,
         'current_employee':current_employee,
         'role_choices':role_choices,
     }
@@ -93,17 +101,20 @@ def get_students(request):
     batchpreference_id = request.GET.get('batchpreference')
     language_id = request.GET.get('language')
     level_id = request.GET.get('level')
+    batchtype_id = request.GET.get('batchtypes')
 
     # Get values in table
     batchpreference_id = batch_preferences.objects.get(pk=batchpreference_id)
     language_id = Language.objects.get(pk=language_id)
     level_id = LevelsAndHour.objects.get(pk=level_id)
+    batchtype_id = BatchType.objects.get(pk=batchtype_id)
 
     # Query the StudentTable to get the students based on the provided filters
     all_students = StudentTable.objects.filter(
         Language_Name=language_id,
         Level_and_Hour=level_id,
         batch_preferences=batchpreference_id,
+        Batch_type = batchtype_id,
         status = StudentTable.STATUS_CHOICES[1][0]
     ).values('pk', 'Student_ID', 'Student_Name')
     

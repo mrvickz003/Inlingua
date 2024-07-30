@@ -9,35 +9,46 @@ Employees page | Inlingua
 
 {% block container %}
 {% include 'inc/sidebar.html' %}
-{% include 'inc/message.html' %}
+<div style="position: relative;" class="mx-1">
+  {% include 'inc/message.html' %}
+</div>
 <div class="mb-3">
   {% if page_obj %}
-  <p class="p-0 m-0 fw-bold fs-5 pt-3 mb-3"> Batches List</p>
+  <div class="d-flex align-items-center justify-content-between">
+    <p class="p-0 m-0 fw-bold fs-5 pt-3 mb-3"> Batches List</p>
+    <a href="{% url 'create_batch' %}" class="btn btn-outline-primary">Create New Batch</a>
+  </div>
   
-  {% for student in page_obj %}
+  {% for batch_data in page_obj %}
   <div class="row bg-muted p-0">
     <div class="col-12">
-      <div class="row mx-1 border rounded-2 mb-1">
-        <div class="col-5  mb-1">
+      <div class="row mx-1 border rounded-2">
+        <div class="col-5">
           <div class="p-3  d-flex align-items-center justify-content-between">
-            <p class="p-0 m-0 fw-bold fs-5 text-truncate text-muted">{{student}}</p>
+            <p class="p-0 m-0 fw-bold fs-5 text-truncate text-muted">{{batch_data}}</p>
           </div>
         </div>
-        <div class="col-7  mb-1">
+        <div class="col-7">
           <div class="row">
             <div class="col-4">
               <div class="p-3 w-100 h-100 d-flex flex-column gap-1 align-items-start justify-content-center">
                 <div class="progress w-100" style="height: 8px;">
                   <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
-                    style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                    style="width: {{batch_data.finish_level}}%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
                   </div>
                 </div>
-                <small class="text-truncate w-100">0% Ready to start class</small>
+                <small class="text-truncate w-100">{{batch_data.finish_level}} % Ready to start class</small>
               </div>
             </div>
             <div class="col-5">
               <div class="p-3 d-flex align-items-center justify-content-between">
-                <p class="p-0 m-0 text-truncate text-primary">( INL24TR0001 ) Ramesh</p>
+                <p class="p-0 m-0 text-truncate text-primary">
+                  {% if batch_data.trainer %}
+                  ( {{batch_data.trainer.Trainer_ID}} ) {{ batch_data.trainer }} 
+                  {% else %}
+                  ( INL00TR0000 ) XXXXXXX
+                  {% endif %}
+                </p>
               </div>
             </div>
             <div class="col-3">

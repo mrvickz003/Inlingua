@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -6,12 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome Email</title>
-    <style type="text/css">
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f6f6f6;
+            padding: 10px;
+        }
+        .img-container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
@@ -19,83 +23,116 @@
             max-width: 600px;
             margin: 0 auto;
             background-color: #ffffff;
-        }
-
-        .img-container, .terms-container, .header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .terms-container{
-            justify-content: start;
-        }
-        .img-container img {
-            width: 70%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .header {
-            background-color: #FF751A;
-            color: #ffffff;
+            background-color: #C7E0F6;
+            padding: 20px;
             text-align: center;
-            padding: 20px 0;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header img {
+           width: 50%;
         }
 
         .content {
             padding: 20px;
         }
 
-        .footer {
-            background-color: rgb(46, 46, 46);
+        .content h1 {
+            color: #333333;
             text-align: center;
-            color: #FFF;
-            margin-top: 2rem;
-            padding: 0.5rem 0;
         }
-        ol li{
-            margin-bottom: 0.8rem;
+
+        .content p {
+            color: #666666;
+            line-height: 1.5;
         }
-        .btn-outline-primary {
-            color: #FF751A;
-            outline: none;
-            border: 1px solid #FF751A;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
+
+        .content a {
+            color: #007bff;
             text-decoration: none;
-            display: inline-block;
         }
-        .btn-outline-primary:hover {
-            color: #FFF;
-            background-color: #FF751A !important;
-            outline: none;
-            border: 1px solid #FF751A;
+
+        .button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #FF751A;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            text-align: center;
+            border-radius: 50px;
+        }
+
+        .button:hover {
+            background-color: #ee6b13;
+        }
+
+        .footer {
+            background-color: #C7E0F6;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #666666;
+        }
+
+        .social-icons {
+            margin: 10px 0;
+        }
+
+        .social-icons img {
+            width: 24px;
+            margin: 0 5px;
+        }
+
+        .text-white {
+            color: #FFF !important;
+        }
+
+        .text-start {
+            text-align: center !important;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="header" style="gap: 30px;">
-            <h1>Welcome</h1>
-            <img src="https://revaavignesh.pythonanywhere.com/static/img/imgs/L1.png" alt="" width="250">
+        <div class="header">
+            <img src="https://inlinguachennai.com/wp-content/uploads/2022/07/L1.png" alt="Inlingua Logo" width="100">
         </div>
         <div class="content">
             <div class="img-container">
-                <img src="{% static 'img/imgs/Welcome_mail.png' %}" alt="">
+                <img src="./Welcome_mail.png" alt="" width="400">
             </div>
             <p>Dear {{ name }},</p>
-            <p>Welcome to Inlingua! We are excited to have you on board. Attached to this email is your invoice for the services you have enrolled in. Please review the details and let us know if you have any questions.</p>
-            
-            <!-- PDF View in image and click to download -->
-            <div class="img-container">
-                <img src="{% static 'img/imgs/pdf_placeholder.png' %}" alt="PDF Placeholder">
-            </div>
-            <p>Click the button below to download your invoice:</p>
-            <div class="text-center">
-                <a href="" class="btn-outline-primary">Download Invoice</a>
-            </div>
+            <p>Welcome to Inlingua! We are excited to have you on board. Attached to this email is your invoice for the
+                services you have enrolled in. Please review the details and let us know if you have any questions.</p>
         </div>
         <div class="footer">
-            <p>&copy; 2024 Inlingua. All rights reserved.</p>
+            <div class="social-icons">
+                <a href="#"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiXN9xSEe8unzPBEQOeAKXd9Q55efGHGB9BA&s"
+                        alt="Facebook"></a>
+                <a href="#"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP_zKYfookxqrQX1kGl50QiLKt8cNUk8b-ZQ&s"
+                        alt="Twitter"></a>
+                <a href="#"><img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/circle-linkedin-512.png"
+                        alt="LinkedIn"></a>
+                <a href="#"><img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwH--J-ZMUg8puNfUxE6YXQi3yVHuAORDxow&s"
+                        alt="Instagram"></a>
+            </div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.</p>
         </div>
     </div>
 </body>

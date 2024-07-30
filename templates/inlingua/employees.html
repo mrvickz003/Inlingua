@@ -9,7 +9,10 @@ Employees page | Inlingua
 
 {% block container %}
     {% include 'inc/sidebar.html' %}
-    {% include 'inc/message.html' %}
+    <div style="position: relative;" class="mx-1">
+      {% include 'inc/message.html' %}
+    </div>
+    
     <div class="mt-5 py-3 d-flex align-items-center justify-content-between ">
         <p class="p-0 m-0 fw-bold fs-5">Employees list</p>
         <div class="d-flex align-items-center gap-1">

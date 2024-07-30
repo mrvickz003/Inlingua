@@ -167,27 +167,45 @@ def create_level_hour(sender, **kwargs):
 
 class NameOfCounselor(models.Model):
     name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
-    phone = models.CharField(max_length=100)
+    email = models.CharField(max_length=100, unique=True)  # Add unique constraint
+    phone = models.CharField(max_length=100, unique=True)  # Add unique constraint
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='counselors_created_by')
-    created_date = models.DateTimeField()
+    created_date = models.DateTimeField(auto_now_add=True)
     updated_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='counselors_updated_by')
     updated_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name
-    
+
 @receiver(post_migrate)
 def create_counselor(sender, **kwargs):
     if sender.name == 'Inlingua_app':
-        NameOfCounselor.objects.get_or_create(
-            name="Parameshwari", 
-            email='parama@gmail.com', 
-            phone='9876543210',
-            created_by=User.objects.get(username='vignesh'),
-            created_date=timezone.now()  # Use timezone.now() to get an aware datetime
-        )
-        
+        user = User.objects.filter(username='vignesh').first()
+        if user:
+            NameOfCounselor.objects.get_or_create(
+                name="Parameshwari", 
+                email='parama@gmail.com', 
+                phone='9876543210',
+                created_by=user,
+            )
+
+class BatchType(models.Model):
+    type = models.CharField(max_length=10, unique=True)  # Add unique constraint
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='batch_types_created_by')
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.type
+
+@receiver(post_migrate)
+def create_default_batch_types(sender, **kwargs):
+    if sender.name == 'Inlingua_app':
+        user = User.objects.filter(username='vignesh').first()
+        if user:
+            batch_types = ['Group', 'One To One']
+            for batch_type in batch_types:
+                BatchType.objects.get_or_create(type=batch_type, created_by=user)
+
 class StudentTable(models.Model):
 
     FULL = 'Full'
@@ -208,13 +226,6 @@ class StudentTable(models.Model):
         (BATCH_ALLOCATED, 'Batch Allocated'),
         (WAITING_FOR_ASSESSMENT, 'Waiting for Assessment'),
         (COURSE_COMPLETED, 'Course Completed'),
-    ]
-
-    ONE_TO_ONE = 'One to One'
-    GROUP = 'Group'
-    BATCH_TYPE_CHOICES = [
-        (ONE_TO_ONE, 'One to One'),
-        (GROUP, 'Group'),
     ]
 
     STUDENT = 'Student'
@@ -239,7 +250,7 @@ class StudentTable(models.Model):
     Language_Name = models.ForeignKey(Language, on_delete=models.SET_NULL, blank=True, null=True)
     Level_and_Hour = models.ForeignKey(LevelsAndHour, on_delete=models.SET_NULL, blank=True, null=True)
     batch_preferences = models.ForeignKey(batch_preferences, on_delete=models.SET_NULL, blank=True, null=True)
-    Batch_type = models.CharField(choices=BATCH_TYPE_CHOICES, max_length=20)
+    Batch_type = models.ForeignKey(BatchType, on_delete=models.SET_NULL, blank=True, null=True)
     
     Profession = models.CharField(choices=PROFESSION_CHOICES, max_length=20)
     Student_Counselor = models.ForeignKey(NameOfCounselor, on_delete=models.SET_NULL, blank=True, null=True)
@@ -347,7 +358,8 @@ class Batch(models.Model):
     trainer = models.ForeignKey(TrainerTable, on_delete=models.SET_NULL, null=True, blank=True)
     course_start_date = models.DateField(null=True, blank=True)
     course_End_date = models.DateField(null=True, blank=True)
-
+    finish_level = models.IntegerField(default=0)
+    class_url = models.URLField(null=True, blank=True)
     Created_by = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='batch_created_by',null=True, blank=True)
     Created_date = models.DateTimeField()
     Updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='batch_updated_by')

@@ -9,10 +9,10 @@ Employees page | Inlingua
 
 {% block container %}
 {% include 'inc/sidebar.html' %}
-{% include 'inc/message.html' %}
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<div style="position: relative;" class="mx-1">
+    {% include 'inc/message.html' %}
+  </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
 
 <style>
     .bxs-check-circle {
@@ -48,7 +48,24 @@ Employees page | Inlingua
         height: 3px;
         background: #FF751A;
     }
+    .btn-group-sm{
+        display: flex;
+    }
+    .btn-group-sm button:hover{
+        border: none;
+        outline: none;
+    }
+    .btn-group-sm button{
+        border: 1px ;
+        outline: none;
+    }
+    
+    .dropdown-toggle{
+        background-color: none;
+        border: 1px solid rgb(158, 158, 158);
+    }
 </style>
+
 <div class="">
     <div class="row justify-content-md-center pt-3">
         <div class="col-4 offset-3 after-effect">
@@ -72,8 +89,7 @@ Employees page | Inlingua
     </div>
 </div>
 <form action="" method="post" id="batch_form" enctype="multipart/form-data">
-    {% csrf_token %}
-    <!-- Batch Setup -->
+        {% csrf_token %}
     <div id="batch_setup_container" class="section mt-5">
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
@@ -134,6 +150,28 @@ Employees page | Inlingua
             </div>
         </div>
         <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="startdate">Start Date <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="date" name="startdate" id="startdate" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="startdate-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="enddate">End Date <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <input type="date" name="enddate" id="enddate" class="form-control">
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="enddate-error"></p>
+            </div>
+        </div>
+        <div class="row mb-4">
             <div class="col-4">
             </div>
             <div class="col-4 d-flex align-items-center justify-content-end">
@@ -142,8 +180,24 @@ Employees page | Inlingua
             </div>
         </div>
     </div>
-    <!-- Roles Details -->
+    <!-- Add Students -->
     <div id="add_students_container" class="section mt-5 d-none">
+        <div class="row mb-4">
+            <div class="col-4 d-flex align-items-center justify-content-end">
+                <label for="batchtypes">Batch Type  <strong class="text-danger">*</strong></label>
+            </div>
+            <div class="col-4">
+                <select name="batchtypes" id="batchtypes" class="form-select">
+                    <option value="">Select Batch Type</option>
+                    {% for batchtype in batchtypes %}
+                    <option value="{{ batchtype.id }}">{{ batchtype }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4 d-flex align-items-center justify-content-start">
+                <p class="p-0 m-0 text-danger" id="batchtypes-error"></p>
+            </div>
+        </div>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
                 <label for="students">Students</label>
@@ -176,6 +230,9 @@ Employees page | Inlingua
 <!-- Bootstrap Select JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
 
+
+{% endblock %}
+{% block script %}
 <script>
     $(document).ready(function () {
         console.log("Initializing selectpicker");
@@ -221,18 +278,10 @@ Employees page | Inlingua
             });
         });
     });
-</script>
-{% endblock %}
-{% block script %}
-<script>
-    function add_students() {
-        let isValid = true;
-        if (isValid) {
-            document.getElementById('batch_setup_container').classList.add('d-none');
-            document.getElementById('add_students_container').classList.remove('d-none');
-            document.getElementById('step1-icon').classList.remove('text-muted');
-            document.getElementById('step1-icon').classList.add('text-primary', 'step-completed');
 
+    $(document).ready(function () {
+        $('#batchtypes').change(function () {
+            var batchtypesId = $(this).val();
             // Prepare AJAX call to get students
             var languageId = $('#batch_language').val();
             var levelId = $('#language_level').val();
@@ -243,16 +292,27 @@ Employees page | Inlingua
                 data: {
                     'language': languageId,
                     'level': levelId,
-                    'batchpreference': batchPreferenceId
+                    'batchpreference': batchPreferenceId,
+                    'batchtypes':batchtypesId
                 },
                 success: function (data) {
                     $('#students').html('');
                     $.each(data, function (index, student) {
-                        $('#students').append('<option value="' + student.pk + '">' + student.Student_ID + '---' + student.Student_Name + '</option>');
+                        $('#students').append('<option value="' + student.pk + '">' + student.Student_ID + '-' + student.Student_Name +  '</option>');
                     });
                     $('#students').selectpicker('refresh');
                 }
             });
+        });
+    });
+    
+    function add_students() {
+        let isValid = true;
+        if (isValid) {
+            document.getElementById('batch_setup_container').classList.add('d-none');
+            document.getElementById('add_students_container').classList.remove('d-none');
+            document.getElementById('step1-icon').classList.remove('text-muted');
+            document.getElementById('step1-icon').classList.add('text-primary', 'step-completed');
         }
     }
 

@@ -9,7 +9,9 @@
 
 {% block container %}
 {% include 'inc/sidebar.html' %}
-{% include 'inc/message.html' %}
+<div style="position: relative;" class="mx-1">
+    {% include 'inc/message.html' %}
+  </div>
 <div class="">
     <div class="profile-page tx-13">
         <div class="row m-0">
@@ -212,19 +214,22 @@
                         <img src="{% static 'img/imgs/logo.png' %}" class="bg-white" />
                     </i>
                 </span>
-                <div class="timeline-item-description border p-3 rounded ">
-                    <div class="border-bottom">
+                <div class="timeline-item-description border p-3 rounded bg-light">
+                    <div class="
+                    {% if not get_student.user.is_active %}
+                    border-bottom
+                    {% endif %}">
                         <span>{{get_student.Student_Name}} joined <span
                                 class="fs-5 fw-bold text-primary">inlingua</span> on {{get_student.Created_date}} Amount
-                            Paid: {{get_student.Amount_Paide}} Rs.
-                            {% if get_student.payment_complited %}
-                            <span class="text-success"> Payment Completed</span>
-                            {% endif %}
-                            {% if get_student.Balance_Amount != 0.0 %}
-                            , Balance Amount to be Paid: {{get_student.Balance_Amount}} Rs.
+                            Paid: Rs. {{get_student.Amount_Paide}} 
+                            {% if get_student.user.is_active %}
+                            <span class="small alert-success px-2 rounded-pill">Verified</span> 
+                            {% else %}
+                            <span class="small alert-danger px-2 rounded-pill">Not Verified</span>
                             {% endif %}
                         </span>
                     </div>
+                    {% if not get_student.user.is_active %}
                     <div class="mt-2 d-flex align-items-center gap-1">
                         <form action="" method="post">
                             {% csrf_token %}
@@ -234,6 +239,7 @@
                         <input type="submit" value="Payment not a Verified"
                             class="btn btn-outline-secondary btn-sm rounded-pill">
                     </div>
+                    {% endif %}
                 </div>
             </li>
         </ol>

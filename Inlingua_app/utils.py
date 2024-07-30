@@ -68,7 +68,7 @@ def generate_student_invoice(student, employee, new_receipt):
     y -= line_height
     p.drawString(50, y, employee.name)
     y -= line_height
-    p.drawString(50, y, employee.phone)
+    p.drawString(50, y, f"91 {employee.phone}")
     y -= line_height
     p.drawString(50, y, employee.email)
 
@@ -80,7 +80,7 @@ def generate_student_invoice(student, employee, new_receipt):
     y -= line_height
     p.drawString(400, y, student.Student_Name)
     y -= line_height
-    p.drawString(400, y, student.Student_Phone_No)
+    p.drawString(400, y, f"91 {student.Student_Phone_No}")
     y -= line_height
     p.drawString(400, y, student.Student_Mail_Id)
     y -= line_height
