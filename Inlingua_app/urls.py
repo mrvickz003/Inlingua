@@ -46,10 +46,16 @@ urlpatterns = [
 
     # Batch Createtion
     path('batchs/', batches.all_batches, name="all_batches"),
+    path('batchs/open/<int:bpk>/', batches.open_batch, name="open_batch"),
     path('batch/create/', batches.create_batch, name="create_batch"),
     path('ajax/load-levels/', batches.load_levels, name='ajax_load_levels'),
     path('ajax/load-time-slots/', batches.load_time_slots, name='ajax_load_time_slots'),
     path('ajax/get_students/', batches.get_students, name='get_students'),
+
+    # Batch update
+    path('batch_meeturl/<int:bpk>', batches.batch_meeturl, name='batch_meeturl'),
+    path('add_batch_trainer/<int:bpk>/<int:tpk>', batches.add_batch_trainer, name='add_batch_trainer'),
+    path('add_batch_student/<int:bpk>/<int:spk>', batches.add_batch_student, name='add_batch_student'),
 
     # Role maping
     path('rolemaping/<str:role>', employees.rolemaping, name="rolemaping"),

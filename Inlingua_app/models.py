@@ -353,6 +353,7 @@ class Batch(models.Model):
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, blank=True)
     levels = models.ForeignKey(LevelsAndHour, on_delete=models.SET_NULL,null=True, blank=True)
     batch_preferences = models.ForeignKey(batch_preferences, on_delete=models.SET_NULL,null=True, blank=True)
+    batch_type_is_group = models.BooleanField(default=True)
     students = models.ManyToManyField(StudentTable)
     time_slot = models.ForeignKey(BatchTiming, on_delete=models.SET_NULL,  null=True, blank=True)
     trainer = models.ForeignKey(TrainerTable, on_delete=models.SET_NULL, null=True, blank=True)

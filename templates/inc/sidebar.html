@@ -22,7 +22,7 @@
                         {% if current_employee.employee_photo %} 
                         <img src="{{ current_employee.employee_photo.url }}" alt="User Img">
                         {% else %}
-                        <img src="{% static 'img/imgs/profile icon.jpg' %}" alt="Default Img">
+                        <img src="{% static 'img/imgs/Ellipse 3.svg' %}" alt="Default Img">
                         {% endif %}
                     </div>
                     <p class="m-0 p-0 text-primary fw-bold fs-5">{% if request.user.is_superuser %} Super User {% else %}  {{current_employee.current_role}} {% endif %}<i class="bi bi-caret-down-fill"></i></p>
@@ -65,11 +65,11 @@
                     <span class="nav_name">Dashboard</span>
                 </a>
                 <a href="{% url 'employee_list' %}" class="nav_link {{Employees}}">
-                    <i class='bx bx-user nav_icon'></i>
+                    <i class="fa-solid fa-people-group"></i>
                     <span class="nav_name">Employees</span>
                 </a>
                 <a href="{% url 'trainers' %}" class="nav_link {{Trainers}}">
-                    <i class='bx bx-user nav_icon'></i>
+                    <i class="fa-sharp fa-solid fa-laptop"></i>
                     <span class="nav_name">Trainers</span>
                 </a>
                 <a href="{% url 'student_list' %}" class="nav_link {{Students}}">
