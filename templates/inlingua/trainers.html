@@ -17,34 +17,67 @@ Trainers List | Inlingua
     </div>
 </div>
 {% if True %}
-    <table class="table border-2 w-100 my-3 rounded">
-        <thead class="rounded">
-            <tr class="mb-3 rounded">
-                <td class="p-2 text-primary">S.NO</td>
-                <td class="p-2 text-primary">Trainer ID</td>
-                <td class="p-2 text-primary">Trainer Name</td>
-                <td class="p-2 text-primary">Trainer Email</td>
-                <td class="p-2 text-primary">Trainer Phone</td>
-                <td class="p-2 text-primary">Trainer Role</td>
-                <td class="p-2 text-primary">Trainer Status</td>
-            </tr>
-        </thead>
-        <tbody class="gap-1">
-            {% for trainer in page_obj_trainer %}
-            <tr class="mb-3">
-                <td class="p-2 mb-3">{{ forloop.counter }}</td>
-                <td class="p-2 mb-3"><a href="">{{ trainer.Trainer_ID }}</a></td>
-                <td class="p-2 mb-3">{{ trainer.trainer_name }}</td>
-                <td class="p-2 mb-3">{{ trainer.trainer_mail }}</td>
-                <td class="p-2 mb-3">+91 {{ trainer.trainer_phone }}</td>
-                <td class="p-2 mb-3">{{ trainer.trainer_languages }}</td>
-                <td class="p-2 mb-3 w-25">
-                  <span class="alert-primary px-3 py-1 rounded-pill">Active</span>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <div class="row mb-1 mx-1">
+            <div class="col-2 text-truncate bg-primary p-2 text-white">
+              <div class="row">
+                  <div class="col-3">
+                      S.NO
+                  </div>
+                  <div class="col-9">
+                      Trainer ID
+                 </div>
+              </div>
+            </div>
+
+                 <div class="col-2 text-truncate bg-primary p-2 text-white">
+                   Trainer Name
+                 </div>
+                <div class="col-2 text-truncate bg-primary p-2 text-white">
+                Trainer E-Mail
+                </div>
+                <div class="col-2 text-truncate bg-primary p-2 text-white">
+                Phone Number
+                </div>
+                <div class="col-2 text-truncate bg-primary p-2 text-white">
+                Trainer Language
+                </div>
+                <div class="col-2 text-truncate bg-primary p-2 text-white">
+                Trainer Status
+                </div>
+              </div>
+            
+              {% if page_obj_trainer %}
+              {% for trainer in page_obj_trainer %}
+              <div class="row mb-1 mx-1" style="background-color: rgb(238, 238, 238);">
+                <div class="col-2 text-truncate p-2" >
+                  <div class="row">
+                      <div class="col-3">
+                        {{ forloop.counter }}
+                      </div>
+                      <div class="col-9">
+                        {{ trainer.Trainer_ID }}
+                      </div>
+                  </div>
+                </div>
+                <div class="col-2 text-truncate p-2">
+                    {{ trainer.trainer_name }}
+                </div>
+                <div class="col-2 text-truncate p-2">
+                    {{ trainer.trainer_mail }}
+                </div>
+                <div class="col-2 text-truncate p-2">
+                    +91 {{ trainer.trainer_phone }}
+                </div>
+                <div class="col-2 text-truncate p-2">
+                    {{ trainer.trainer_languages }}
+                </div>
+                <div class="col-2 text-truncate p-2">
+                  <a href="#">
+                    <span class="alert-primary px-3 py-1 rounded-pill">Active</span></a>
+                </div>
+              </div>
+              {% endfor %}
+              {% endif %}
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-end">
             {% if page_obj_trainer.has_previous %}
