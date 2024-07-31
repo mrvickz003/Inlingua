@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from Inlingua_app.models import *
 from django.core.paginator import Paginator
-import datetime as dt
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 @login_required(login_url='login')
 def employee_list(request):
@@ -107,7 +107,7 @@ def addemployee(request):
             is_business_development_executive=businessdevelopment,
             current_role=current_role,
             Created_by=request.user,
-            Created_date=dt.datetime.now()
+            Created_date=timezone.now()
         )
         New_employee.save()
         New_user.username = New_employee.employee_ID
@@ -128,9 +128,9 @@ def rolemaping(request, role):
         current_employee.current_role = role
         current_employee.save()
         messages.success(request, f'Success fully role change in {role}')
-        return redirect('employee_list')
+        return redirect('dashboard')
     except employees.DoesNotExist:
         messages.error(request, f'Sorry this user is not a authendicate')
-        return redirect('employee_list')
+        return redirect('dashboard')
 
     

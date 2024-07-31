@@ -1,4 +1,3 @@
-import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -89,7 +88,7 @@ def add_trainers(request):
             passbook=passbook_front_page,
             
             Created_by=request.user,
-            Created_date=dt.now()
+            Created_date=timezone.now()
         )
         New_user.username = new_trainer.Trainer_ID
         New_user.set_password(trainer_mail)

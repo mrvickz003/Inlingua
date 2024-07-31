@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-{{get_student.Student_Name}} | Inlingua
+{{get_batch}} | Inlingua
 {% endblock %}
 {% block style %}
 {% endblock %}
@@ -11,97 +11,166 @@
 {% include 'inc/sidebar.html' %}
 <div style="position: relative;" class="mx-1">
     {% include 'inc/message.html' %}
-  </div>
-<div class="">
-    <div class="profile-page tx-13">
-        <div class="row m-0">
-            <div class="col-12 p-0">
-                <div class="profile-header">
-                    <div class="cover">
-                        <div class="gray-shade"></div>
-                        <figure>
-                        </figure>
-                        <div class="cover-body d-flex justify-content-between align-items-end border-bottom pb-3">
-                            <div class="d-flex align-items-center justify-content-center gap-3">
-                                <img class="profile-pic border rounded-pill" src="{% static 'img/imgs/logo.png' %}"
-                                    alt="profile" style="width: 100px; height: 100px;">
-                                <div>
-                                    <span class="profile-name fw-bold fs-5">{{get_student.Student_Name}}</span>
-                                    <p class="profile-name fw-bold fs-5 p-0 m-0">{{get_student.Language_Name}} <span
-                                            class="text-primary">{{get_student.Level_and_Hour}} </span> </p>
-                                </div>
+</div>
+<div class="row mt-5">
+    <div class="col-6">
+        <span class="profile-name fw-bold fs-5">{{get_batch}}</span>
+        <div class="container mt-5">
+            <div class="row mt-2">
+                <div class="col-4">
+                    Language
+                </div>
+                <div class="col-8">
+                    : {{get_batch.language}}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4">
+                    Level
+                </div>
+                <div class="col-8">
+                    : {{get_batch.levels}}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4">
+                    Batch preferences
+                </div>
+                <div class="col-8">
+                    : {{get_batch.batch_preferences}}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4">
+                    Time slot
+                </div>
+                <div class="col-8">
+                    : {{get_batch.time_slot}}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4">
+                    Course start date
+                </div>
+                <div class="col-8">
+                    : {{get_batch.course_start_date}}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4">
+                    Course End date
+                </div>
+                <div class="col-8">
+                    : {{get_batch.course_End_date}}
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4 d-flex align-items-center">
+                    Class Status
+                </div>
+                <div class="col-8 d-flex align-items-center">
+                    <div class=" w-100 h-100 d-flex flex-column gap-1 align-items-start justify-content-center">
+                        <div class="progress w-75" style="height: 8px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                                role="progressbar" style="width: {{get_batch.finish_level}}%;" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100">
                             </div>
-                            {% if not get_student.payment_complited %}
-                            <div class="d-flex d-md-block">
-                                <form action="{% url 'full_payments' pk=get_student.pk %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="submit" class="btn btn-outline-primary" value="Payment Complited">
-                                </form>
-
-                            </div>
-                            {% endif %}
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4">
+                    Class url
+                </div>
+                <div class="col-8">
+                    {% if get_batch.class_url %}
+                    <a href="{{get_batch.class_url}}">Google Meet URL</a>
+                    {% else %}
+                    <div class="btn-group dropup">
+                        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle rounded-pill"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Add G-meet link
+                        </button>
+                        <ul class="dropdown-menu px-2" style="width: 300px !important;">
+                            <form action="{% url 'batch_meeturl' bpk=get_batch.pk  %}" method="post">
+                                {% csrf_token %}
+                                <div>
+                                    <input type="url" name="gmeetlink" id="gmeetlink" class="form-control" required>
+                                </div>
+                                <div class="mt-2">
+                                    <input type="submit" class="btn btn-primary btn-sm" value="Save G-meet link">
+                                </div>
+                            </form>
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-4">
+                    Trainer
+                </div>
+                <div class="col-8">
+                    {% if not get_batch.trainer %}
+                    <div class="btn-group dropup">
+                        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle rounded-pill"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Add Trainer
+                        </button>
+                        <ul class="dropdown-menu">
+                            {% for trainer in trainers %}
+                            <li>
+                                <form action="{% url 'add_batch_trainer' bpk=get_batch.pk tpk=trainer.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" class="border-0 dropdown-item" value="( {{trainer.Trainer_ID}} ) - {{trainer.trainer_name}}">
+                                </form>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% else %}
+                    <a href="" class="mb-1"><span class="alert-success px-3 py-1 rounded-pill">( {{ get_batch.trainer.Trainer_ID }} ) - {{ get_batch.trainer }}</span></a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-4">
+                    Students
+                </div>
+                <div class="col-8">
+                    {% for student in get_batch.students.all %}
+                        <p class=""><a href="" class="mb-1 w-100"><span class="alert-primary px-3 py-1 rounded-pill">( {{ student }} ) - {{ student.Student_Name }}</span></a></p>
+                    {% endfor %}
+                    
+                    <div class="btn-group dropup mt-2">
+                        <button type="button" class="btn btn-secondary btn-sm dropdown-toggle rounded-pill"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Add More Students
+                        </button>
+                        <ul class="dropdown-menu">
+                            {% if students %}
+                            {% for student in students %}
+                            <li>
+                                <form action="{% url 'add_batch_student' bpk=get_batch.pk spk=student.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="submit" class="border-0 dropdown-item" value="( {{student.Student_ID}} ) - {{student.Student_Name}}">
+                                </form>
+                            </li>
+                            {% endfor %}
+                            {% else %}
+                            <li class="dropdown-item">
+                                No Students List
+                            </li>
+                            {% endif %}
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row mt-5">
-    <div class="col-5">
-        <span class="profile-name fw-bold fs-5">Payment & Batch Details</span>
-        <div class="card mt-3">
-            <div class="card-body">
-                <table class="table m-0">
-                    <tbody>
-                        <tr>
-                            <td>Batch Preferences</td>
-                            <td>{{get_student.batch_preferences}}</td>
-                        </tr>
-                        <tr>
-                            <td>Batch Type </td>
-                            <td>{{get_student.Batch_type}}</td>
-                        </tr>
-                        <tr>
-                            <td>Payment Type</td>
-                            <td>{{get_student.Payment_Type}}</td>
-                        </tr>
-                        <tr>
-                            <td>Transaction ID</td>
-                            <td>{{get_student.Transaction_ID}}</td>
-                        </tr>
-                        <tr>
-                            <td>Account Holder Name</td>
-                            <td><span class="">{{get_student.Account_Holder_Name}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>Amount Paide</td>
-                            <td><span class="">{{get_student.Amount_Paide}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>Balance Amount</td>
-                            <td><span class="">{{get_student.Balance_Amount}}</span></td>
-                        </tr>
-                        <tr>
-                            <td>status</td>
-                            <td><span class="badge badge-outline-success text-success">{{get_student.status}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Payment Complited</td>
-                            {% if get_student.payment_complited %}
-                            <td><span class="fa fa-check text-primary"></span>&nbsp; Payment Complited</td>
-                            {% else %}
-                            <td><span class="fa fa-check text-primary"></span>&nbsp; Payment Not Complited</td>
-                            {% endif %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-7" style="overflow: auto; height: 70vh;">
-        <p class="fs-5 fw-bold m-0 p-0">Last Activity</p>
+    <div class="col-6" style="overflow: auto; height: 70vh;">
+        <p class="fs-5 fw-bold m-0 p-0 text-muted">{{get_batch}} Activity</p>
         <ol class="timeline">
             {% for comments in commentss %}
             <li class="timeline-item d-flex align-items-start">
@@ -116,7 +185,6 @@
                     <span style="font-size:medium;"><a href="#"
                             class="fw-semibold text-decoration-none text-primary">{{comments.user}}</a>
                         {{comments.comments}}
-
                         {% if comments.BeforeAssignees %}
                         <a href="{% url 'showemployee' epk=comments.BeforeAssignees.pk %}"
                             class="fw-semibold text-decoration-none text-primary cs-alert-gray"
@@ -215,31 +283,10 @@
                     </i>
                 </span>
                 <div class="timeline-item-description border p-3 rounded bg-light">
-                    <div class="
-                    {% if not get_student.user.is_active %}
-                    border-bottom
-                    {% endif %}">
-                        <span>{{get_student.Student_Name}} joined <span
-                                class="fs-5 fw-bold text-primary">inlingua</span> on {{get_student.Created_date}} Amount
-                            Paid: Rs. {{get_student.Amount_Paide}} 
-                            {% if get_student.user.is_active %}
-                            <span class="small alert-success px-2 rounded-pill">Verified</span> 
-                            {% else %}
-                            <span class="small alert-danger px-2 rounded-pill">Not Verified</span>
-                            {% endif %}
+                    <div class="">
+                        <span>
                         </span>
                     </div>
-                    {% if not get_student.user.is_active %}
-                    <div class="mt-2 d-flex align-items-center gap-1">
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <input type="submit" value="Payment Verified"
-                                class="btn btn-outline-primary btn-sm rounded-pill">
-                        </form>
-                        <input type="submit" value="Payment not a Verified"
-                            class="btn btn-outline-secondary btn-sm rounded-pill">
-                    </div>
-                    {% endif %}
                 </div>
             </li>
         </ol>

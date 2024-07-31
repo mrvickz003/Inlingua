@@ -8,7 +8,9 @@ Add student | Inlingua
 {% endblock %}
 {% block container %}
 {% include 'inc/sidebar.html' %}
-{% include 'inc/message.html' %}
+<div style="position: relative;" class="mx-1">
+    {% include 'inc/message.html' %}
+  </div>
 <style>
     .bxs-check-circle {
     position: relative;
@@ -164,7 +166,6 @@ Add student | Inlingua
 
     <!-- Roles Details -->
     <div id="role-details" class="section mt-5 d-none">
-        <p class="m-0 p-0">Error</p>
         <div class="row mb-4">
             <div class="col-4 d-flex align-items-center justify-content-end">
                 <label for="isadmin">Is admin</label>
@@ -220,7 +221,6 @@ Add student | Inlingua
                 </select>
             </div>
         </div>
-        <p class="m-0 p-0 text-danger text-center">Error</p>
         <div class="row mb-4">
             <div class="col-4">
             </div>

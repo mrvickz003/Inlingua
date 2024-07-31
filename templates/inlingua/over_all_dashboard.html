@@ -10,7 +10,10 @@ Employees page | Inlingua
 {% block container %}
 <div></div>
 {% include 'inc/sidebar.html' %}
-{% include 'inc/message.html' %}
+<div style="position: relative;" class="mx-1">
+    {% include 'inc/message.html' %}
+</div>
+
 {% include 'inc/admin_dashboard.html' %}
 {% include 'inc/accountant_dashboard.html' %}
 {% include 'inc/trainer_head_dashboard.html' %}

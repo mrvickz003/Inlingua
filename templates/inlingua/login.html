@@ -11,9 +11,30 @@
 <div class="login-page">
   <div class="container pt-5">
     <div class="container-1  d-flex align-items-center justify-content-end"  style="position: relative;">
-      <div class="mesg-container m-0" style="position: absolute;">
-        {% include 'inc/message.html' %}
+    {% if messages %}
+    {% for msg in messages %}
+    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-start align-items-start w-100">
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="position: absolute; top: 0; ">
+        <div class="toast-header">
+          <strong class="me-auto">Notification</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          {{ msg }}
+        </div>
       </div>
+    </div>
+    {% endfor %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var toastList = [].slice.call(document.querySelectorAll('.toast'));
+        var toastInstances = toastList.map(function (toastEl) {
+          return new bootstrap.Toast(toastEl);
+        });
+        toastInstances.forEach(toast => toast.show());
+      });
+    </script>
+    {% endif %}
       <img class="d-none d-md-block" src="{% static 'img/imgs/L1.png' %}" alt="img" width="200px">
     </div>
   </div>
