@@ -17,28 +17,18 @@ def user_page(request):
 
 def addstudent(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        lasttname = request.POST.get('lname')
-        Email = request.POST.get('gmail')
-        mobilenumber = request.POST.get('mobilenumber')
-        studentphoto = request.FILES.get('studentphoto')
-        password1 = Email
-        Batchid = request.POST.get('Batchid')
-        languageid = request.POST.get('languageid')
-        studentid = request.POST.get('studentid')
-        address = request.POST.get('Address')
-
+         pass
     context = {
                 'Students':'active',
-                'All_languages' : language.objects.all(),
-                'nameOfCounselor':nameOfCounselor.objects.all(),
+                'All_languages' : Language.objects.all(),
+                'nameOfCounselor':NameOfCounselor.objects.all(),
                 }    
     return render(request, "inlingua/addstudent.html",context)
 
 
 
 def get_levels(request, language_id):
-    levels = levelsandhour.objects.filter(Language_id=language_id).values('id', 'Level', 'Hours', 'Help_Text')
+    levels = LevelsAndHour.objects.filter(Language_id=language_id).values('id', 'Level', 'Hours', 'Help_Text')
     return JsonResponse({'levels': list(levels)})
 
 # def profileupdate(request, id):
